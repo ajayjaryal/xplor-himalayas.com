@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xplor The Himalayas — Safe, Trusted & Professional Treks</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --orange:#E8602C;--amber:#F4A435;--dark:#0C0C0C;--dark2:#131313;
+  --dark3:#1A1A1A;--dark4:#222;--text:#F0EDE8;--muted:#7A7670;
+  --border:rgba(255,255,255,0.07);--card-border:rgba(255,255,255,0.1)
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--dark)}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:10px}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;height:100px;display:flex;align-items:center;justify-content:space-between;background:rgba(12,12,12,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:all .3s}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--orange),var(--amber));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.logo-name{font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:1px;background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.logo-sub{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.nav-menu{display:flex;align-items:center;gap:8px;list-style:none}
+.nav-menu a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:6px;transition:all .2s}
+.nav-menu a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.nav-book{background:linear-gradient(135deg,var(--orange),var(--amber));color:#fff!important;padding:9px 20px!important;border-radius:8px!important;font-weight:600!important}
+.nav-book:hover{opacity:0.88;background:linear-gradient(135deg,var(--orange),var(--amber))!important}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;background:rgba(12,12,12,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:20px 5%;z-index:999;flex-direction:column;gap:4px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--muted);text-decoration:none;font-size:15px;font-weight:500;padding:12px 16px;border-radius:8px;transition:all .2s;border:1px solid transparent}
+.mobile-menu a:hover{color:var(--text);background:rgba(255,255,255,0.05);border-color:var(--border)}
+.mobile-book{background:linear-gradient(135deg,var(--orange),var(--amber))!important;color:#fff!important;text-align:center;border-color:transparent!important;margin-top:8px;font-weight:600!important}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;padding:100px 5% 60px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 65% 50%,rgba(232,96,44,0.1) 0%,transparent 60%)}
+.mountain-deco{position:absolute;bottom:0;right:0;width:55%;max-width:700px;opacity:0.2;pointer-events:none}
+.hero-content{position:relative;z-index:2;max-width:640px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(244,164,53,0.1);border:1px solid rgba(244,164,53,0.25);padding:7px 16px;border-radius:30px;font-size:13px;color:var(--amber);margin-bottom:30px}
+.pulse{width:7px;height:7px;background:var(--amber);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(244,164,53,0.5)}70%{box-shadow:0 0 0 8px rgba(244,164,53,0)}}
+h1.hero-title{font-family:'Bebas Neue',cursive;font-size:clamp(54px,9vw,96px);line-height:0.95;letter-spacing:2px;margin-bottom:22px}
+h1.hero-title span{background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-desc{font-size:clamp(15px,2vw,17px);color:var(--muted);line-height:1.75;margin-bottom:36px;max-width:500px}
+.hero-btns{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:52px}
+.btn-primary{background:linear-gradient(135deg,var(--orange),var(--amber));color:#fff;border:none;padding:14px 32px;border-radius:9px;font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:transform .2s,opacity .2s;text-decoration:none;display:inline-block}
+.btn-primary:hover{transform:translateY(-2px);opacity:0.9}
+.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.18);padding:14px 32px;border-radius:9px;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-outline:hover{border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.04)}
+.hero-stats{display:flex;flex-wrap:wrap;gap:32px;padding-top:36px;border-top:1px solid var(--border)}
+.stat-val{font-family:'Bebas Neue',cursive;font-size:38px;line-height:1;background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-lbl{font-size:12px;color:var(--muted);margin-top:3px;letter-spacing:0.5px}
+
+/* ===== SECTION COMMON ===== */
+section{padding:80px 5%}
+.section-tag{font-size:11px;font-weight:600;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
+.section-title{font-family:'Bebas Neue',cursive;font-size:clamp(36px,6vw,58px);letter-spacing:1px;line-height:1}
+.section-flex{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px}
+.view-all{color:var(--orange);text-decoration:none;font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;transition:gap .2s}
+.view-all:hover{gap:10px}
+
+/* ===== TREKS GRID ===== */
+.treks-section{background:var(--dark2)}
+.treks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.trek-card{background:var(--dark3);border-radius:16px;overflow:hidden;border:1px solid var(--card-border);transition:transform .3s,border-color .3s,box-shadow .3s;cursor:pointer}
+.trek-card:hover{transform:translateY(-6px);border-color:rgba(232,96,44,0.35);box-shadow:0 20px 60px rgba(232,96,44,0.1)}
+.trek-thumb{height:190px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.trek-thumb svg{transition:transform .4s}
+.trek-card:hover .trek-thumb svg{transform:scale(1.05)}
+.diff-badge{position:absolute;top:12px;left:12px;padding:4px 11px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.5px}
+.easy{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.25)}
+.moderate{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
+.hard{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.25)}
+.days-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);color:var(--text);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600}
+.trek-body{padding:18px 20px 20px}
+.trek-meta-row{display:flex;gap:14px;margin-bottom:8px}
+.trek-meta-row span{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.trek-name{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:0.5px;margin-bottom:6px;line-height:1.1}
+.trek-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.trek-footer{display:flex;justify-content:space-between;align-items:center}
+.trek-price{font-size:20px;font-weight:700;color:var(--amber)}
+.trek-price small{font-size:11px;color:var(--muted);font-weight:400}
+.book-trek-btn{background:rgba(232,96,44,0.12);color:var(--orange);border:1px solid rgba(232,96,44,0.25);padding:8px 16px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
+.book-trek-btn:hover{background:rgba(232,96,44,0.25);border-color:rgba(232,96,44,0.5)}
+
+/* ===== WHY US ===== */
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:48px}
+.why-item{background:var(--dark3);padding:32px 24px;transition:background .2s}
+.why-item:hover{background:rgba(232,96,44,0.05)}
+.why-icon{width:46px;height:46px;background:rgba(232,96,44,0.1);border:1px solid rgba(232,96,44,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:18px}
+.why-title{font-weight:600;font-size:15px;margin-bottom:8px}
+.why-desc{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* ===== TESTIMONIALS ===== */
+.testi-section{background:var(--dark2)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.testi-card{background:var(--dark3);border:1px solid var(--card-border);border-radius:14px;padding:24px;transition:border-color .2s}
+.testi-card:hover{border-color:rgba(232,96,44,0.25)}
+.testi-stars{color:var(--amber);font-size:14px;margin-bottom:14px}
+.testi-quote{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:18px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
+.testi-name{font-weight:600;font-size:14px}
+.testi-trek{font-size:12px;color:var(--muted)}
+
+/* ===== CONTACT ===== */
+.contact-wrap{max-width:700px;margin:0 auto;text-align:center}
+.contact-title{font-family:'Bebas Neue',cursive;font-size:clamp(42px,7vw,66px);letter-spacing:1px;line-height:1;margin-bottom:14px}
+.contact-title span{background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.contact-sub{color:var(--muted);font-size:15px;line-height:1.7;margin-bottom:44px}
+.enquiry-form{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left}
+.fg{display:flex;flex-direction:column;gap:7px}
+.fg.full{grid-column:1/-1}
+.fg label{font-size:13px;font-weight:500;color:var(--muted)}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:12px 15px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s;width:100%}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(232,96,44,0.5);background:rgba(232,96,44,0.03)}
+.fg select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A7670' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.fg select option{background:var(--dark3)}
+.fg textarea{resize:vertical;min-height:90px}
+.submit-btn{grid-column:1/-1;background:linear-gradient(135deg,var(--orange),var(--amber));color:#fff;border:none;padding:15px;border-radius:9px;font-family:'Outfit',sans-serif;font-weight:600;font-size:16px;cursor:pointer;transition:transform .2s,opacity .2s;margin-top:4px}
+.submit-btn:hover{opacity:0.88;transform:translateY(-1px)}
+
+/* ===== FOOTER ===== */
+footer{background:var(--dark2);padding:60px 5% 28px;border-top:1px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-brand-name{font-family:'Bebas Neue',cursive;font-size:26px;background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.footer-brand-desc{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:20px;max-width:270px}
+.social-row{display:flex;gap:8px}
+.soc-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .2s;text-decoration:none}
+.soc-btn:hover{background:rgba(232,96,44,0.15);border-color:rgba(232,96,44,0.3)}
+.footer-col-title{font-weight:600;font-size:14px;margin-bottom:18px}
+.footer-links-list{display:flex;flex-direction:column;gap:9px}
+.footer-links-list a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-links-list a:hover{color:var(--orange)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px}
+.footer-bottom p{font-size:12px;color:var(--muted)}
+
+/* ===== BOOKING MODAL ===== */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.82);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--dark3);border:1px solid rgba(232,96,44,0.2);border-radius:20px;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;position:relative;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-header{padding:28px 28px 0;display:flex;justify-content:space-between;align-items:flex-start;position:sticky;top:0;background:var(--dark3);z-index:10;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.modal-trek-info{display:flex;flex-direction:column;gap:4px}
+.modal-trek-name{font-family:'Bebas Neue',cursive;font-size:30px;letter-spacing:0.5px;line-height:1}
+.modal-trek-meta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px}
+.modal-close{width:34px;height:34px;background:rgba(255,255,255,0.07);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--muted);flex-shrink:0;transition:all .2s}
+.modal-close:hover{background:rgba(255,255,255,0.12);color:var(--text)}
+.modal-body{padding:24px 28px 28px}
+.steps-bar{display:flex;align-items:center;margin-bottom:32px}
+.step-item{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.step-num{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--muted);transition:all .3s}
+.step-num.active{background:linear-gradient(135deg,var(--orange),var(--amber));border-color:transparent;color:#fff}
+.step-num.done{background:rgba(52,211,153,0.15);border-color:rgba(52,211,153,0.4);color:#34d399}
+.step-lbl{font-size:11px;color:var(--muted);font-weight:500}
+.step-line{flex:1;height:1px;background:var(--border);margin:0 4px;margin-bottom:16px}
+.step-line.done{background:rgba(52,211,153,0.35)}
+.step-content{display:none}
+.step-content.active{display:block}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.mfg{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.mfg label{font-size:13px;font-weight:500;color:var(--muted)}
+.mfg input,.mfg select,.mfg textarea{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:11px 14px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s;width:100%}
+.mfg input:focus,.mfg select:focus,.mfg textarea:focus{border-color:rgba(232,96,44,0.5)}
+.mfg select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A7670' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.mfg select option{background:var(--dark3)}
+.mfg.no-mb{margin-bottom:0}
+.batch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.batch-card{border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;text-align:center}
+.batch-card:hover,.batch-card.sel{border-color:rgba(232,96,44,0.5);background:rgba(232,96,44,0.07)}
+.batch-date{font-size:13px;font-weight:600}
+.batch-slots{font-size:11px;color:var(--muted);margin-top:3px}
+.price-summary{background:rgba(232,96,44,0.05);border:1px solid rgba(232,96,44,0.15);border-radius:12px;padding:20px;margin-top:6px}
+.price-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:5px 0}
+.price-row.total{border-top:1px solid var(--border);padding-top:12px;margin-top:8px;color:var(--text);font-weight:600;font-size:15px}
+.price-row.total .val{color:var(--amber);font-size:17px}
+.modal-footer{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--border);margin-top:20px;flex-wrap:wrap;gap:12px}
+.btn-back{background:transparent;color:var(--muted);border:1px solid var(--border);padding:11px 22px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:14px;cursor:pointer;transition:all .2s}
+.btn-back:hover{border-color:rgba(255,255,255,0.25);color:var(--text)}
+.btn-next{background:linear-gradient(135deg,var(--orange),var(--amber));color:#fff;border:none;padding:12px 28px;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,opacity .2s;display:flex;align-items:center;gap:8px}
+.btn-next:hover{opacity:0.88;transform:translateY(-1px)}
+.success-screen{text-align:center;padding:20px 0}
+.success-icon{width:72px;height:72px;background:rgba(52,211,153,0.12);border:2px solid rgba(52,211,153,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px}
+.success-title{font-family:'Bebas Neue',cursive;font-size:36px;letter-spacing:0.5px;margin-bottom:10px}
+.success-sub{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px}
+.booking-ref{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:14px;display:inline-block;margin-bottom:24px}
+.booking-ref small{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}
+.booking-ref strong{font-size:18px;font-family:'Bebas Neue',cursive;letter-spacing:1px;color:var(--amber)}
+
+/* ===== SCROLL TOP ===== */
+#scrollTop{position:fixed;bottom:28px;right:28px;width:44px;height:44px;background:linear-gradient(135deg,var(--orange),var(--amber));border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;box-shadow:0 4px 20px rgba(232,96,44,0.35);transition:transform .2s,opacity .2s;z-index:500;opacity:0}
+#scrollTop.visible{opacity:1}
+#scrollTop:hover{transform:translateY(-3px)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .treks-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .testi-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+}
+@media(max-width:768px){
+  nav{padding:0 4%}
+  .nav-menu{display:none}
+  .hamburger{display:flex}
+  section{padding:60px 4%}
+  .hero{padding:90px 4% 50px}
+  .treks-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .form-grid-2{grid-template-columns:1fr}
+  .form-grid-3{grid-template-columns:1fr 1fr}
+  .enquiry-form{grid-template-columns:1fr}
+  .enquiry-form .fg.full{grid-column:1}
+  .modal-box{margin:10px;border-radius:16px}
+  .modal-header{padding:20px 20px 16px}
+  .modal-body{padding:18px 20px 22px}
+  .batch-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  h1.hero-title{font-size:52px}
+  .hero-btns{flex-direction:column}
+  .btn-primary,.btn-outline{width:100%;text-align:center}
+  .hero-stats{gap:20px}
+  .why-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .form-grid-3{grid-template-columns:1fr}
+  .batch-grid{grid-template-columns:1fr 1fr}
+  .modal-footer{flex-direction:column-reverse}
+  .btn-back,.btn-next{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="cs-logo-sec">
+    <a href="#" class="logo"><img src="../images/Xplor The Himalayas logo.svg" alt="logo"> </a>
+  </div>
+  <ul class="nav-menu">
+    <li><a href="#treks">Treks</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-book">Book a Trek</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#treks" onclick="closeMenu()">🗺 Treks</a>
+  <a href="#why" onclick="closeMenu()">🛡 Why Us</a>
+  <a href="#reviews" onclick="closeMenu()">⭐ Reviews</a>
+  <a href="#contact" onclick="closeMenu()">📬 Contact</a>
+  <a href="#contact" class="mobile-book" onclick="closeMenu()">Book a Trek →</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <svg class="mountain-deco" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="450,50 100,540 800,540" fill="rgba(232,96,44,0.18)" stroke="rgba(232,96,44,0.4)" stroke-width="1.5"/>
+    <polygon points="680,130 420,540 940,540" fill="rgba(244,164,53,0.1)" stroke="rgba(244,164,53,0.25)" stroke-width="1"/>
+    <polygon points="200,180 -20,540 420,540" fill="rgba(232,96,44,0.08)" stroke="rgba(232,96,44,0.15)" stroke-width="0.8"/>
+    <ellipse cx="450" cy="52" rx="20" ry="8" fill="rgba(255,255,255,0.65)"/>
+    <ellipse cx="680" cy="132" rx="15" ry="6" fill="rgba(255,255,255,0.5)"/>
+  </svg>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="pulse"></span>Summer 2025 Bookings Now Open</div>
+    <h1 class="hero-title">CONQUER<br>THE <span>HIMALAYAS</span></h1>
+    <p class="hero-desc">Expert-led trekking expeditions through India's most iconic peaks. Kedarnath to Kashmir Great Lakes — every trail meticulously planned for your safety & adventure.</p>
+    <div class="hero-btns">
+      <a href="#treks" class="btn-primary">Explore All Treks</a>
+      <a href="#contact" class="btn-outline">Plan Custom Trek</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-val">2800+</div><div class="stat-lbl">Happy Trekkers</div></div>
+      <div><div class="stat-val">40+</div><div class="stat-lbl">Trek Routes</div></div>
+      <div><div class="stat-val">9 Yrs</div><div class="stat-lbl">Experience</div></div>
+      <div><div class="stat-val">100%</div><div class="stat-lbl">Safe Returns</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TREKS ===== -->
+<section class="treks-section" id="treks">
+  <div class="section-flex">
+    <div>
+      <div class="section-tag">🗺 Popular Expeditions</div>
+      <div class="section-title">FEATURED TREKS</div>
+    </div>
+    <a href="#contact" class="view-all">View All Treks <span>→</span></a>
+  </div>
+  <div class="treks-grid" id="treksGrid"></div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section id="why">
+  <div class="section-tag" style="text-align:center">✦ Why Choose Us</div>
+  <div class="section-title" style="text-align:center;margin-top:8px">WHY XPLOR THE HIMALAYAS</div>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-icon">🛡️</div>
+      <div class="why-title">Certified Safety First</div>
+      <div class="why-desc">All guides hold Wilderness First Responder certification. Emergency evacuation protocol active on every trek with sat-phone communication.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🧭</div>
+      <div class="why-title">Expert Local Guides</div>
+      <div class="why-desc">Our seasoned mountaineers have collectively led 500+ expeditions. Deep local knowledge makes every route safer and richer.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🏕️</div>
+      <div class="why-title">Premium Camp Setup</div>
+      <div class="why-desc">High-quality tents, sleeping bags rated for -10°C, and nutritious hot meals prepared fresh by experienced camp cooks.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">📱</div>
+      <div class="why-title">24/7 Dedicated Support</div>
+      <div class="why-desc">Support team reachable at all times — before booking, during your trek, and post-expedition for complete peace of mind.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🎒</div>
+      <div class="why-title">Gear Rental Available</div>
+      <div class="why-desc">Don't own trekking gear? No problem. We rent quality boots, poles, sleeping bags, and jackets at reasonable prices.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🌿</div>
+      <div class="why-title">Eco-Responsible Treks</div>
+      <div class="why-desc">Leave-no-trace policy strictly followed. We actively participate in Himalayan trail cleanup drives every season.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">💰</div>
+      <div class="why-title">Transparent Pricing</div>
+      <div class="why-desc">All-inclusive pricing with zero hidden charges. What you see is what you pay — meals, camps, permits, and guide fees included.</div>
+    </div>
+    <div class="why-item">
+      <div class="why-icon">🏆</div>
+      <div class="why-title">Award-Winning Service</div>
+      <div class="why-desc">Recognized as one of North India's top trekking operators by multiple travel platforms with a consistent 4.9/5 rating.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="testi-section" id="reviews">
+  <div class="section-flex">
+    <div>
+      <div class="section-tag">⭐ Trekker Stories</div>
+      <div class="section-title">WHAT THEY SAY</div>
+    </div>
+    <div style="color:var(--muted);font-size:13px">4.9 avg · 800+ reviews</div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"Kashmir Great Lakes was genuinely life-changing. Every single detail was perfectly organized — from the Srinagar pickup to the final campfire night. Our guide Ramesh was exceptionally knowledgeable about local flora and geography."</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#2563eb">AR</div>
+        <div><div class="testi-name">Arjun Rawat</div><div class="testi-trek">Kashmir Great Lakes · Aug 2024</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"As a solo female first-timer I had many doubts, but the Xplor team made everything so comfortable and safe. The acclimatization schedule was well-planned and the food was surprisingly excellent even at high altitude!"</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#059669">PS</div>
+        <div><div class="testi-name">Priya Sharma</div><div class="testi-trek">Kedarnath Trek · June 2024</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <div class="testi-quote">"Roopkund at 5029m was no joke but Xplor's guides pushed us with just the right encouragement. The summit view was one of the best moments of my life. Already booked Markha Valley for next October!"</div>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#d97706">VK</div>
+        <div><div class="testi-name">Vikram Kapoor</div><div class="testi-trek">Roopkund Trek · Oct 2024</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="section-tag" style="margin-bottom:12px">📬 Get In Touch</div>
+    <div class="contact-title">PLAN YOUR<br><span>EXPEDITION</span></div>
+    <p class="contact-sub">Tell us your dream trek and we'll craft the perfect itinerary — whether you're a first-timer or a seasoned mountaineer.</p>
+    <form class="enquiry-form" onsubmit="submitEnquiry(event)">
+      <div class="fg"><label>Full Name</label><input type="text" placeholder="Rahul Sharma" required></div>
+      <div class="fg"><label>Phone / WhatsApp</label><input type="tel" placeholder="+91 98765 43210" required></div>
+      <div class="fg"><label>Email Address</label><input type="email" placeholder="rahul@gmail.com" required></div>
+      <div class="fg"><label>Interested Trek</label>
+        <select>
+          <option value="">Select a trek...</option>
+          <option>Kashmir Great Lakes</option>
+          <option>Hampta Pass</option>
+          <option>Kedarnath Trek</option>
+          <option>Roopkund Trek</option>
+          <option>Markha Valley Trek</option>
+          <option>Manali to Kasol</option>
+          <option>Sar Pass Trek</option>
+          <option>Customized Trek</option>
+        </select>
+      </div>
+      <div class="fg"><label>Group Size</label>
+        <select>
+          <option>Solo (1 person)</option>
+          <option>Duo (2 people)</option>
+          <option>Small Group (3–5)</option>
+          <option>Group (6–10)</option>
+          <option>Large Group (10+)</option>
+        </select>
+      </div>
+      <div class="fg"><label>Preferred Month</label>
+        <select>
+          <option>May 2025</option>
+          <option>June 2025</option>
+          <option>July 2025</option>
+          <option>August 2025</option>
+          <option>September 2025</option>
+          <option>October 2025</option>
+        </select>
+      </div>
+      <div class="fg full"><label>Message (optional)</label>
+        <textarea placeholder="Tell us your fitness level, special requirements, or any questions..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Enquiry →</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">⛰ Xplor The Himalayas</div>
+      <div class="footer-brand-desc">Safe, trusted & professional Himalayan trekking experiences since 2016. Your adventure, our responsibility.</div>
+      <div class="social-row">
+        <a class="soc-btn" href="#" title="Facebook">f</a>
+        <a class="soc-btn" href="#" title="Instagram">ig</a>
+        <a class="soc-btn" href="#" title="YouTube">yt</a>
+        <a class="soc-btn" href="#" title="WhatsApp">wa</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Treks</div>
+      <div class="footer-links-list">
+        <a href="#">Upcoming Treks</a>
+        <a href="#">Weekend Treks</a>
+        <a href="#">Customized Treks</a>
+        <a href="#">Corporate Treks</a>
+        <a href="#">School Programs</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Regions</div>
+      <div class="footer-links-list">
+        <a href="#">Kashmir Treks</a>
+        <a href="#">Himachal Treks</a>
+        <a href="#">Uttarakhand Treks</a>
+        <a href="#">Ladakh Treks</a>
+        <a href="#">Spiti Valley</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <div class="footer-links-list">
+        <a href="#">About Us</a>
+        <a href="#">Our Team</a>
+        <a href="#">Blog</a>
+        <a href="#">Careers</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Xplor The Himalayas. All rights reserved.</p>
+    <p>Made with ❤️ for the mountains</p>
+  </div>
+</footer>
+
+<!-- ===== BOOKING MODAL ===== -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-trek-info">
+        <div class="modal-trek-name" id="modalTrekName">Kashmir Great Lakes</div>
+        <div class="modal-trek-meta" id="modalTrekMeta">
+          <span id="mDays">📅 7 Days</span>
+          <span id="mRegion">📍 Kashmir</span>
+          <span id="mAlt">⬆ 4138m</span>
+          <span id="mDiff">🟡 Challenging</span>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Steps -->
+      <div class="steps-bar">
+        <div class="step-item"><div class="step-num active" id="sn1">1</div><div class="step-lbl">Dates</div></div>
+        <div class="step-line" id="sl1"></div>
+        <div class="step-item"><div class="step-num" id="sn2">2</div><div class="step-lbl">Details</div></div>
+        <div class="step-line" id="sl2"></div>
+        <div class="step-item"><div class="step-num" id="sn3">3</div><div class="step-lbl">Review</div></div>
+        <div class="step-line" id="sl3"></div>
+        <div class="step-item"><div class="step-num" id="sn4">4</div><div class="step-lbl">Confirm</div></div>
+      </div>
+
+      <!-- STEP 1: Dates & Batch -->
+      <div class="step-content active" id="step1">
+        <div class="mfg">
+          <label>Select Batch Date</label>
+          <div class="batch-grid" id="batchGrid"></div>
+        </div>
+        <div class="mfg">
+          <label>Number of Trekkers</label>
+          <select id="numTrekkers" onchange="updatePrice()">
+            <option value="1">1 Person</option>
+            <option value="2">2 People</option>
+            <option value="3">3 People</option>
+            <option value="4">4 People</option>
+            <option value="5">5 People</option>
+            <option value="6">6 People</option>
+            <option value="8">8 People</option>
+            <option value="10">10 People</option>
+          </select>
+        </div>
+        <div class="mfg">
+          <label>Pickup Location</label>
+          <select id="pickupSel" onchange="updatePrice()">
+            <option value="0">Self Arrangement (No Pickup)</option>
+            <option value="500">Delhi — ₹500/person</option>
+            <option value="300">Chandigarh — ₹300/person</option>
+            <option value="200">Jammu — ₹200/person</option>
+            <option value="150">Srinagar — ₹150/person</option>
+          </select>
+        </div>
+        <div class="price-summary">
+          <div class="price-row"><span>Base Price</span><span id="pBase">₹0</span></div>
+          <div class="price-row"><span>Pickup</span><span id="pPickup">₹0</span></div>
+          <div class="price-row"><span>GST (5%)</span><span id="pGst">₹0</span></div>
+          <div class="price-row total"><span>Total Payable</span><span class="val" id="pTotal">₹0</span></div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Trekker Details -->
+      <div class="step-content" id="step2">
+        <div id="trekkerForms"></div>
+      </div>
+
+      <!-- STEP 3: Review -->
+      <div class="step-content" id="step3">
+        <div id="reviewContent"></div>
+      </div>
+
+      <!-- STEP 4: Success -->
+      <div class="step-content" id="step4">
+        <div class="success-screen">
+          <div class="success-icon">✓</div>
+          <div class="success-title">BOOKING CONFIRMED!</div>
+          <p class="success-sub">Your trek is booked. Our team will contact you within 24 hours on your registered number to share further details and payment link.</p>
+          <div class="booking-ref">
+            <small>Booking Reference</small>
+            <strong id="bookingRef">XTH-000000</strong>
+          </div>
+          <br>
+          <button class="btn-primary" onclick="closeModal()">Back to Home</button>
+        </div>
+      </div>
+
+      <div class="modal-footer" id="modalFooter">
+        <button class="btn-back" id="backBtn" onclick="prevStep()" style="visibility:hidden">← Back</button>
+        <button class="btn-next" id="nextBtn" onclick="nextStep()">Next <span>→</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scroll Top -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ===== TREK DATA =====
+const treks = [
+  {id:'kgl',name:'Kashmir Great Lakes',region:'Kashmir',days:7,alt:'4138m',price:12500,diff:'Challenging',diffClass:'hard',
+   desc:'Trek through alpine meadows dotted with pristine glacial lakes surrounded by mighty Himalayan peaks.',
+   bg:'linear-gradient(135deg,#0d2a4a,#1a4a7a)',color:'rgba(52,152,219,0.3)',
+   batches:['Jun 10','Jun 24','Jul 8','Jul 22','Aug 5','Aug 19','Sep 2']},
+  {id:'hp',name:'Hampta Pass',region:'Spiti Valley',days:9,alt:'4551m',price:9800,diff:'Moderate',diffClass:'moderate',
+   desc:'Cross the dramatic Hampta Pass — a stunning contrast between lush Kullu Valley and the barren moonscapes of Lahaul.',
+   bg:'linear-gradient(135deg,#2d1f0e,#5a3a10)',color:'rgba(244,164,53,0.25)',
+   batches:['Jun 5','Jun 19','Jul 3','Jul 17','Jul 31','Aug 14','Aug 28']},
+  {id:'kd',name:'Kedarnath Trek',region:'Uttarakhand',days:5,alt:'3583m',price:7500,diff:'Moderate',diffClass:'moderate',
+   desc:'A spiritual journey through dense forests, river crossings, and breathtaking views leading to divine Kedarnath Temple.',
+   bg:'linear-gradient(135deg,#1a0d2e,#2d1a4a)',color:'rgba(155,89,182,0.25)',
+   batches:['May 20','Jun 3','Jun 17','Jul 1','Jul 15','Aug 5','Sep 9']},
+  {id:'rp',name:'Roopkund Trek',region:'Chamoli',days:8,alt:'5029m',price:13200,diff:'Challenging',diffClass:'hard',
+   desc:'Trek to the mysterious skeleton lake high in the Himalayas — one of India\'s most thrilling high-altitude adventures.',
+   bg:'linear-gradient(135deg,#1f1f18,#2e2e22)',color:'rgba(189,195,199,0.2)',
+   batches:['May 15','Jun 1','Jun 15','Jul 6','Aug 3','Sep 7','Sep 21']},
+  {id:'mv',name:'Markha Valley Trek',region:'Ladakh',days:10,alt:'5270m',price:15800,diff:'Challenging',diffClass:'hard',
+   desc:'Explore remote Ladakhi villages, ancient monasteries, and vast high-altitude desert landscapes of incredible beauty.',
+   bg:'linear-gradient(135deg,#1a1218,#2e1f2a)',color:'rgba(231,76,60,0.2)',
+   batches:['Jun 20','Jul 4','Jul 18','Aug 1','Aug 15','Aug 29','Sep 12']},
+  {id:'mk',name:'Manali to Kasol',region:'Himachal',days:4,alt:'2480m',price:5200,diff:'Easy',diffClass:'easy',
+   desc:'Scenic trail through pine forests, Parvati Valley views, and charming Himalayan villages along the Beas river.',
+   bg:'linear-gradient(135deg,#0a2a1a,#0f3d26)',color:'rgba(46,204,113,0.2)',
+   batches:['May 5','May 19','Jun 2','Jun 16','Jun 30','Jul 14','Aug 11']},
+];
+
+let currentTrek = null;
+let selectedBatch = null;
+let currentStep = 1;
+
+// ===== RENDER TREK CARDS =====
+function renderTreks() {
+  const grid = document.getElementById('treksGrid');
+  grid.innerHTML = treks.map(t => `
+    <div class="trek-card" onclick="openBooking('${t.id}')">
+      <div class="trek-thumb" style="background:${t.bg}">
+        <svg width="130" height="130" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="65,15 10,110 120,110" fill="${t.color}" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
+          <polygon points="90,40 55,110 125,110" fill="${t.color.replace('0.','0.07')}" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+          <ellipse cx="65" cy="16" rx="14" ry="6" fill="rgba(255,255,255,0.55)"/>
+        </svg>
+        <span class="diff-badge ${t.diffClass}">${t.diff}</span>
+        <span class="days-badge">${t.days} Days</span>
+      </div>
+      <div class="trek-body">
+        <div class="trek-meta-row">
+          <span>📍 ${t.region}</span>
+          <span>⬆ ${t.alt}</span>
+        </div>
+        <div class="trek-name">${t.name}</div>
+        <div class="trek-desc">${t.desc}</div>
+        <div class="trek-footer">
+          <div class="trek-price">₹${t.price.toLocaleString('en-IN')} <small>/person</small></div>
+          <button class="book-trek-btn">Book Now</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== OPEN BOOKING =====
+function openBooking(trekId) {
+  currentTrek = treks.find(t => t.id === trekId);
+  currentStep = 1;
+  selectedBatch = null;
+  document.getElementById('modalTrekName').textContent = currentTrek.name;
+  document.getElementById('mDays').textContent = `📅 ${currentTrek.days} Days`;
+  document.getElementById('mRegion').textContent = `📍 ${currentTrek.region}`;
+  document.getElementById('mAlt').textContent = `⬆ ${currentTrek.alt}`;
+  document.getElementById('mDiff').textContent = `🏔 ${currentTrek.diff}`;
+  renderBatches();
+  updatePrice();
+  updateStepUI();
+  document.getElementById('bookingModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('bookingModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// ===== BATCH RENDER =====
+function renderBatches() {
+  const grid = document.getElementById('batchGrid');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const today = new Date();
+  grid.innerHTML = currentTrek.batches.map((b,i) => {
+    const [mon, day] = b.split(' ');
+    const monIdx = months.indexOf(mon);
+    const yr = (monIdx < today.getMonth()) ? today.getFullYear()+1 : today.getFullYear();
+    const slots = [12,10,8,6,14,9,7][i] || 10;
+    return `<div class="batch-card" id="batch_${i}" onclick="selectBatch(${i},'${b} ${yr}')">
+      <div class="batch-date">${b} ${yr}</div>
+      <div class="batch-slots">${slots} slots left</div>
+    </div>`;
+  }).join('');
+  selectedBatch = currentTrek.batches[0] + ' ' + today.getFullYear();
+  document.getElementById('batch_0')?.classList.add('sel');
+}
+
+function selectBatch(idx, val) {
+  selectedBatch = val;
+  document.querySelectorAll('.batch-card').forEach(c => c.classList.remove('sel'));
+  document.getElementById('batch_'+idx)?.classList.add('sel');
+}
+
+// ===== PRICE CALC =====
+function updatePrice() {
+  if (!currentTrek) return;
+  const n = parseInt(document.getElementById('numTrekkers')?.value || 1);
+  const pickup = parseInt(document.getElementById('pickupSel')?.value || 0);
+  const base = currentTrek.price * n;
+  const pickupTotal = pickup * n;
+  const gst = Math.round((base + pickupTotal) * 0.05);
+  const total = base + pickupTotal + gst;
+  document.getElementById('pBase').textContent = '₹' + base.toLocaleString('en-IN');
+  document.getElementById('pPickup').textContent = '₹' + pickupTotal.toLocaleString('en-IN');
+  document.getElementById('pGst').textContent = '₹' + gst.toLocaleString('en-IN');
+  document.getElementById('pTotal').textContent = '₹' + total.toLocaleString('en-IN');
+}
+
+// ===== STEP NAVIGATION =====
+function nextStep() {
+  if (currentStep === 1) {
+    if (!selectedBatch) { alert('Please select a batch date.'); return; }
+    buildTrekkerForms();
+  } else if (currentStep === 2) {
+    if (!validateTrekkerForms()) return;
+    buildReview();
+  } else if (currentStep === 3) {
+    submitBooking();
+    return;
+  }
+  currentStep++;
+  updateStepUI();
+}
+
+function prevStep() {
+  if (currentStep > 1) { currentStep--; updateStepUI(); }
+}
+
+function updateStepUI() {
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('step'+i)?.classList.remove('active');
+    const sn = document.getElementById('sn'+i);
+    sn.classList.remove('active','done');
+    if (i < currentStep) { sn.classList.add('done'); sn.textContent = '✓'; }
+    else if (i === currentStep) { sn.classList.add('active'); sn.textContent = i; }
+    else { sn.textContent = i; }
+    if (i < 4) {
+      const sl = document.getElementById('sl'+i);
+      if (sl) { sl.classList.remove('done'); if (i < currentStep) sl.classList.add('done'); }
+    }
+  }
+  document.getElementById('step'+currentStep)?.classList.add('active');
+  const backBtn = document.getElementById('backBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const footer = document.getElementById('modalFooter');
+  backBtn.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+  if (currentStep === 4) {
+    footer.style.display = 'none';
+  } else {
+    footer.style.display = 'flex';
+    nextBtn.innerHTML = currentStep === 3 ? 'Confirm Booking ✓' : 'Next <span>→</span>';
+  }
+}
+
+// ===== TREKKER FORMS =====
+function buildTrekkerForms() {
+  const n = parseInt(document.getElementById('numTrekkers')?.value || 1);
+  let html = '';
+  for (let i = 1; i <= n; i++) {
+    html += `<div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)">
+      <div style="font-weight:600;font-size:14px;color:var(--orange);margin-bottom:12px">Trekker ${i} ${i===1?'(Primary)':''}</div>
+      <div class="form-grid-2">
+        <div class="mfg"><label>Full Name</label><input type="text" id="t${i}_name" placeholder="Full name" required></div>
+        <div class="mfg"><label>Age</label><input type="number" id="t${i}_age" placeholder="Age" min="16" max="65" required></div>
+        <div class="mfg"><label>Gender</label>
+          <select id="t${i}_gender"><option>Male</option><option>Female</option><option>Other</option></select>
+        </div>
+        <div class="mfg"><label>ID Proof Type</label>
+          <select id="t${i}_id"><option>Aadhaar Card</option><option>Passport</option><option>Voter ID</option><option>Driving License</option></select>
+        </div>
+        <div class="mfg"><label>ID Number</label><input type="text" id="t${i}_idnum" placeholder="ID number" required></div>
+        ${i===1?`<div class="mfg"><label>Phone (WhatsApp)</label><input type="tel" id="t${i}_phone" placeholder="+91 XXXXX XXXXX" required></div>`:''}
+        ${i===1?`<div class="mfg" style="grid-column:1/-1"><label>Email</label><input type="email" id="t${i}_email" placeholder="email@gmail.com" required></div>`:''}
+      </div>
+      <div class="mfg no-mb"><label>Medical Conditions (if any)</label><input type="text" id="t${i}_med" placeholder="e.g. Asthma, BP, None"></div>
+    </div>`;
+  }
+  document.getElementById('trekkerForms').innerHTML = html;
+}
+
+function validateTrekkerForms() {
+  const n = parseInt(document.getElementById('numTrekkers')?.value || 1);
+  for (let i = 1; i <= n; i++) {
+    const name = document.getElementById('t'+i+'_name')?.value.trim();
+    const age = document.getElementById('t'+i+'_age')?.value;
+    const idnum = document.getElementById('t'+i+'_idnum')?.value.trim();
+    if (!name) { alert('Enter name for Trekker '+i); return false; }
+    if (!age || age < 16 || age > 65) { alert('Enter valid age (16–65) for Trekker '+i); return false; }
+    if (!idnum) { alert('Enter ID number for Trekker '+i); return false; }
+    if (i === 1) {
+      const phone = document.getElementById('t1_phone')?.value.trim();
+      const email = document.getElementById('t1_email')?.value.trim();
+      if (!phone) { alert('Enter phone number'); return false; }
+      if (!email || !email.includes('@')) { alert('Enter valid email'); return false; }
+    }
+  }
+  return true;
+}
+
+// ===== REVIEW =====
+function buildReview() {
+  const n = parseInt(document.getElementById('numTrekkers')?.value || 1);
+  const pickup = document.getElementById('pickupSel');
+  const pickupText = pickup.options[pickup.selectedIndex].text;
+  const base = currentTrek.price * n;
+  const pickupCost = parseInt(pickup.value || 0) * n;
+  const gst = Math.round((base + pickupCost) * 0.05);
+  const total = base + pickupCost + gst;
+  let trekkerRows = '';
+  for (let i = 1; i <= n; i++) {
+    const name = document.getElementById('t'+i+'_name')?.value || '';
+    const age = document.getElementById('t'+i+'_age')?.value || '';
+    const gender = document.getElementById('t'+i+'_gender')?.value || '';
+    trekkerRows += `<div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)">
+      <span style="color:var(--muted)">Trekker ${i}</span>
+      <span>${name}, ${age} yrs, ${gender}</span>
+    </div>`;
+  }
+  document.getElementById('reviewContent').innerHTML = `
+    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px">
+      <div style="font-size:12px;color:var(--orange);font-weight:600;letter-spacing:1px;margin-bottom:12px">TREK DETAILS</div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Trek</span><span style="font-weight:600">${currentTrek.name}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Batch Date</span><span>${selectedBatch}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Duration</span><span>${currentTrek.days} Days</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Trekkers</span><span>${n} Person${n>1?'s':''}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Pickup</span><span>${pickupText}</span></div>
+    </div>
+    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px">
+      <div style="font-size:12px;color:var(--orange);font-weight:600;letter-spacing:1px;margin-bottom:12px">TREKKERS</div>
+      ${trekkerRows}
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0 0"><span style="color:var(--muted)">Primary Contact</span><span>${document.getElementById('t1_phone')?.value || ''}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Email</span><span>${document.getElementById('t1_email')?.value || ''}</span></div>
+    </div>
+    <div class="price-summary">
+      <div class="price-row"><span>Base (${n} × ₹${currentTrek.price.toLocaleString('en-IN')})</span><span>₹${base.toLocaleString('en-IN')}</span></div>
+      <div class="price-row"><span>Pickup</span><span>₹${pickupCost.toLocaleString('en-IN')}</span></div>
+      <div class="price-row"><span>GST (5%)</span><span>₹${gst.toLocaleString('en-IN')}</span></div>
+      <div class="price-row total"><span>Total Payable</span><span class="val">₹${total.toLocaleString('en-IN')}</span></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center;line-height:1.6">By confirming, you agree to our Terms & Conditions. Our team will contact you within 24 hours with payment details.</p>
+  `;
+}
+
+// ===== SUBMIT =====
+function submitBooking() {
+  const ref = 'XTH-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+  document.getElementById('bookingRef').textContent = ref;
+  currentStep = 4;
+  updateStepUI();
+}
+
+// ===== ENQUIRY FORM =====
+function submitEnquiry(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.submit-btn');
+  btn.textContent = '✓ Enquiry Sent!';
+  btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+  setTimeout(() => {
+    btn.textContent = 'Send Enquiry →';
+    btn.style.background = '';
+    e.target.reset();
+  }, 3000);
+}
+
+// ===== HAMBURGER =====
+function toggleMenu() {
+  const h = document.getElementById('hamburger');
+  const m = document.getElementById('mobileMenu');
+  h.classList.toggle('active');
+  m.classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('hamburger').classList.remove('active');
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// Close modal on overlay click
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Scroll Top visibility
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ===== INIT =====
+renderTreks();
+</script>
+</body>
+</html>
