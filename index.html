@@ -1,1260 +1,2385 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Xplor The Himalayas — Safe, Trusted & Professional Treks</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --orange:#E8602C;--amber:#F4A435;--dark:#0C0C0C;--dark2:#131313;
-  --dark3:#1A1A1A;--dark4:#222;--text:#F0EDE8;--muted:#7A7670;
-  --border:rgba(255,255,255,0.07);--card-border:rgba(255,255,255,0.1);
-  --green:#25d366
-}
-html{scroll-behavior:smooth}
-body{background:var(--dark);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--dark)}
-::-webkit-scrollbar-thumb{background:var(--orange);border-radius:10px}
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Xplor The Himalayas - Premium Trekking & Adventure Experiences in the Himalayas. Discover breathtaking trails, expert guides, and unforgettable journeys.">
+  <title>Xplor The Himalayas – Where Every Trek Tells a Story</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+  /* ============================================
+    CSS VARIABLES & RESET
+    ============================================ */
+  :root {
+    --orange: #F65D42;
+    --amber: #FFA317;
+    --deep-orange: #D53611;
+    --gold: #FFD378;
+    --cream: #FFF8F0;
+    --dark: #0D1B2A;
+    --dark-mid: #1A2E42;
+    --text: #2C3E50;
+    --text-light: #6B7A8D;
+    --white: #FFFFFF;
+    --gradient: linear-gradient(90deg, var(--orange), var(--amber), var(--orange));
+    --gradient-v: linear-gradient(180deg, var(--orange), var(--amber));
+    --shadow: 0 20px 60px rgba(13,27,42,0.15);
+    --shadow-sm: 0 4px 20px rgba(13,27,42,0.1);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
 
-/* ===== ANNOUNCEMENT BAR ===== */
-.announce-bar{background:linear-gradient(90deg,var(--orange),var(--amber),var(--orange));background-size:200% 100%;animation:shimmer 3s linear infinite;padding:9px 5%;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;z-index:1001}
-@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
-.announce-bar span{font-size:13px;font-weight:600;color:#fff;letter-spacing:0.3px;text-align:center}
-.announce-bar .ann-icon{font-size:16px;animation:bounce 1.5s ease-in-out infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-.ann-badge{background:rgba(255,255,255,0.25);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;letter-spacing:1px}
-.ann-close{position:absolute;right:16px;background:transparent;border:none;color:rgba(255,255,255,0.7);font-size:16px;cursor:pointer;line-height:1;padding:2px 6px;transition:color .2s}
-.ann-close:hover{color:#fff}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  button { cursor: pointer; border: none; outline: none; font-family: inherit; }
 
-/* ===== NAV ===== */
-nav{position:sticky;top:0;left:0;right:0;z-index:1000;padding:0 5%;height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(12,12,12,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:all .3s}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
-.logo-mark{width:36px;height:36px;background:linear-gradient(135deg,var(--orange),var(--amber));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.logo-name{font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:1px;background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
-.logo-sub{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+  /* ============================================
+    UTILITY CLASSES
+    ============================================ */
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  .gradient-text {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .btn-primary {
+    background: var(--gradient);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 20px rgba(246,93,66,0.4);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(246,93,66,0.5);
+  }
+  .btn-outline {
+    border: 2px solid var(--orange);
+    color: var(--orange);
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: var(--orange);
+    color: white;
+    transform: translateY(-2px);
+  }
+  .section-tag {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    display: block;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .section-subtitle {
+    font-size: 16px;
+    color: var(--text-light);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: var(--gradient);
+    border-radius: 2px;
+    margin: 16px 0 32px;
+  }
 
-/* SEARCH BAR */
-.nav-search{flex:1;max-width:340px;position:relative}
-.nav-search input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 40px 9px 14px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:all .2s}
-.nav-search input::placeholder{color:var(--muted)}
-.nav-search input:focus{border-color:rgba(232,96,44,0.5);background:rgba(232,96,44,0.05)}
-.nav-search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none}
-.search-dropdown{display:none;position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--dark3);border:1px solid var(--border);border-radius:10px;overflow:hidden;z-index:999;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
-.search-dropdown.show{display:block}
-.search-item{padding:11px 16px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:10px;transition:background .15s}
-.search-item:hover{background:rgba(232,96,44,0.1);color:var(--orange)}
-.search-item-icon{font-size:16px}
-.search-empty{padding:14px 16px;font-size:13px;color:var(--muted);text-align:center}
+  /* ============================================
+    NAVBAR
+    ============================================ */
+  .navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    transition: all 0.4s ease;
+    padding: 16px 0;
+  }
+  .navbar.scrolled {
+    background: rgba(13,27,42,0.97);
+    backdrop-filter: blur(20px);
+    padding: 10px 0;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+  }
+  .navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .nav-logo img { height: 44px; width: auto; }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  .nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 2px;
+    background: var(--gradient);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .nav-links a:hover { color: white; }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-cta { display: flex; align-items: center; gap: 12px; }
+  .nav-phone {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    padding: 4px;
+  }
+  .hamburger span {
+    width: 24px; height: 2px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--dark);
+    z-index: 999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-size: 24px;
+    color: white;
+    font-family: 'Playfair Display', serif;
+  }
+  .mobile-close {
+    position: absolute;
+    top: 20px; right: 24px;
+    background: transparent;
+    color: white;
+    font-size: 28px;
+  }
 
-.nav-menu{display:flex;align-items:center;gap:4px;list-style:none;flex-shrink:0}
-.nav-menu a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;padding:8px 12px;border-radius:6px;transition:all .2s;white-space:nowrap}
-.nav-menu a:hover{color:var(--text);background:rgba(255,255,255,0.05)}
-.nav-book{background:linear-gradient(135deg,var(--orange),var(--amber));color:#fff!important;padding:9px 18px!important;border-radius:8px!important;font-weight:600!important}
-.nav-book:hover{opacity:0.88}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;flex-shrink:0}
-.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
-.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.hamburger.active span:nth-child(2){opacity:0}
-.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(12,12,12,0.99);backdrop-filter:blur(20px);padding:80px 5% 40px;z-index:999;flex-direction:column;gap:4px;overflow-y:auto}
-.mobile-menu.open{display:flex}
-.mobile-search{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:8px;padding:10px 14px;gap:10px;margin-bottom:16px}
-.mobile-search input{background:transparent;border:none;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;flex:1}
-.mobile-search input::placeholder{color:var(--muted)}
-.mobile-menu a{color:var(--muted);text-decoration:none;font-size:16px;font-weight:500;padding:14px 16px;border-radius:8px;transition:all .2s;border:1px solid transparent}
-.mobile-menu a:hover{color:var(--text);background:rgba(255,255,255,0.05);border-color:var(--border)}
-.mobile-book{background:linear-gradient(135deg,var(--orange),var(--amber))!important;color:#fff!important;text-align:center;border-color:transparent!important;margin-top:8px;font-weight:600!important}
-.mob-close{position:absolute;top:20px;right:5%;background:rgba(255,255,255,0.07);border:1px solid var(--border);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted)}
+  /* ============================================
+    HERO SECTION
+    ============================================ */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    overflow: hidden;
+  }
+  .hero-slider { width: 100%; height: 100%; position: relative; }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .hero-slide.active { opacity: 1; }
+  .hero-slide img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+    transition: transform 8s ease;
+  }
+  .hero-slide.active img { transform: scale(1); }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(13,27,42,0.85) 0%,
+      rgba(13,27,42,0.4) 60%,
+      rgba(246,93,66,0.15) 100%
+    );
+  }
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(246,93,66,0.2);
+    border: 1px solid rgba(246,93,66,0.4);
+    color: var(--amber);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 50px;
+    margin-bottom: 24px;
+    width: fit-content;
+    animation: fadeInUp 0.8s ease both;
+  }
+  .hero-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 900;
+    color: white;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.8s 0.2s ease both;
+  }
+  .hero-heading span { display: block; }
+  .hero-heading .accent {
+    background: linear-gradient(90deg, var(--orange), var(--amber));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-desc {
+    font-size: clamp(15px, 1.5vw, 18px);
+    color: rgba(255,255,255,0.8);
+    max-width: 500px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    animation: fadeInUp 0.8s 0.4s ease both;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.8s 0.6s ease both;
+  }
+  .btn-hero-outline {
+    border: 2px solid rgba(255,255,255,0.5);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-hero-outline:hover {
+    border-color: white;
+    background: rgba(255,255,255,0.1);
+  }
+  .hero-stats {
+    position: absolute;
+    bottom: 40px;
+    right: 24px;
+    display: flex;
+    gap: 24px;
+    animation: fadeInUp 0.8s 0.8s ease both;
+  }
+  .hero-stat {
+    text-align: center;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+  }
+  .hero-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--amber);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .hero-dots {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+  }
+  .hero-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+  }
+  .hero-dot.active {
+    background: var(--amber);
+    width: 24px;
+    border-radius: 4px;
+  }
+  .hero-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 48px; height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .hero-arrow:hover { background: var(--orange); border-color: var(--orange); }
+  .hero-arrow.prev { left: 24px; }
+  .hero-arrow.next { right: 24px; }
 
-/* ===== HERO ===== */
-.hero{min-height:100vh;position:relative;display:flex;align-items:center;padding:80px 5% 60px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 70% at 65% 50%,rgba(232,96,44,0.1) 0%,transparent 60%)}
-.mountain-deco{position:absolute;bottom:0;right:0;width:55%;max-width:700px;opacity:0.2;pointer-events:none}
-.hero-content{position:relative;z-index:2;max-width:640px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(244,164,53,0.1);border:1px solid rgba(244,164,53,0.25);padding:7px 16px;border-radius:30px;font-size:13px;color:var(--amber);margin-bottom:30px}
-.pulse{width:7px;height:7px;background:var(--amber);border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(244,164,53,0.5)}70%{box-shadow:0 0 0 8px rgba(244,164,53,0)}}
-h1.hero-title{font-family:'Bebas Neue',cursive;font-size:clamp(54px,9vw,96px);line-height:0.95;letter-spacing:2px;margin-bottom:22px}
-h1.hero-title span{background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero-desc{font-size:clamp(15px,2vw,17px);color:var(--muted);line-height:1.75;margin-bottom:36px;max-width:500px}
-.hero-btns{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:52px}
-.btn-primary{background:linear-gradient(135deg,var(--orange),var(--amber));color:#fff;border:none;padding:14px 32px;border-radius:9px;font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:transform .2s,opacity .2s;text-decoration:none;display:inline-block}
-.btn-primary:hover{transform:translateY(-2px);opacity:0.9}
-.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.18);padding:14px 32px;border-radius:9px;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
-.btn-outline:hover{border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.04)}
-.hero-stats{display:flex;flex-wrap:wrap;gap:32px;padding-top:36px;border-top:1px solid var(--border)}
-.stat-val{font-family:'Bebas Neue',cursive;font-size:38px;line-height:1;background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.stat-lbl{font-size:12px;color:var(--muted);margin-top:3px;letter-spacing:0.5px}
+  /* ============================================
+    CATEGORY PILLS
+    ============================================ */
+  .categories-section {
+    padding: 32px 0;
+    background: white;
+    position: relative;
+    z-index: 10;
+    box-shadow: var(--shadow-sm);
+  }
+  .categories-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .categories-scroll::-webkit-scrollbar { display: none; }
+  .cat-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 2px solid #E8ECF0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    background: white;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+  .cat-pill:hover, .cat-pill.active {
+    border-color: var(--orange);
+    background: var(--gradient);
+    color: white;
+  }
+  .cat-pill .cat-icon { font-size: 16px; }
 
-/* ===== SECTION COMMON ===== */
-section{padding:80px 5%}
-.section-tag{font-size:11px;font-weight:600;color:var(--orange);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
-.section-title{font-family:'Bebas Neue',cursive;font-size:clamp(36px,6vw,58px);letter-spacing:1px;line-height:1}
-.section-flex{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px}
-.view-all{color:var(--orange);text-decoration:none;font-size:14px;font-weight:500;display:flex;align-items:center;gap:6px;transition:gap .2s}
-.view-all:hover{gap:10px}
+  /* ============================================
+    LATEST TREKS
+    ============================================ */
+  .latest-treks { padding: 80px 0; background: var(--cream); }
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .trek-carousel-wrap { position: relative; }
+  .trek-carousel {
+    display: flex;
+    gap: 24px;
+    overflow: hidden;
+  }
+  .trek-card {
+    flex: 0 0 calc(33.333% - 16px);
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.4s ease;
+    position: relative;
+  }
+  .trek-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow);
+  }
+  .trek-card-img {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+  }
+  .trek-card-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .trek-card:hover .trek-card-img img { transform: scale(1.08); }
+  .trek-badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--gradient);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 50px;
+  }
+  .trek-wishlist {
+    position: absolute;
+    top: 12px; right: 12px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: var(--shadow-sm);
+  }
+  .trek-wishlist:hover, .trek-wishlist.active { background: var(--orange); }
+  .trek-wishlist.active { color: white; }
+  .trek-card-body { padding: 20px; }
+  .trek-location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--orange);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .trek-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .trek-desc {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .trek-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #F0F4F8;
+  }
+  .trek-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-light);
+  }
+  .trek-meta-item .icon { color: var(--orange); font-size: 14px; }
+  .trek-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .trek-price { display: flex; flex-direction: column; }
+  .trek-price-from { font-size: 11px; color: var(--text-light); }
+  .trek-price-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+  }
+  .trek-price-val span { font-size: 13px; color: var(--text-light); font-weight: 400; }
+  .btn-view {
+    background: var(--gradient);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(246,93,66,0.3);
+  }
+  .btn-view:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(246,93,66,0.4); }
+  .carousel-nav {
+    display: flex;
+    gap: 8px;
+    margin-top: 32px;
+    justify-content: center;
+  }
+  .carousel-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 2px solid #E8ECF0;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--text);
+  }
+  .carousel-btn:hover { background: var(--orange); border-color: var(--orange); color: white; }
 
-/* ===== TREKS GRID ===== */
-.treks-section{background:var(--dark2)}
-.treks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.trek-card{background:var(--dark3);border-radius:16px;overflow:hidden;border:1px solid var(--card-border);transition:transform .3s,border-color .3s,box-shadow .3s;cursor:pointer}
-.trek-card:hover{transform:translateY(-6px);border-color:rgba(232,96,44,0.35);box-shadow:0 20px 60px rgba(232,96,44,0.1)}
-.trek-thumb{height:190px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.trek-thumb svg{transition:transform .4s}
-.trek-card:hover .trek-thumb svg{transform:scale(1.05)}
-.diff-badge{position:absolute;top:12px;left:12px;padding:4px 11px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.5px}
-.easy{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.25)}
-.moderate{background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
-.hard{background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.25)}
-.days-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);color:var(--text);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600}
-.trek-body{padding:18px 20px 20px}
-.trek-meta-row{display:flex;gap:14px;margin-bottom:8px}
-.trek-meta-row span{font-size:11px;color:var(--muted)}
-.trek-name{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:0.5px;margin-bottom:6px;line-height:1.1}
-.trek-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.trek-footer{display:flex;justify-content:space-between;align-items:center}
-.trek-price{font-size:20px;font-weight:700;color:var(--amber)}
-.trek-price small{font-size:11px;color:var(--muted);font-weight:400}
-.book-trek-btn{background:rgba(232,96,44,0.12);color:var(--orange);border:1px solid rgba(232,96,44,0.25);padding:8px 16px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
-.book-trek-btn:hover{background:rgba(232,96,44,0.25);border-color:rgba(232,96,44,0.5)}
+  /* ============================================
+    POPULAR TREKS
+    ============================================ */
+  .popular-treks { padding: 80px 0; }
+  .filter-bar {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    margin-bottom: 40px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-chip {
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 2px solid #E8ECF0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .filter-chip:hover, .filter-chip.active {
+    border-color: var(--orange);
+    background: var(--orange);
+    color: white;
+  }
+  .popular-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
 
-/* ===== WHY US ===== */
-.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:48px}
-.why-item{background:var(--dark3);padding:32px 24px;transition:background .2s}
-.why-item:hover{background:rgba(232,96,44,0.05)}
-.why-icon{width:46px;height:46px;background:rgba(232,96,44,0.1);border:1px solid rgba(232,96,44,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:18px}
-.why-title{font-weight:600;font-size:15px;margin-bottom:8px}
-.why-desc{font-size:13px;color:var(--muted);line-height:1.7}
+  /* ============================================
+    STATS SECTION
+    ============================================ */
+  .stats-section {
+    padding: 80px 0;
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .stats-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path d="M0 25 L10 20 L20 28 L30 15 L40 22 L50 10 L60 18 L70 8 L80 16 L90 5 L100 12 L100 40 L0 40Z" fill="rgba(246,93,66,0.05)"/></svg>') no-repeat bottom center / cover;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+    position: relative;
+  }
+  .stat-card {
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .stat-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(246,93,66,0.3);
+    transform: translateY(-4px);
+  }
+  .stat-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .stat-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+  }
+  .stat-sub { font-size: 12px; color: rgba(255,255,255,0.4); }
 
-/* ===== GALLERY ===== */
-.gallery-section{background:var(--dark2)}
-.gallery-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
-.gf-btn{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted);padding:7px 18px;border-radius:20px;font-family:'Outfit',sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
-.gf-btn.active,.gf-btn:hover{background:rgba(232,96,44,0.15);border-color:rgba(232,96,44,0.4);color:var(--orange)}
-.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:12px}
-.gallery-item{border-radius:12px;overflow:hidden;position:relative;cursor:pointer}
-.gallery-item.tall{grid-row:span 2}
-.gallery-item.wide{grid-column:span 2}
-.gallery-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform .4s;font-size:60px;position:relative}
-.gallery-item:hover .gallery-img{transform:scale(1.06)}
-.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:14px}
-.gallery-item:hover .gallery-overlay{opacity:1}
-.gallery-caption{color:#fff;font-size:13px;font-weight:600}
-/* Gallery colour backgrounds */
-.gb1{background:linear-gradient(135deg,#0d2a4a,#1a4a7a)}
-.gb2{background:linear-gradient(135deg,#1a2a0a,#2d4a15)}
-.gb3{background:linear-gradient(135deg,#2d1f0e,#5a3a10)}
-.gb4{background:linear-gradient(135deg,#1a0d2e,#2d1a4a)}
-.gb5{background:linear-gradient(135deg,#0a2a1a,#0f3d26)}
-.gb6{background:linear-gradient(135deg,#1f1f18,#2e2e22)}
-.gb7{background:linear-gradient(135deg,#1a1218,#2e1f2a)}
-.gb8{background:linear-gradient(135deg,#0d1a2a,#152a3a)}
-/* Lightbox */
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:3000;align-items:center;justify-content:center;padding:20px}
-.lightbox.show{display:flex}
-.lightbox-inner{max-width:700px;width:100%;text-align:center}
-.lightbox-img{width:100%;aspect-ratio:16/9;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:120px;margin-bottom:16px}
-.lightbox-caption{color:var(--text);font-size:16px;font-weight:600;margin-bottom:6px}
-.lightbox-sub{color:var(--muted);font-size:13px}
-.lightbox-close{position:absolute;top:24px;right:24px;width:40px;height:40px;background:rgba(255,255,255,0.1);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:18px;transition:all .2s}
-.lightbox-close:hover{background:rgba(255,255,255,0.2);color:var(--text)}
-.lightbox-nav{display:flex;gap:12px;justify-content:center;margin-top:16px}
-.lb-nav-btn{background:rgba(255,255,255,0.08);border:1px solid var(--border);color:var(--text);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;transition:all .2s}
-.lb-nav-btn:hover{background:rgba(232,96,44,0.2);border-color:var(--orange)}
+  /* ============================================
+    TREK DETAILS MODAL / PAGE
+    ============================================ */
+  .trek-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(13,27,42,0.9);
+    backdrop-filter: blur(8px);
+    overflow-y: auto;
+  }
+  .trek-modal.open { display: block; }
+  .trek-modal-inner {
+    background: white;
+    min-height: 100vh;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .trek-modal-close {
+    position: fixed;
+    top: 20px; right: 20px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+  }
+  .trek-detail-hero {
+    height: 480px;
+    position: relative;
+    overflow: hidden;
+  }
+  .trek-detail-hero img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .trek-detail-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(13,27,42,0.9) 0%, transparent 60%);
+  }
+  .trek-detail-hero-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 40px;
+  }
+  .trek-detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 900;
+    color: white;
+    margin-bottom: 16px;
+  }
+  .trek-detail-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .trek-detail-pill {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .trek-detail-body { padding: 40px; }
+  .trek-detail-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .trek-info-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .trek-info-card {
+    background: var(--cream);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #F0EDE8;
+  }
+  .trek-info-card .ticon { font-size: 24px; margin-bottom: 8px; }
+  .trek-info-card .tval { font-weight: 700; color: var(--dark); font-size: 16px; }
+  .trek-info-card .tlabel { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+  .detail-section { margin-bottom: 36px; }
+  .detail-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .detail-section h3::before {
+    content: '';
+    width: 4px; height: 22px;
+    background: var(--gradient);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .itinerary-day {
+    border: 1px solid #E8ECF0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .itinerary-day-head {
+    background: var(--cream);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--dark);
+  }
+  .day-num {
+    background: var(--gradient);
+    color: white;
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .itinerary-day-body {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.7;
+    display: none;
+  }
+  .itinerary-day.open .itinerary-day-body { display: block; }
+  .inclusion-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .inclusion-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .inclusion-item .inc-icon { color: #22C55E; flex-shrink: 0; margin-top: 2px; }
+  .inclusion-item .exc-icon { color: var(--orange); flex-shrink: 0; margin-top: 2px; }
+  .faq-item {
+    border-bottom: 1px solid #F0F4F8;
+    padding: 16px 0;
+  }
+  .faq-q {
+    font-weight: 600;
+    color: var(--dark);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .faq-a {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-top: 12px;
+    display: none;
+  }
+  .faq-item.open .faq-a { display: block; }
+  .booking-sidebar {
+    background: white;
+    border-radius: var(--radius);
+    border: 2px solid #F0EDE8;
+    overflow: hidden;
+    position: sticky;
+    top: 20px;
+  }
+  .booking-sidebar-head {
+    background: var(--gradient);
+    padding: 24px;
+    color: white;
+  }
+  .booking-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 44px;
+    line-height: 1;
+  }
+  .booking-price-sub { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .booking-sidebar-body { padding: 24px; }
+  .booking-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+    padding: 8px 0;
+    border-bottom: 1px solid #F0F4F8;
+  }
+  .booking-feature .bf-icon { color: var(--orange); }
+  .highlights-list { display: flex; flex-direction: column; gap: 10px; }
+  .highlight-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+  }
+  .highlight-item::before {
+    content: '🏔';
+    flex-shrink: 0;
+  }
+  .things-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .thing-item {
+    background: var(--cream);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+  }
+  .gallery-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .gallery-thumb {
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+  .gallery-thumb:hover img { transform: scale(1.1); }
+  .related-treks { padding: 40px; background: var(--cream); }
+  .related-treks h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--dark);
+  }
+  .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .related-card {
+    background: white;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .related-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .related-card img { height: 160px; width: 100%; object-fit: cover; }
+  .related-card-body { padding: 16px; }
+  .related-card-body h4 { font-weight: 700; font-size: 15px; margin-bottom: 4px; color: var(--dark); }
+  .related-card-body p { font-size: 12px; color: var(--text-light); }
 
-/* ===== TESTIMONIALS ===== */
-.testi-section{background:var(--dark)}
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
-.testi-card{background:var(--dark3);border:1px solid var(--card-border);border-radius:14px;padding:24px;transition:border-color .2s}
-.testi-card:hover{border-color:rgba(232,96,44,0.25)}
-.testi-stars{color:var(--amber);font-size:14px;margin-bottom:14px}
-.testi-quote{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:18px;font-style:italic}
-.testi-author{display:flex;align-items:center;gap:12px}
-.testi-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;flex-shrink:0}
-.testi-name{font-weight:600;font-size:14px}
-.testi-trek{font-size:12px;color:var(--muted)}
+  /* ============================================
+    GOOGLE REVIEWS
+    ============================================ */
+  .reviews-section { padding: 80px 0; background: var(--cream); }
+  .reviews-carousel {
+    display: flex;
+    gap: 24px;
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .review-card {
+    flex: 0 0 calc(33.333% - 16px);
+    background: white;
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(246,93,66,0.1);
+    position: relative;
+  }
+  .review-card::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 80px;
+    color: rgba(246,93,66,0.1);
+    position: absolute;
+    top: 10px; right: 20px;
+    line-height: 1;
+  }
+  .review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .review-avatar {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--amber);
+  }
+  .review-avatar-fallback {
+    width: 50px; height: 50px;
+    border-radius: 50%;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    border: 2px solid var(--amber);
+    flex-shrink: 0;
+  }
+  .review-meta h4 { font-weight: 700; color: var(--dark); font-size: 15px; }
+  .review-meta p { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+  .review-stars { display: flex; gap: 2px; margin-bottom: 12px; }
+  .star { color: #FFC107; font-size: 16px; }
+  .review-text { font-size: 14px; color: var(--text-light); line-height: 1.7; }
+  .google-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #F0F4F8;
+    font-size: 12px;
+    color: var(--text-light);
+  }
+  .g-logo { font-weight: 800; font-size: 14px; }
+  .g-logo span:nth-child(1) { color: #4285F4; }
+  .g-logo span:nth-child(2) { color: #EA4335; }
+  .g-logo span:nth-child(3) { color: #FBBC04; }
+  .g-logo span:nth-child(4) { color: #4285F4; }
+  .g-logo span:nth-child(5) { color: #34A853; }
+  .g-logo span:nth-child(6) { color: #EA4335; }
 
-/* ===== FAQ ===== */
-.faq-section{background:var(--dark2)}
-.faq-wrap{max-width:780px;margin:0 auto}
-.faq-list{margin-top:48px;display:flex;flex-direction:column;gap:10px}
-.faq-item{background:var(--dark3);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s}
-.faq-item.open{border-color:rgba(232,96,44,0.3)}
-.faq-q{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;cursor:pointer;gap:16px;user-select:none}
-.faq-q-text{font-weight:600;font-size:15px;line-height:1.4}
-.faq-icon{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--muted);flex-shrink:0;transition:all .3s;font-weight:300}
-.faq-item.open .faq-icon{background:rgba(232,96,44,0.15);border-color:rgba(232,96,44,0.4);color:var(--orange);transform:rotate(45deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s}
-.faq-item.open .faq-a{max-height:300px}
-.faq-a-inner{padding:0 22px 18px;font-size:14px;color:var(--muted);line-height:1.75;border-top:1px solid var(--border)}
-.faq-a-inner p{padding-top:14px}
+  /* ============================================
+    STAY INFORMED
+    ============================================ */
+  .stay-informed { padding: 80px 0; }
+  .info-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .info-tab {
+    padding: 10px 24px;
+    border-radius: 50px;
+    border: 2px solid #E8ECF0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .info-tab:hover, .info-tab.active {
+    background: var(--gradient);
+    border-color: transparent;
+    color: white;
+  }
+  .blog-carousel { display: flex; gap: 24px; overflow: hidden; }
+  .blog-card {
+    flex: 0 0 calc(33.333% - 16px);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    background: white;
+    transition: all 0.4s ease;
+  }
+  .blog-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+  .blog-img {
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+  }
+  .blog-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .blog-card:hover .blog-img img { transform: scale(1.05); }
+  .blog-date {
+    position: absolute;
+    bottom: 12px; left: 12px;
+    background: var(--gradient);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 50px;
+  }
+  .blog-body { padding: 24px; }
+  .blog-cat {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 10px;
+  }
+  .blog-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .blog-excerpt { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 16px; }
+  .btn-read {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--orange);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: gap 0.3s;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  .btn-read:hover { gap: 8px; }
 
-/* ===== CONTACT ===== */
-.contact-wrap{max-width:700px;margin:0 auto;text-align:center}
-.contact-title{font-family:'Bebas Neue',cursive;font-size:clamp(42px,7vw,66px);letter-spacing:1px;line-height:1;margin-bottom:14px}
-.contact-title span{background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.contact-sub{color:var(--muted);font-size:15px;line-height:1.7;margin-bottom:44px}
-.enquiry-form{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left}
-.fg{display:flex;flex-direction:column;gap:7px}
-.fg.full{grid-column:1/-1}
-.fg label{font-size:13px;font-weight:500;color:var(--muted)}
-.fg input,.fg select,.fg textarea{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:12px 15px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s;width:100%}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(232,96,44,0.5);background:rgba(232,96,44,0.03)}
-.fg select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A7670' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-.fg select option{background:var(--dark3)}
-.fg textarea{resize:vertical;min-height:90px}
-.submit-btn{grid-column:1/-1;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;padding:15px;border-radius:9px;font-family:'Outfit',sans-serif;font-weight:600;font-size:16px;cursor:pointer;transition:transform .2s,opacity .2s;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px}
-.submit-btn:hover{opacity:0.88;transform:translateY(-1px)}
+  /* ============================================
+    BOOKING FORM SECTION
+    ============================================ */
+  .booking-section {
+    padding: 80px 0;
+    background: var(--dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .booking-section::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(246,93,66,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .booking-section::after {
+    content: '';
+    position: absolute;
+    bottom: -200px; left: -200px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,163,23,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .booking-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    position: relative;
+    z-index: 1;
+  }
+  .booking-left h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .booking-left p { color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 32px; }
+  .booking-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 16px;
+    font-size: 14px;
+  }
+  .booking-contact-item .bc-icon {
+    width: 40px; height: 40px;
+    background: rgba(246,93,66,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .booking-form {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius);
+    padding: 40px;
+    backdrop-filter: blur(10px);
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.5px;
+  }
+  .form-input, .form-select, .form-textarea {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: white;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s;
+    width: 100%;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.3); }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--orange);
+    background: rgba(255,255,255,0.08);
+  }
+  .form-select { cursor: pointer; }
+  .form-select option { background: var(--dark-mid); color: white; }
+  .form-textarea { resize: vertical; min-height: 100px; }
+  .form-submit {
+    background: var(--gradient);
+    color: white;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 6px 25px rgba(246,93,66,0.4);
+    margin-top: 8px;
+    border: none;
+  }
+  .form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 35px rgba(246,93,66,0.5);
+  }
 
-/* ===== FOOTER ===== */
-footer{background:var(--dark2);padding:60px 5% 28px;border-top:1px solid var(--border)}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
-.footer-brand-name{font-family:'Bebas Neue',cursive;font-size:26px;background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
-.footer-brand-desc{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:20px;max-width:270px}
-.social-row{display:flex;gap:8px}
-.soc-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .2s;text-decoration:none;color:var(--muted);font-weight:600}
-.soc-btn:hover{background:rgba(232,96,44,0.15);border-color:rgba(232,96,44,0.3);color:var(--orange)}
-.footer-col-title{font-weight:600;font-size:14px;margin-bottom:18px}
-.footer-links-list{display:flex;flex-direction:column;gap:9px}
-.footer-links-list a{font-size:13px;color:var(--muted);text-decoration:none;transition:color .2s}
-.footer-links-list a:hover{color:var(--orange)}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px}
-.footer-bottom p{font-size:12px;color:var(--muted)}
-.wa-float{position:fixed;bottom:86px;right:28px;background:#25d366;color:#fff;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;z-index:500;transition:transform .2s}
-.wa-float:hover{transform:scale(1.1)}
+  /* ============================================
+    SUCCESS MODAL
+    ============================================ */
+  .success-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(13,27,42,0.95);
+    align-items: center;
+    justify-content: center;
+  }
+  .success-modal.open { display: flex; }
+  .success-inner {
+    background: white;
+    border-radius: var(--radius);
+    padding: 48px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+  }
+  .success-icon { font-size: 64px; margin-bottom: 16px; }
+  .success-inner h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 12px;
+  }
+  .success-inner p { color: var(--text-light); margin-bottom: 32px; line-height: 1.7; }
+  .success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-/* ===== BOOKING MODAL ===== */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:20px}
-.modal-overlay.show{display:flex}
-.modal-box{background:var(--dark3);border:1px solid rgba(232,96,44,0.2);border-radius:20px;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;position:relative;animation:slideUp .3s ease}
-@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
-.modal-header{padding:28px 28px 20px;display:flex;justify-content:space-between;align-items:flex-start;position:sticky;top:0;background:var(--dark3);z-index:10;border-bottom:1px solid var(--border)}
-.modal-trek-name{font-family:'Bebas Neue',cursive;font-size:30px;letter-spacing:0.5px;line-height:1}
-.modal-trek-meta{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
-.modal-close{width:34px;height:34px;background:rgba(255,255,255,0.07);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--muted);flex-shrink:0;transition:all .2s}
-.modal-close:hover{background:rgba(255,255,255,0.12);color:var(--text)}
-.modal-body{padding:24px 28px 28px}
-.steps-bar{display:flex;align-items:center;margin-bottom:32px}
-.step-item{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
-.step-num{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--muted);transition:all .3s}
-.step-num.active{background:linear-gradient(135deg,var(--orange),var(--amber));border-color:transparent;color:#fff}
-.step-num.done{background:rgba(52,211,153,0.15);border-color:rgba(52,211,153,0.4);color:#34d399}
-.step-lbl{font-size:11px;color:var(--muted);font-weight:500}
-.step-line{flex:1;height:1px;background:var(--border);margin:0 4px;margin-bottom:16px}
-.step-line.done{background:rgba(52,211,153,0.35)}
-.step-content{display:none}
-.step-content.active{display:block}
-.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.mfg{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
-.mfg label{font-size:13px;font-weight:500;color:var(--muted)}
-.mfg input,.mfg select,.mfg textarea{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:9px;padding:11px 14px;color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s;width:100%}
-.mfg input:focus,.mfg select:focus,.mfg textarea:focus{border-color:rgba(232,96,44,0.5)}
-.mfg select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A7670' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
-.mfg select option{background:var(--dark3)}
-.mfg.no-mb{margin-bottom:0}
-.batch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
-.batch-card{border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;text-align:center}
-.batch-card:hover,.batch-card.sel{border-color:rgba(232,96,44,0.5);background:rgba(232,96,44,0.07)}
-.batch-date{font-size:13px;font-weight:600}
-.batch-slots{font-size:11px;color:var(--muted);margin-top:3px}
-.price-summary{background:rgba(232,96,44,0.05);border:1px solid rgba(232,96,44,0.15);border-radius:12px;padding:20px;margin-top:6px}
-.price-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:5px 0}
-.price-row.total{border-top:1px solid var(--border);padding-top:12px;margin-top:8px;color:var(--text);font-weight:600;font-size:15px}
-.price-row.total .val{color:var(--amber);font-size:17px}
-.modal-footer{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--border);margin-top:20px;flex-wrap:wrap;gap:12px}
-.btn-back{background:transparent;color:var(--muted);border:1px solid var(--border);padding:11px 22px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:14px;cursor:pointer;transition:all .2s}
-.btn-back:hover{border-color:rgba(255,255,255,0.25);color:var(--text)}
-.btn-next{background:linear-gradient(135deg,var(--orange),var(--amber));color:#fff;border:none;padding:12px 28px;border-radius:8px;font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,opacity .2s;display:flex;align-items:center;gap:8px}
-.btn-next:hover{opacity:0.88;transform:translateY(-1px)}
-.success-screen{text-align:center;padding:20px 0}
-.success-icon{width:72px;height:72px;background:rgba(52,211,153,0.12);border:2px solid rgba(52,211,153,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px}
-.success-title{font-family:'Bebas Neue',cursive;font-size:36px;letter-spacing:0.5px;margin-bottom:10px}
-.success-sub{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px}
-.booking-ref{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:10px;padding:14px;display:inline-block;margin-bottom:24px}
-.booking-ref small{font-size:11px;color:var(--muted);display:block;margin-bottom:4px}
-.booking-ref strong{font-size:18px;font-family:'Bebas Neue',cursive;letter-spacing:1px;color:var(--amber)}
+  /* ============================================
+    FOOTER
+    ============================================ */
+  .footer { background: #08101A; padding: 64px 0 32px; }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-brand p { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.7; margin-top: 16px; margin-bottom: 24px; }
+  .footer-social { display: flex; gap: 10px; }
+  .social-btn {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 16px;
+    transition: all 0.3s;
+    cursor: pointer;
+    border: none;
+  }
+  .social-btn:hover { background: var(--orange); color: white; }
+  .footer-col h4 {
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .footer-col h4::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 0;
+    width: 30px; height: 2px;
+    background: var(--gradient);
+    border-radius: 1px;
+  }
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a {
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--amber); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.3); }
+  .footer-bottom-links { display: flex; gap: 20px; }
+  .footer-bottom-links a { font-size: 13px; color: rgba(255,255,255,0.3); transition: color 0.3s; }
+  .footer-bottom-links a:hover { color: var(--amber); }
+  .whatsapp-fab {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    width: 56px; height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    cursor: pointer;
+    z-index: 999;
+    transition: all 0.3s;
+    border: none;
+    color: white;
+  }
+  .whatsapp-fab:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(37,211,102,0.5); }
 
-/* ===== EXPERIENCE SECTIONS (Food/Entertainment/Games/Camping) ===== */
-.exp-section{padding:80px 5%}
-.exp-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
-.exp-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
-.exp-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px}
-.food-card{background:var(--dark3);border:1px solid var(--card-border);border-radius:16px;overflow:hidden;transition:transform .3s,border-color .3s}
-.food-card:hover{transform:translateY(-4px);border-color:rgba(232,96,44,0.3)}
-.food-thumb{height:150px;display:flex;align-items:center;justify-content:center;font-size:64px}
-.food-body{padding:16px 18px 20px}
-.food-name{font-weight:700;font-size:16px;margin-bottom:6px}
-.food-desc{font-size:13px;color:var(--muted);line-height:1.65}
-.food-tag{display:inline-block;margin-top:10px;background:rgba(232,96,44,0.12);color:var(--orange);border:1px solid rgba(232,96,44,0.25);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.ent-card{background:var(--dark3);border:1px solid var(--card-border);border-radius:16px;padding:24px;display:flex;flex-direction:column;transition:transform .3s,border-color .3s,box-shadow .3s}
-.ent-card:hover{transform:translateY(-4px);border-color:rgba(232,96,44,0.3);box-shadow:0 16px 48px rgba(232,96,44,0.08)}
-.ent-icon-wrap{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px}
-.ent-title{font-weight:700;font-size:16px;margin-bottom:8px}
-.ent-desc{font-size:13px;color:var(--muted);line-height:1.7;flex:1}
-.ent-badge{margin-top:14px;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px}
-.camping-banner{background:linear-gradient(135deg,#07090f,#0d1520);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-top:48px;position:relative;overflow:hidden}
-.camping-banner::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(232,96,44,0.08),transparent 65%);pointer-events:none}
-.camp-title{font-family:'Bebas Neue',cursive;font-size:clamp(36px,5vw,54px);letter-spacing:1px;line-height:1;margin-bottom:16px}
-.camp-title span{background:linear-gradient(90deg,var(--orange),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.camp-desc{font-size:15px;color:var(--muted);line-height:1.75;margin-bottom:24px}
-.camp-features{display:flex;flex-direction:column;gap:12px}
-.camp-feat{display:flex;align-items:center;gap:12px;font-size:14px}
-.camp-feat-icon{width:34px;height:34px;border-radius:8px;background:rgba(232,96,44,0.12);border:1px solid rgba(232,96,44,0.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.camp-visual{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.camp-vis-item{border-radius:12px;height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:36px;border:1px solid rgba(255,255,255,0.06)}
-.camp-vis-label{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0.5px}
+  /* ============================================
+    ANIMATIONS
+    ============================================ */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-/* ===== SCROLL TOP ===== */
-#scrollTop{position:fixed;bottom:28px;right:28px;width:44px;height:44px;background:linear-gradient(135deg,var(--orange),var(--amber));border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;box-shadow:0 4px 20px rgba(232,96,44,0.35);transition:transform .2s,opacity .2s;z-index:500;opacity:0}
-#scrollTop.visible{opacity:1}
-#scrollTop:hover{transform:translateY(-3px)}
+  /* ============================================
+    RESPONSIVE
+    ============================================ */
+  @media (max-width: 1024px) {
+    .popular-grid { grid-template-columns: repeat(3, 1fr); }
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .booking-inner { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .trek-detail-grid { grid-template-columns: 1fr; }
+    .booking-sidebar { position: static; }
+  }
+  @media (max-width: 768px) {
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .hero-stats { display: none; }
+    .popular-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .trek-card { flex: 0 0 calc(100% - 0px); }
+    .review-card { flex: 0 0 calc(100% - 0px); }
+    .blog-card { flex: 0 0 calc(100% - 0px); }
+    .form-grid { grid-template-columns: 1fr; }
+    .inclusion-list { grid-template-columns: 1fr; }
+    .things-grid { grid-template-columns: repeat(2, 1fr); }
+    .related-grid { grid-template-columns: 1fr 1fr; }
+    .trek-info-cards { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .popular-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .related-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; align-items: flex-start; }
+  }
+  </style>
+  </head>
+  <body>
 
-/* ===== RESPONSIVE ===== */
-@media(max-width:1024px){
-  .treks-grid{grid-template-columns:repeat(2,1fr)}
-  .why-grid{grid-template-columns:repeat(2,1fr)}
-  .testi-grid{grid-template-columns:repeat(2,1fr)}
-  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
-  .gallery-grid{grid-template-columns:repeat(3,1fr)}
-  .exp-grid-4{grid-template-columns:repeat(2,1fr)}
-  .exp-grid-3{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:768px){
-  nav{padding:0 4%;height:60px}
-  .nav-menu{display:none}
-  .nav-search{display:none}
-  .hamburger{display:flex}
-  section{padding:60px 4%}
-  .hero{padding:70px 4% 50px}
-  .treks-grid{grid-template-columns:1fr}
-  .why-grid{grid-template-columns:1fr 1fr}
-  .testi-grid{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr 1fr}
-  .form-grid-2{grid-template-columns:1fr}
-  .enquiry-form{grid-template-columns:1fr}
-  .enquiry-form .fg.full{grid-column:1}
-  .modal-box{margin:10px;border-radius:16px}
-  .modal-header{padding:18px 18px 14px}
-  .modal-body{padding:16px 18px 20px}
-  .batch-grid{grid-template-columns:repeat(2,1fr)}
-  .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
-  .gallery-item.wide{grid-column:span 1}
-  .gallery-item.tall{grid-row:span 1}
-  .mobile-menu{padding-top:70px}
-  .exp-grid-2{grid-template-columns:1fr}
-  .exp-grid-3{grid-template-columns:1fr}
-  .camping-banner{grid-template-columns:1fr;padding:28px 20px}
-  .camp-visual{display:none}
-  #campTypesGrid{grid-template-columns:1fr!important}
-}
-@media(max-width:480px){
-  h1.hero-title{font-size:52px}
-  .hero-btns{flex-direction:column}
-  .btn-primary,.btn-outline{width:100%;text-align:center}
-  .hero-stats{gap:20px}
-  .why-grid{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:1fr}
-  .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:130px}
-  .modal-footer{flex-direction:column-reverse}
-  .btn-back,.btn-next{width:100%;justify-content:center}
-  .announce-bar span{font-size:11px}
-  .exp-grid-4{grid-template-columns:1fr 1fr}
-}
-</style>
-</head>
-<body>
-
-<!-- ===== ANNOUNCEMENT BAR ===== -->
-<div class="announce-bar" id="annBar">
-  <span class="ann-icon">🏔</span>
-  <span>
-    <span class="ann-badge">NEW</span>&nbsp;&nbsp;
-    Summer Treks!! BOOKINGS OPEN — Limited Slots Available for May–October 2025
-  </span>
-  <span class="ann-icon">🏔</span>
-  <button class="ann-close" onclick="document.getElementById('annBar').style.display='none'" title="Close">✕</button>
-</div>
-
-<!-- ===== NAVBAR ===== -->
-<nav>
-  <a href="#home" class="logo">
-    <div class="logo-mark">⛰</div>
-    <div>
-      <div class="logo-name">Xplor The Himalayas</div>
-      <div class="logo-sub">Safe · Trusted · Professional</div>
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="navbar-inner">
+        <div class="nav-logo">
+          <img src="logo.svg" alt="Xplor The Himalayas">
+        </div>
+        <div class="nav-links">
+          <a href="#treks">Treks</a>
+          <a href="#popular">Popular</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#blog">Blog</a>
+          <a href="#booking">Contact</a>
+        </div>
+        <div class="nav-cta">
+          <div class="nav-phone">📞 +91 98765 43210</div>
+          <button class="btn-primary" onclick="scrollToBooking()">Book Now ✦</button>
+        </div>
+        <button class="hamburger" onclick="toggleMenu()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
-  </a>
+  </nav>
 
-  <div class="nav-search">
-    <input type="text" id="navSearch" placeholder="Search treks, regions..." autocomplete="off" oninput="handleSearch(this.value)" onfocus="handleSearch(this.value)" onblur="setTimeout(()=>closeSearch(),200)">
-    <span class="nav-search-icon">🔍</span>
-    <div class="search-dropdown" id="searchDrop"></div>
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="toggleMenu()">✕</button>
+    <a href="#treks" onclick="toggleMenu()">Treks</a>
+    <a href="#popular" onclick="toggleMenu()">Popular</a>
+    <a href="#reviews" onclick="toggleMenu()">Reviews</a>
+    <a href="#blog" onclick="toggleMenu()">Blog</a>
+    <a href="#booking" onclick="toggleMenu()">Book Now</a>
   </div>
 
-  <ul class="nav-menu">
-    <li><a href="#treks">Treks</a></li>
-    <li><a href="#food">Food</a></li>
-    <li><a href="#entertainment">Activities</a></li>
-    <li><a href="#camping">Camping</a></li>
-    <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="#contact" class="nav-book">Book Now</a></li>
-  </ul>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
-
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <div class="mob-close" onclick="closeMenu()">✕</div>
-  <div class="mobile-search">
-    <span>🔍</span>
-    <input type="text" placeholder="Search treks..." oninput="mobileSearch(this.value)" id="mobileSearchInput">
-  </div>
-  <div id="mobileSearchResults"></div>
-  <a href="#treks" onclick="closeMenu()">🗺 Treks</a>
-  <a href="#food" onclick="closeMenu()">🍽️ Food</a>
-  <a href="#entertainment" onclick="closeMenu()">🎭 Entertainment</a>
-  <a href="#games" onclick="closeMenu()">🎮 Games</a>
-  <a href="#camping" onclick="closeMenu()">🌌 Night Camping</a>
-  <a href="#gallery" onclick="closeMenu()">📸 Gallery</a>
-  <a href="#why" onclick="closeMenu()">🛡 Why Us</a>
-  <a href="#faq" onclick="closeMenu()">❓ FAQ</a>
-  <a href="#contact" onclick="closeMenu()">📬 Contact</a>
-  <a href="#contact" class="mobile-book" onclick="closeMenu()">🏔 Book a Trek →</a>
-</div>
-
-<!-- ===== HERO ===== -->
-<section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <svg class="mountain-deco" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="450,50 100,540 800,540" fill="rgba(232,96,44,0.18)" stroke="rgba(232,96,44,0.4)" stroke-width="1.5"/>
-    <polygon points="680,130 420,540 940,540" fill="rgba(244,164,53,0.1)" stroke="rgba(244,164,53,0.25)" stroke-width="1"/>
-    <polygon points="200,180 -20,540 420,540" fill="rgba(232,96,44,0.08)" stroke="rgba(232,96,44,0.15)" stroke-width="0.8"/>
-    <ellipse cx="450" cy="52" rx="20" ry="8" fill="rgba(255,255,255,0.65)"/>
-    <ellipse cx="680" cy="132" rx="15" ry="6" fill="rgba(255,255,255,0.5)"/>
-  </svg>
-  <div class="hero-content">
-    <div class="hero-badge"><span class="pulse"></span>☀️ Summer Treks 2025 — Bookings Open!</div>
-    <h1 class="hero-title">CONQUER<br>THE <span>HIMALAYAS</span></h1>
-    <p class="hero-desc">Expert-led trekking expeditions through India's most iconic peaks. Kedarnath to Kashmir Great Lakes — every trail meticulously planned for your safety & adventure.</p>
-    <div class="hero-btns">
-      <a href="#treks" class="btn-primary">Explore All Treks</a>
-      <a href="#contact" class="btn-outline">Plan Custom Trek</a>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-slider" id="heroSlider">
+      <div class="hero-slide active">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80" alt="Himalayan Trek">
+        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80" alt="Mountain Adventure">
+        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1920&q=80" alt="Himalayan Valley">
+        <div class="hero-overlay"></div>
+      </div>
+      <div class="hero-slide">
+        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80" alt="Mountain Adventure">
+        <div class="hero-overlay"></div>
+      </div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">🏔 Himalayan Adventures Since 2008</div>
+      <h1 class="hero-heading">
+        <span>Discover the</span>
+        <span class="accent">Soul of the</span>
+        <span>Himalayas</span>
+      </h1>
+      <p class="hero-desc">Step beyond the ordinary. Every trail tells a story, every summit holds a secret. Join thousands of trekkers who found their adventure with Xplor.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="scrollToBooking()">🎒 Book Your Trek</button>
+        <button class="btn-hero-outline" onclick="document.getElementById('treks').scrollIntoView({behavior:'smooth'})">▶ Explore Treks</button>
+      </div>
     </div>
     <div class="hero-stats">
-      <div><div class="stat-val">2800+</div><div class="stat-lbl">Happy Trekkers</div></div>
-      <div><div class="stat-val">40+</div><div class="stat-lbl">Trek Routes</div></div>
-      <div><div class="stat-val">9 Yrs</div><div class="stat-lbl">Experience</div></div>
-      <div><div class="stat-val">100%</div><div class="stat-lbl">Safe Returns</div></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">5L+</div>
+        <div class="hero-stat-label">Trekkers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">100+</div>
+        <div class="hero-stat-label">Treks</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">16+</div>
+        <div class="hero-stat-label">Years</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">4.9★</div>
+        <div class="hero-stat-label">Rating</div>
+      </div>
     </div>
-  </div>
-</section>
+    <div class="hero-dots" id="heroDots"></div>
+    <button class="hero-arrow prev" onclick="slideHero(-1)">&#8592;</button>
+    <button class="hero-arrow next" onclick="slideHero(1)">&#8594;</button>
+  </section>
 
-<!-- ===== TREKS ===== -->
-<section class="treks-section" id="treks">
-  <div class="section-flex">
-    <div>
-      <div class="section-tag">🗺 Popular Expeditions</div>
-      <div class="section-title">FEATURED TREKS</div>
+  <!-- CATEGORIES -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="categories-scroll">
+        <div class="cat-pill active"><span class="cat-icon">🗺</span> All Treks</div>
+        <div class="cat-pill"><span class="cat-icon">⛺</span> Summer Camp</div>
+        <div class="cat-pill"><span class="cat-icon">💡</span> Suggest Me</div>
+        <div class="cat-pill"><span class="cat-icon">👨‍👩‍👧</span> Family Treks</div>
+        <div class="cat-pill"><span class="cat-icon">🌟</span> Premium Trip</div>
+        <div class="cat-pill"><span class="cat-icon">📚</span> Learning Program</div>
+        <div class="cat-pill"><span class="cat-icon">🌿</span> Heal Himala</div>
+        <div class="cat-pill"><span class="cat-icon">🏔</span> High Altitude</div>
+        <div class="cat-pill"><span class="cat-icon">🧘</span> Yoga Retreat</div>
+        <div class="cat-pill"><span class="cat-icon">📷</span> Photography</div>
+      </div>
     </div>
-    <a href="#contact" class="view-all">View All Treks <span>→</span></a>
-  </div>
-  <div class="treks-grid" id="treksGrid"></div>
-</section>
+  </section>
 
-<!-- ===== WHY US ===== -->
-<section id="why">
-  <div class="section-tag" style="text-align:center">✦ Why Choose Us</div>
-  <div class="section-title" style="text-align:center;margin-top:8px">WHY XPLOR THE HIMALAYAS</div>
-  <div class="why-grid">
-    <div class="why-item"><div class="why-icon">🛡️</div><div class="why-title">Certified Safety First</div><div class="why-desc">All guides hold Wilderness First Responder certification. Emergency evacuation protocol active on every trek with sat-phone communication.</div></div>
-    <div class="why-item"><div class="why-icon">🧭</div><div class="why-title">Expert Local Guides</div><div class="why-desc">Our seasoned mountaineers have collectively led 500+ expeditions. Deep local knowledge makes every route safer and richer.</div></div>
-    <div class="why-item"><div class="why-icon">🏕️</div><div class="why-title">Premium Camp Setup</div><div class="why-desc">High-quality tents, sleeping bags rated for -10°C, and nutritious hot meals prepared fresh by experienced camp cooks.</div></div>
-    <div class="why-item"><div class="why-icon">📱</div><div class="why-title">24/7 Dedicated Support</div><div class="why-desc">Support team reachable at all times — before booking, during your trek, and post-expedition for complete peace of mind.</div></div>
-    <div class="why-item"><div class="why-icon">🎒</div><div class="why-title">Gear Rental Available</div><div class="why-desc">Don't own trekking gear? No problem. We rent quality boots, poles, sleeping bags, and jackets at reasonable prices.</div></div>
-    <div class="why-item"><div class="why-icon">🌿</div><div class="why-title">Eco-Responsible Treks</div><div class="why-desc">Leave-no-trace policy strictly followed. We actively participate in Himalayan trail cleanup drives every season.</div></div>
-    <div class="why-item"><div class="why-icon">💰</div><div class="why-title">Transparent Pricing</div><div class="why-desc">All-inclusive pricing with zero hidden charges. Meals, camps, permits, and guide fees all included upfront.</div></div>
-    <div class="why-item"><div class="why-icon">🏆</div><div class="why-title">Award-Winning Service</div><div class="why-desc">Recognized as one of North India's top trekking operators with a consistent 4.9/5 rating across platforms.</div></div>
-  </div>
-</section>
-
-<!-- ===== GALLERY ===== -->
-<section class="gallery-section" id="gallery">
-  <div class="section-flex">
-    <div>
-      <div class="section-tag">📸 Moments From The Trails</div>
-      <div class="section-title">TREK GALLERY</div>
-    </div>
-  </div>
-  <div class="gallery-filters">
-    <button class="gf-btn active" onclick="filterGallery('all',this)">All Photos</button>
-    <button class="gf-btn" onclick="filterGallery('landscapes',this)">Landscapes</button>
-    <button class="gf-btn" onclick="filterGallery('campsites',this)">Campsites</button>
-    <button class="gf-btn" onclick="filterGallery('trekkers',this)">Trekkers</button>
-    <button class="gf-btn" onclick="filterGallery('summits',this)">Summits</button>
-  </div>
-  <div class="gallery-grid" id="galleryGrid"></div>
-</section>
-
-<!-- ===== TESTIMONIALS ===== -->
-<section class="testi-section" id="reviews">
-  <div class="section-flex">
-    <div><div class="section-tag">⭐ Trekker Stories</div><div class="section-title">WHAT THEY SAY</div></div>
-    <div style="color:var(--muted);font-size:13px">4.9 avg · 800+ reviews</div>
-  </div>
-  <div class="testi-grid">
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <div class="testi-quote">"Kashmir Great Lakes was genuinely life-changing. Every detail was perfectly organized — from Srinagar pickup to the final campfire night. Our guide Ramesh was exceptionally knowledgeable."</div>
-      <div class="testi-author"><div class="testi-avatar" style="background:#2563eb">AR</div><div><div class="testi-name">Arjun Rawat</div><div class="testi-trek">Kashmir Great Lakes · Aug 2024</div></div></div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <div class="testi-quote">"As a solo female first-timer I had many doubts, but the Xplor team made everything so safe and comfortable. Acclimatization was well-planned and the food was surprisingly excellent!"</div>
-      <div class="testi-author"><div class="testi-avatar" style="background:#059669">PS</div><div><div class="testi-name">Priya Sharma</div><div class="testi-trek">Kedarnath Trek · June 2024</div></div></div>
-    </div>
-    <div class="testi-card">
-      <div class="testi-stars">★★★★★</div>
-      <div class="testi-quote">"Roopkund at 5029m was no joke but Xplor's guides pushed us with just the right encouragement. The summit view was one of the best moments of my life. Already booked Markha Valley!"</div>
-      <div class="testi-author"><div class="testi-avatar" style="background:#d97706">VK</div><div><div class="testi-name">Vikram Kapoor</div><div class="testi-trek">Roopkund Trek · Oct 2024</div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FAQ ===== -->
-<section class="faq-section" id="faq">
-  <div class="faq-wrap">
-    <div style="text-align:center">
-      <div class="section-tag">❓ Common Questions</div>
-      <div class="section-title" style="margin-top:8px">FREQUENTLY ASKED</div>
-      <p style="color:var(--muted);font-size:15px;margin-top:12px">Everything you need to know before you hit the trail</p>
-    </div>
-    <div class="faq-list" id="faqList"></div>
-  </div>
-</section>
-
-<!-- ===== CONTACT ===== -->
-<section id="contact">
-  <div class="contact-wrap">
-    <div class="section-tag" style="margin-bottom:12px">📬 Get In Touch</div>
-    <div class="contact-title">PLAN YOUR<br><span>EXPEDITION</span></div>
-    <p class="contact-sub">Tell us your dream trek and we'll get back to you on WhatsApp — whether you're a first-timer or a seasoned mountaineer.</p>
-    <form class="enquiry-form" onsubmit="submitEnquiry(event)">
-      <div class="fg"><label>Full Name</label><input type="text" placeholder="Rahul Sharma" required></div>
-      <div class="fg"><label>Phone / WhatsApp</label><input type="tel" placeholder="+91 98765 43210" required></div>
-      <div class="fg"><label>Email Address</label><input type="email" placeholder="rahul@gmail.com" required></div>
-      <div class="fg"><label>Interested Trek</label>
-        <select>
-          <option value="">Select a trek...</option>
-          <option>Kashmir Great Lakes</option><option>Hampta Pass</option>
-          <option>Kedarnath Trek</option><option>Roopkund Trek</option>
-          <option>Markha Valley Trek</option><option>Manali to Kasol</option>
-          <option>Sar Pass Trek</option><option>Customized Trek</option>
-        </select>
+  <!-- LATEST TREKS -->
+  <section class="latest-treks" id="treks">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div>
+          <span class="section-tag">✦ New Additions</span>
+          <h2 class="section-title">Latest Trekking<br>Packages</h2>
+          <div class="divider"></div>
+          <p class="section-subtitle">Fresh routes, new experiences. Discover our newest trekking adventures added this season.</p>
+        </div>
+        <a href="#" class="btn-outline">View All Treks →</a>
       </div>
-      <div class="fg"><label>Group Size</label>
-        <select>
-          <option>Solo (1 person)</option><option>Duo (2 people)</option>
-          <option>Small Group (3–5)</option><option>Group (6–10)</option><option>Large Group (10+)</option>
-        </select>
-      </div>
-      <div class="fg"><label>Preferred Month</label>
-        <select>
-          <option>May 2025</option><option>June 2025</option><option>July 2025</option>
-          <option>August 2025</option><option>September 2025</option><option>October 2025</option>
-        </select>
-      </div>
-      <div class="fg full"><label>Message (optional)</label>
-        <textarea placeholder="Fitness level, special requirements, or any questions..."></textarea>
-      </div>
-      <button type="submit" class="submit-btn">💬 Send via WhatsApp</button>
-    </form>
-  </div>
-</section>
-
-<!-- ===== FOOD SECTION ===== -->
-<section class="exp-section" id="food" style="background:var(--dark)">
-  <div class="section-flex">
-    <div>
-      <div class="section-tag">🍽️ Trek Cuisine</div>
-      <div class="section-title">FOOD ON THE TRAIL</div>
-      <p style="color:var(--muted);font-size:14px;margin-top:10px;max-width:500px">Freshly cooked, nutritious, and surprisingly delicious — our camp kitchen keeps you fuelled for the mountains.</p>
-    </div>
-    <div style="background:rgba(232,96,44,0.08);border:1px solid rgba(232,96,44,0.2);border-radius:12px;padding:14px 20px;text-align:center">
-      <div style="font-size:22px;font-weight:700;color:var(--amber)">3 Meals</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:2px">Included Daily</div>
-    </div>
-  </div>
-  <div class="exp-grid-4">
-    <div class="food-card">
-      <div class="food-thumb" style="background:linear-gradient(135deg,#1a0a00,#3a1800)">🥣</div>
-      <div class="food-body">
-        <div class="food-name">Power Breakfast</div>
-        <div class="food-desc">Hot parathas, oats porridge, boiled eggs, poha, fresh fruit, tea & coffee to kickstart your trek day.</div>
-        <span class="food-tag">☀️ Morning</span>
-      </div>
-    </div>
-    <div class="food-card">
-      <div class="food-thumb" style="background:linear-gradient(135deg,#001a0a,#003818)">🍱</div>
-      <div class="food-body">
-        <div class="food-name">Trail Lunch</div>
-        <div class="food-desc">Packed trail lunch with rice/roti, dal, sabzi, pickle and energy bars — served at scenic viewpoints.</div>
-        <span class="food-tag">🌤 Midday</span>
-      </div>
-    </div>
-    <div class="food-card">
-      <div class="food-thumb" style="background:linear-gradient(135deg,#1a0a1a,#2e1030)">🫕</div>
-      <div class="food-body">
-        <div class="food-name">Camp Dinner</div>
-        <div class="food-desc">Warm dal-rice, khichdi, sabzi, chapati, kheer or halwa — comfort food under a sky full of stars.</div>
-        <span class="food-tag">🌙 Evening</span>
-      </div>
-    </div>
-    <div class="food-card">
-      <div class="food-thumb" style="background:linear-gradient(135deg,#0a1a1a,#102e2e)">☕</div>
-      <div class="food-body">
-        <div class="food-name">Chai & Snacks</div>
-        <div class="food-desc">Unlimited masala chai, hot soup, biscuits and namkeen during rest stops — your best reward after a tough climb.</div>
-        <span class="food-tag">🍵 Anytime</span>
-      </div>
-    </div>
-  </div>
-  <!-- Special diet note -->
-  <div style="margin-top:20px;background:rgba(244,164,53,0.06);border:1px solid rgba(244,164,53,0.2);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-    <span style="font-size:22px">🌱</span>
-    <div><div style="font-weight:600;font-size:14px;color:var(--amber)">Dietary Requirements</div><div style="font-size:13px;color:var(--muted);margin-top:3px">We accommodate vegetarian, vegan, gluten-free, and Jain diets. Mention your requirements at the time of booking.</div></div>
-  </div>
-</section>
-
-<!-- ===== ENTERTAINMENT SECTION ===== -->
-<section class="exp-section" id="entertainment" style="background:var(--dark2)">
-  <div style="text-align:center;margin-bottom:48px">
-    <div class="section-tag">🎭 Beyond The Trail</div>
-    <div class="section-title">ENTERTAINMENT & ACTIVITIES</div>
-    <p style="color:var(--muted);font-size:15px;margin-top:12px;max-width:560px;margin-left:auto;margin-right:auto">Trek days are just part of the adventure. Evenings are filled with unforgettable moments that bring your group together.</p>
-  </div>
-  <div class="exp-grid-3">
-    <div class="ent-card">
-      <div class="ent-icon-wrap" style="background:rgba(232,96,44,0.12);border:1px solid rgba(232,96,44,0.2)">🎵</div>
-      <div class="ent-title">Bonfire Music Sessions</div>
-      <div class="ent-desc">Every evening around the campfire, our guides bring out guitars and dholaks. Sing Bollywood classics, folk songs, and share stories under the stars. Pure magic.</div>
-      <span class="ent-badge" style="background:rgba(232,96,44,0.1);color:var(--orange);border:1px solid rgba(232,96,44,0.2)">🔥 Every Night</span>
-    </div>
-    <div class="ent-card">
-      <div class="ent-icon-wrap" style="background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2)">🔭</div>
-      <div class="ent-title">Stargazing Nights</div>
-      <div class="ent-desc">At high altitude with zero light pollution, the Milky Way is visible to the naked eye. Our guide narrates constellations and stories of Himalayan astrology.</div>
-      <span class="ent-badge" style="background:rgba(52,211,153,0.08);color:#34d399;border:1px solid rgba(52,211,153,0.2)">🌌 Clear Nights</span>
-    </div>
-    <div class="ent-card">
-      <div class="ent-icon-wrap" style="background:rgba(244,164,53,0.12);border:1px solid rgba(244,164,53,0.2)">📸</div>
-      <div class="ent-title">Photography Walks</div>
-      <div class="ent-desc">Led by our photography-enthusiast guides — learn golden hour shooting, landscape framing, and long-exposure star trails on your own phone or camera.</div>
-      <span class="ent-badge" style="background:rgba(244,164,53,0.1);color:var(--amber);border:1px solid rgba(244,164,53,0.2)">📷 Daily</span>
-    </div>
-    <div class="ent-card">
-      <div class="ent-icon-wrap" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.2)">🎤</div>
-      <div class="ent-title">Storytelling Circle</div>
-      <div class="ent-desc">Local guides share folklore, ghost stories of the Himalayas, mythology of peaks, and tales of brave climbers. A tradition on every Xplor trek.</div>
-      <span class="ent-badge" style="background:rgba(139,92,246,0.1);color:#a78bfa;border:1px solid rgba(139,92,246,0.2)">🌙 Evenings</span>
-    </div>
-    <div class="ent-card">
-      <div class="ent-icon-wrap" style="background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.2)">🧘</div>
-      <div class="ent-title">Morning Yoga & Meditation</div>
-      <div class="ent-desc">Start your trek days with a 30-minute sunrise yoga and breathwork session. Energizes your body, calms your mind, and prepares you for the climb ahead.</div>
-      <span class="ent-badge" style="background:rgba(236,72,153,0.08);color:#f472b6;border:1px solid rgba(236,72,153,0.2)">🌅 Mornings</span>
-    </div>
-    <div class="ent-card">
-      <div class="ent-icon-wrap" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.2)">🎬</div>
-      <div class="ent-title">Trek Reel Making</div>
-      <div class="ent-desc">Our crew captures cinematic clips throughout your trek. Get a personalized highlight reel of your journey shared on WhatsApp within 48 hours of your return.</div>
-      <span class="ent-badge" style="background:rgba(59,130,246,0.1);color:#60a5fa;border:1px solid rgba(59,130,246,0.2)">🎥 Included</span>
-    </div>
-  </div>
-</section>
-
-<!-- ===== GAMES SECTION ===== -->
-<section class="exp-section" id="games" style="background:var(--dark)">
-  <div style="text-align:center;margin-bottom:48px">
-    <div class="section-tag">🎮 Camp Fun</div>
-    <div class="section-title">GAMES & TEAM ACTIVITIES</div>
-    <p style="color:var(--muted);font-size:15px;margin-top:12px;max-width:540px;margin-left:auto;margin-right:auto">Rest evenings are never boring at Xplor campsites. These activities turn strangers into trekking family.</p>
-  </div>
-  <div class="exp-grid-4">
-    <div class="ent-card" style="align-items:center;text-align:center">
-      <div class="ent-icon-wrap" style="background:rgba(232,96,44,0.12);border:1px solid rgba(232,96,44,0.2)">🃏</div>
-      <div class="ent-title">Card Tournament</div>
-      <div class="ent-desc">Classic card games — Teen Patti, Bluff, Rummy — played by the bonfire. Serious competition, serious laughter.</div>
-      <span class="ent-badge" style="background:rgba(232,96,44,0.1);color:var(--orange);border:1px solid rgba(232,96,44,0.2)">2–10 Players</span>
-    </div>
-    <div class="ent-card" style="align-items:center;text-align:center">
-      <div class="ent-icon-wrap" style="background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.2)">🧩</div>
-      <div class="ent-title">Trivia Night</div>
-      <div class="ent-desc">Quiz battles on geography, Bollywood, sports, and Himalayan facts. Win bragging rights — and sometimes actual prizes!</div>
-      <span class="ent-badge" style="background:rgba(52,211,153,0.08);color:#34d399;border:1px solid rgba(52,211,153,0.2)">Team Play</span>
-    </div>
-    <div class="ent-card" style="align-items:center;text-align:center">
-      <div class="ent-icon-wrap" style="background:rgba(244,164,53,0.12);border:1px solid rgba(244,164,53,0.2)">🏃</div>
-      <div class="ent-title">Mini Olympics</div>
-      <div class="ent-desc">Rock balancing, speed tent-pitching, trail relay races and trekking-pole javelin — friendly competition at camp.</div>
-      <span class="ent-badge" style="background:rgba(244,164,53,0.1);color:var(--amber);border:1px solid rgba(244,164,53,0.2)">All Ages</span>
-    </div>
-    <div class="ent-card" style="align-items:center;text-align:center">
-      <div class="ent-icon-wrap" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.2)">🎯</div>
-      <div class="ent-title">Dumb Charades</div>
-      <div class="ent-desc">Bollywood dumb charades by firelight — laughter guaranteed. Team vs team with creative acting under starry skies.</div>
-      <span class="ent-badge" style="background:rgba(139,92,246,0.1);color:#a78bfa;border:1px solid rgba(139,92,246,0.2)">Group Fun</span>
-    </div>
-    <div class="ent-card" style="align-items:center;text-align:center">
-      <div class="ent-icon-wrap" style="background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.2)">🎲</div>
-      <div class="ent-title">UNO & Board Games</div>
-      <div class="ent-desc">UNO, Ludo, Snakes & Ladders in the mess tent on rest days. Old school fun with new school friendships.</div>
-      <span class="ent-badge" style="background:rgba(236,72,153,0.08);color:#f472b6;border:1px solid rgba(236,72,153,0.2)">Rainy Days</span>
-    </div>
-    <div class="ent-card" style="align-items:center;text-align:center">
-      <div class="ent-icon-wrap" style="background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.2)">🌿</div>
-      <div class="ent-title">Nature Scavenger Hunt</div>
-      <div class="ent-desc">Find specific leaves, rocks, and bird calls on guided nature hunts. Educational, fun, and surprisingly competitive.</div>
-      <span class="ent-badge" style="background:rgba(59,130,246,0.1);color:#60a5fa;border:1px solid rgba(59,130,246,0.2)">Afternoon</span>
-    </div>
-    <div class="ent-card" style="align-items:center;text-align:center">
-      <div class="ent-icon-wrap" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2)">🤝</div>
-      <div class="ent-title">Trust Building</div>
-      <div class="ent-desc">Group activities like blindfolded lead walks and roped team climbs — building bonds that last well beyond the trek.</div>
-      <span class="ent-badge" style="background:rgba(16,185,129,0.08);color:#34d399;border:1px solid rgba(16,185,129,0.2)">Day 1</span>
-    </div>
-    <div class="ent-card" style="align-items:center;text-align:center">
-      <div class="ent-icon-wrap" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.2)">🏆</div>
-      <div class="ent-title">Trek Awards Night</div>
-      <div class="ent-desc">Last camp night celebration with funny awards — "Fastest Climber", "Most Chai Consumed", "Best Campfire Singer" and more.</div>
-      <span class="ent-badge" style="background:rgba(245,158,11,0.1);color:#fbbf24;border:1px solid rgba(245,158,11,0.2)">Last Night</span>
-    </div>
-  </div>
-</section>
-
-<!-- ===== NIGHT CAMPING SECTION ===== -->
-<section class="exp-section" id="camping" style="background:var(--dark2)">
-  <div class="section-tag">🌌 Sleep Under The Stars</div>
-  <div class="section-title" style="margin-top:8px">NIGHT CAMPING EXPERIENCE</div>
-
-  <div class="camping-banner">
-    <div>
-      <div class="camp-title">THE NIGHT SKY<br>IS YOUR <span>CEILING</span></div>
-      <p class="camp-desc">At altitudes above 3500m, far from city lights, you'll experience some of the most spectacular night skies on Earth. Our campsite setup is designed to maximize this experience while keeping you safe and comfortable.</p>
-      <div class="camp-features">
-        <div class="camp-feat"><div class="camp-feat-icon">⛺</div><span>4-season double-layer tents rated for -10°C winds</span></div>
-        <div class="camp-feat"><div class="camp-feat-icon">🛏</div><span>High-density foam sleeping mats + -10°C sleeping bags</span></div>
-        <div class="camp-feat"><div class="camp-feat-icon">🔥</div><span>Central campfire with moderated late-night access</span></div>
-        <div class="camp-feat"><div class="camp-feat-icon">🚻</div><span>Clean dry toilet tents at every established campsite</span></div>
-        <div class="camp-feat"><div class="camp-feat-icon">💡</div><span>Solar lanterns throughout camp — no darkness stress</span></div>
-        <div class="camp-feat"><div class="camp-feat-icon">👮</div><span>Night watch guide on duty from 10 PM to 5 AM</span></div>
-      </div>
-    </div>
-    <div class="camp-visual">
-      <div class="camp-vis-item" style="background:linear-gradient(135deg,#040812,#0a1428)">
-        🌌<div class="camp-vis-label">MILKY WAY VIEW</div>
-      </div>
-      <div class="camp-vis-item" style="background:linear-gradient(135deg,#140a00,#2a1400)">
-        🔥<div class="camp-vis-label">CAMPFIRE NIGHTS</div>
-      </div>
-      <div class="camp-vis-item" style="background:linear-gradient(135deg,#001408,#002810)">
-        ⛺<div class="camp-vis-label">PREMIUM TENTS</div>
-      </div>
-      <div class="camp-vis-item" style="background:linear-gradient(135deg,#0a0a1e,#101030)">
-        🌙<div class="camp-vis-label">STAR TRAILS</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Camp types -->
-  <div style="margin-top:24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px" id="campTypesGrid">
-    <div style="background:var(--dark3);border:1px solid var(--card-border);border-radius:14px;padding:22px">
-      <div style="font-size:28px;margin-bottom:12px">🏕️</div>
-      <div style="font-weight:700;font-size:15px;margin-bottom:8px">Forest Camp</div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.7">Tucked under pine and deodar canopy. Wind-sheltered, fragrant, and magical. Typical altitude: 2000–2800m</div>
-      <div style="margin-top:12px;font-size:12px;color:var(--orange);font-weight:600">📍 Manali to Kasol · Kedarnath</div>
-    </div>
-    <div style="background:var(--dark3);border:1px solid var(--card-border);border-radius:14px;padding:22px">
-      <div style="font-size:28px;margin-bottom:12px">🏔️</div>
-      <div style="font-weight:700;font-size:15px;margin-bottom:8px">Alpine Meadow Camp</div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.7">Wide open meadows, 360° mountain views. Waking up to sunrise on snow peaks is truly unforgettable. Altitude: 3200–4200m</div>
-      <div style="margin-top:12px;font-size:12px;color:var(--orange);font-weight:600">📍 Kashmir Great Lakes · Hampta Pass</div>
-    </div>
-    <div style="background:var(--dark3);border:1px solid var(--card-border);border-radius:14px;padding:22px">
-      <div style="font-size:28px;margin-bottom:12px">❄️</div>
-      <div style="font-weight:700;font-size:15px;margin-bottom:8px">High Altitude Base Camp</div>
-      <div style="font-size:13px;color:var(--muted);line-height:1.7">The most dramatic — rocky, cold, otherworldly. Stargazing here is life-changing. Altitude: 4200–5000m+</div>
-      <div style="margin-top:12px;font-size:12px;color:var(--orange);font-weight:600">📍 Roopkund · Markha Valley</div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== FOOTER ===== -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-brand-name">⛰ Xplor The Himalayas</div>
-      <div class="footer-brand-desc">Safe, trusted & professional Himalayan trekking experiences since 2016. Your adventure, our responsibility.</div>
-      <div class="social-row">
-        <a class="soc-btn" href="#" title="Facebook">f</a>
-        <a class="soc-btn" href="#" title="Instagram">ig</a>
-        <a class="soc-btn" href="#" title="YouTube">yt</a>
-        <a class="soc-btn" href="https://wa.me/917018403386" target="_blank" title="WhatsApp" style="color:#25d366">wa</a>
-      </div>
-    </div>
-    <div>
-      <div class="footer-col-title">Treks</div>
-      <div class="footer-links-list">
-        <a href="#">Upcoming Treks</a><a href="#">Weekend Treks</a>
-        <a href="#">Customized Treks</a><a href="#">Corporate Treks</a><a href="#">School Programs</a>
-      </div>
-    </div>
-    <div>
-      <div class="footer-col-title">Regions</div>
-      <div class="footer-links-list">
-        <a href="#">Kashmir Treks</a><a href="#">Himachal Treks</a>
-        <a href="#">Uttarakhand Treks</a><a href="#">Ladakh Treks</a><a href="#">Spiti Valley</a>
-      </div>
-    </div>
-    <div>
-      <div class="footer-col-title">Company</div>
-      <div class="footer-links-list">
-        <a href="#">About Us</a><a href="#">Our Team</a>
-        <a href="#">Blog</a><a href="#">Careers</a><a href="#contact">Contact</a>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2025 Xplor The Himalayas. All rights reserved.</p>
-    <p>Made with ❤️ for the mountains</p>
-  </div>
-</footer>
-
-<!-- WhatsApp Float -->
-<a class="wa-float" href="https://wa.me/917018403386" target="_blank" title="Chat on WhatsApp">💬</a>
-
-<!-- Scroll Top -->
-<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-
-<!-- ===== BOOKING MODAL ===== -->
-<div class="modal-overlay" id="bookingModal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div>
-        <div class="modal-trek-name" id="modalTrekName">Kashmir Great Lakes</div>
-        <div class="modal-trek-meta">
-          <span id="mDays">📅 7 Days</span><span id="mRegion">📍 Kashmir</span>
-          <span id="mAlt">⬆ 4138m</span><span id="mDiff">🏔 Challenging</span>
+      <div class="trek-carousel-wrap">
+        <div class="trek-carousel" id="latestCarousel"></div>
+        <div class="carousel-nav">
+          <button class="carousel-btn" onclick="moveCarousel('latest', -1)">←</button>
+          <button class="carousel-btn" onclick="moveCarousel('latest', 1)">→</button>
         </div>
       </div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
-    <div class="modal-body">
-      <div class="steps-bar">
-        <div class="step-item"><div class="step-num active" id="sn1">1</div><div class="step-lbl">Dates</div></div>
-        <div class="step-line" id="sl1"></div>
-        <div class="step-item"><div class="step-num" id="sn2">2</div><div class="step-lbl">Details</div></div>
-        <div class="step-line" id="sl2"></div>
-        <div class="step-item"><div class="step-num" id="sn3">3</div><div class="step-lbl">Review</div></div>
-        <div class="step-line" id="sl3"></div>
-        <div class="step-item"><div class="step-num" id="sn4">4</div><div class="step-lbl">Confirm</div></div>
-      </div>
-      <div class="step-content active" id="step1">
-        <div class="mfg"><label>Select Batch Date</label><div class="batch-grid" id="batchGrid"></div></div>
-        <div class="mfg"><label>Number of Trekkers</label>
-          <select id="numTrekkers" onchange="updatePrice()">
-            <option value="1">1 Person</option><option value="2">2 People</option><option value="3">3 People</option>
-            <option value="4">4 People</option><option value="5">5 People</option><option value="6">6 People</option>
-            <option value="8">8 People</option><option value="10">10 People</option>
-          </select>
-        </div>
-        <div class="mfg"><label>Pickup Location</label>
-          <select id="pickupSel" onchange="updatePrice()">
-            <option value="0">Self Arrangement (No Pickup)</option>
-            <option value="500">Delhi — ₹500/person</option>
-            <option value="300">Chandigarh — ₹300/person</option>
-            <option value="200">Jammu — ₹200/person</option>
-            <option value="150">Srinagar — ₹150/person</option>
-          </select>
-        </div>
-        <div class="price-summary">
-          <div class="price-row"><span>Base Price</span><span id="pBase">₹0</span></div>
-          <div class="price-row"><span>Pickup</span><span id="pPickup">₹0</span></div>
-          <div class="price-row"><span>GST (5%)</span><span id="pGst">₹0</span></div>
-          <div class="price-row total"><span>Total Payable</span><span class="val" id="pTotal">₹0</span></div>
+  </section>
+
+  <!-- POPULAR TREKS -->
+  <section class="popular-treks" id="popular">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div>
+          <span class="section-tag">✦ Most Loved</span>
+          <h2 class="section-title">Most Popular<br>Himalayan Treks</h2>
+          <div class="divider"></div>
+          <p class="section-subtitle">Filter treks by season, region, difficulty, month and more.</p>
         </div>
       </div>
-      <div class="step-content" id="step2"><div id="trekkerForms"></div></div>
-      <div class="step-content" id="step3"><div id="reviewContent"></div></div>
-      <div class="step-content" id="step4">
-        <div class="success-screen">
-          <div class="success-icon">✓</div>
-          <div class="success-title">BOOKING CONFIRMED!</div>
-          <p class="success-sub">Your booking has been sent to our team via WhatsApp. We'll contact you within 24 hours to confirm payment and share trek details.</p>
-          <div class="booking-ref"><small>Booking Reference</small><strong id="bookingRef">XTH-000000</strong></div>
-          <br>
-          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-            <a href="https://wa.me/917018403386" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;text-decoration:none;padding:12px 24px;border-radius:9px;font-weight:600;font-size:14px;font-family:'Outfit',sans-serif">💬 Chat on WhatsApp</a>
-            <button class="btn-outline" onclick="closeModal()">Back to Home</button>
+      <div class="filter-bar animate-on-scroll">
+        <button class="filter-chip active" onclick="filterTreks(this, 'all')">Upcoming Treks</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'india')">India</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'nepal')">Nepal</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'spring')">Spring</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'summer')">Summer</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'autumn')">Autumn</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'monsoon')">Monsoon</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'winter')">Winter</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'easy')">Easy</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'moderate')">Moderate</button>
+        <button class="filter-chip" onclick="filterTreks(this, 'difficult')">Difficult</button>
+      </div>
+      <div class="popular-grid" id="popularGrid"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="section-header animate-on-scroll" style="justify-content:center; text-align:center; display:block; margin-bottom:56px;">
+        <span class="section-tag" style="display:block; text-align:center;">✦ Our Track Record</span>
+        <h2 class="section-title" style="color:white;">Why Choose Xplor<br>The Himalayas?</h2>
+        <p class="section-subtitle" style="margin:12px auto 0; text-align:center; color:rgba(255,255,255,0.5);">Trusted by over 5 Lakh trekkers and recognized by leading adventure bodies.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card animate-on-scroll">
+          <span class="stat-icon">👥</span>
+          <div class="stat-number">5L+</div>
+          <div class="stat-label">Happy Trekkers</div>
+          <div class="stat-sub">Across 60+ destinations</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <span class="stat-icon">🗺</span>
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Trek Routes</div>
+          <div class="stat-sub">Multiple regions</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <span class="stat-icon">🏆</span>
+          <div class="stat-number">20+</div>
+          <div class="stat-label">Awards Won</div>
+          <div class="stat-sub">Industry recognition</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <span class="stat-icon">⏰</span>
+          <div class="stat-number">16+</div>
+          <div class="stat-label">Years of Adventure</div>
+          <div class="stat-sub">Of safe adventures</div>
+        </div>
+        <div class="stat-card animate-on-scroll">
+          <span class="stat-icon">🌿</span>
+          <div class="stat-number">1238+</div>
+          <div class="stat-label">Heal Himala</div>
+          <div class="stat-sub">Cleanup drives conducted</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOOGLE REVIEWS -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div>
+          <span class="section-tag">✦ What Trekkers Say</span>
+          <h2 class="section-title">Real Stories from<br>Real Adventurers</h2>
+          <div class="divider"></div>
+          <p class="section-subtitle">Thousands of trekkers. One common feeling — the Himalayas changed them forever.</p>
+        </div>
+        <a href="#" class="btn-outline">View All Reviews →</a>
+      </div>
+      <div class="reviews-carousel" id="reviewsCarousel"></div>
+      <div class="carousel-nav" style="margin-top:32px;">
+        <button class="carousel-btn" onclick="moveCarousel('reviews', -1)">←</button>
+        <button class="carousel-btn" onclick="moveCarousel('reviews', 1)">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAY INFORMED -->
+  <section class="stay-informed" id="blog">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <div>
+          <span class="section-tag">✦ Stay Updated</span>
+          <h2 class="section-title">Stay Informed</h2>
+          <div class="divider"></div>
+          <p class="section-subtitle">Latest updates, trek stories, and videos from the Himalayas.</p>
+        </div>
+      </div>
+      <div class="info-tabs animate-on-scroll">
+        <button class="info-tab active" onclick="switchTab(this, 'updates')">📋 Latest Updates</button>
+        <button class="info-tab" onclick="switchTab(this, 'articles')">📰 Trekking Articles</button>
+        <button class="info-tab" onclick="switchTab(this, 'videos')">🎥 Informative Videos</button>
+      </div>
+      <div class="blog-carousel" id="blogCarousel"></div>
+      <div class="carousel-nav" style="margin-top:32px;">
+        <button class="carousel-btn" onclick="moveCarousel('blog', -1)">←</button>
+        <button class="carousel-btn" onclick="moveCarousel('blog', 1)">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING SECTION -->
+  <section class="booking-section" id="booking">
+    <div class="container">
+      <div class="booking-inner">
+        <div class="booking-left animate-on-scroll">
+          <h2>Plan Your Perfect<br><span style="background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Himalayan Trek</span></h2>
+          <p>Fill in the form and our trek experts will get back to you within 2 hours with a customized itinerary and pricing.</p>
+          <div class="booking-contact-item">
+            <div class="bc-icon">📞</div>
+            <div>
+              <div style="font-weight:600;color:white;">Call Us</div>
+              <div>+91 98765 43210</div>
+            </div>
+          </div>
+          <div class="booking-contact-item">
+            <div class="bc-icon">💬</div>
+            <div>
+              <div style="font-weight:600;color:white;">WhatsApp</div>
+              <div>+91 98765 43210</div>
+            </div>
+          </div>
+          <div class="booking-contact-item">
+            <div class="bc-icon">✉️</div>
+            <div>
+              <div style="font-weight:600;color:white;">Email</div>
+              <div>info@xplorhimalayas.com</div>
+            </div>
+          </div>
+          <div class="booking-contact-item">
+            <div class="bc-icon">🕐</div>
+            <div>
+              <div style="font-weight:600;color:white;">Office Hours</div>
+              <div>Mon–Sat: 9 AM to 7 PM IST</div>
+            </div>
+          </div>
+        </div>
+        <div class="animate-on-scroll">
+          <div class="booking-form">
+            <h3 style="color:white;font-family:'Playfair Display',serif;font-size:22px;margin-bottom:28px;">Trek Booking Form</h3>
+            <div class="form-grid" id="bookingForm">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input class="form-input" id="f_name" type="text" placeholder="Your full name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address *</label>
+                <input class="form-input" id="f_email" type="email" placeholder="your@email.com" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number *</label>
+                <input class="form-input" id="f_phone" type="tel" placeholder="+91 XXXXX XXXXX" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">WhatsApp Number</label>
+                <input class="form-input" id="f_whatsapp" type="tel" placeholder="+91 XXXXX XXXXX">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Trek Name *</label>
+                <select class="form-select" id="f_trek">
+                  <option value="">Select a trek...</option>
+                  <option>Valley of Flowers Trek</option>
+                  <option>Hampta Pass Trek</option>
+                  <option>Pin Bhaba Pass Trek</option>
+                  <option>Markha Valley Trek</option>
+                  <option>Kedarkantha Trek</option>
+                  <option>Chopta Chandrashila Trek</option>
+                  <option>Pangarchulla Peak Trek</option>
+                  <option>Har Ki Dun Trek</option>
+                  <option>Dayara Bugyal Trek</option>
+                  <option>Brahmatal Trek</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Preferred Trek Date *</label>
+                <input class="form-input" id="f_date" type="date" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Number of Travelers *</label>
+                <input class="form-input" id="f_travelers" type="number" min="1" max="50" placeholder="e.g. 4" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Age</label>
+                <input class="form-input" id="f_age" type="number" min="8" max="80" placeholder="Your age">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Gender</label>
+                <select class="form-select" id="f_gender">
+                  <option value="">Select...</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Non-binary</option>
+                  <option>Prefer not to say</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Emergency Contact Number</label>
+                <input class="form-input" id="f_emergency" type="tel" placeholder="+91 XXXXX XXXXX">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Pickup Location</label>
+                <input class="form-input" id="f_pickup" type="text" placeholder="e.g. Delhi, Rishikesh, Manali">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Special Requirements</label>
+                <textarea class="form-textarea" id="f_special" placeholder="Medical conditions, dietary requirements, etc." rows="3"></textarea>
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Additional Notes</label>
+                <textarea class="form-textarea" id="f_notes" placeholder="Any other information you'd like to share..." rows="3"></textarea>
+              </div>
+            </div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;">
+              <button class="form-submit" onclick="submitBooking()">
+                🎒 Submit Booking
+              </button>
+              <button class="form-submit" style="background:linear-gradient(90deg,#25D366,#20B358);" onclick="sendWhatsApp()">
+                💬 Send via WhatsApp
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      <div class="modal-footer" id="modalFooter">
-        <button class="btn-back" id="backBtn" onclick="prevStep()" style="visibility:hidden">← Back</button>
-        <button class="btn-next" id="nextBtn" onclick="nextStep()">Next <span>→</span></button>
-      </div>
     </div>
-  </div>
-</div>
+  </section>
 
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <div class="lightbox-inner">
-    <div class="lightbox-img" id="lbImg"></div>
-    <div class="lightbox-caption" id="lbCaption"></div>
-    <div class="lightbox-sub" id="lbSub"></div>
-    <div class="lightbox-nav">
-      <button class="lb-nav-btn" onclick="lbNav(-1)">‹</button>
-      <button class="lb-nav-btn" onclick="lbNav(1)">›</button>
-    </div>
-  </div>
-</div>
-
-<script>
-// ===== DATA =====
-const treks = [
-  {id:'kgl',name:'Kashmir Great Lakes',region:'Kashmir',days:7,alt:'4138m',price:12500,diff:'Challenging',diffClass:'hard',desc:'Trek through alpine meadows dotted with pristine glacial lakes surrounded by mighty Himalayan peaks.',bg:'linear-gradient(135deg,#0d2a4a,#1a4a7a)',color:'rgba(52,152,219,0.3)',batches:['Jun 10','Jun 24','Jul 8','Jul 22','Aug 5','Aug 19','Sep 2']},
-  {id:'hp',name:'Hampta Pass',region:'Spiti Valley',days:9,alt:'4551m',price:9800,diff:'Moderate',diffClass:'moderate',desc:'Cross the dramatic Hampta Pass — stunning contrast between lush Kullu Valley and barren moonscapes of Lahaul.',bg:'linear-gradient(135deg,#2d1f0e,#5a3a10)',color:'rgba(244,164,53,0.25)',batches:['Jun 5','Jun 19','Jul 3','Jul 17','Jul 31','Aug 14','Aug 28']},
-  {id:'kd',name:'Kedarnath Trek',region:'Uttarakhand',days:5,alt:'3583m',price:7500,diff:'Moderate',diffClass:'moderate',desc:'A spiritual journey through dense forests, river crossings, and breathtaking views to divine Kedarnath Temple.',bg:'linear-gradient(135deg,#1a0d2e,#2d1a4a)',color:'rgba(155,89,182,0.25)',batches:['May 20','Jun 3','Jun 17','Jul 1','Jul 15','Aug 5','Sep 9']},
-  {id:'rp',name:'Roopkund Trek',region:'Chamoli',days:8,alt:'5029m',price:13200,diff:'Challenging',diffClass:'hard',desc:'Trek to the mysterious skeleton lake high in the Himalayas — one of India\'s most thrilling high-altitude adventures.',bg:'linear-gradient(135deg,#1f1f18,#2e2e22)',color:'rgba(189,195,199,0.2)',batches:['May 15','Jun 1','Jun 15','Jul 6','Aug 3','Sep 7','Sep 21']},
-  {id:'mv',name:'Markha Valley Trek',region:'Ladakh',days:10,alt:'5270m',price:15800,diff:'Challenging',diffClass:'hard',desc:'Explore remote Ladakhi villages, ancient monasteries, and vast high-altitude desert landscapes.',bg:'linear-gradient(135deg,#1a1218,#2e1f2a)',color:'rgba(231,76,60,0.2)',batches:['Jun 20','Jul 4','Jul 18','Aug 1','Aug 15','Aug 29','Sep 12']},
-  {id:'mk',name:'Manali to Kasol',region:'Himachal',days:4,alt:'2480m',price:5200,diff:'Easy',diffClass:'easy',desc:'Scenic trail through pine forests, Parvati Valley views, and charming Himalayan villages along the Beas river.',bg:'linear-gradient(135deg,#0a2a1a,#0f3d26)',color:'rgba(46,204,113,0.2)',batches:['May 5','May 19','Jun 2','Jun 16','Jun 30','Jul 14','Aug 11']},
-];
-
-const galleryItems = [
-  {emoji:'🏔',bg:'gb1',cat:'landscapes',cap:'Alpine Meadows',sub:'Kashmir Great Lakes',cls:'tall'},
-  {emoji:'⛺',bg:'gb2',cat:'campsites',cap:'High Camp Setup',sub:'Roopkund Base Camp',cls:''},
-  {emoji:'🌄',bg:'gb3',cat:'summits',cap:'Summit Morning',sub:'Hampta Pass 4551m',cls:''},
-  {emoji:'🥾',bg:'gb5',cat:'trekkers',cap:'Trail Crew',sub:'Kedarnath Trail',cls:'wide'},
-  {emoji:'❄️',bg:'gb6',cat:'landscapes',cap:'Snow Peak View',sub:'Markha Valley',cls:''},
-  {emoji:'🔥',bg:'gb7',cat:'campsites',cap:'Campfire Night',sub:'Kashmir Base Camp',cls:'tall'},
-  {emoji:'🌅',bg:'gb8',cat:'summits',cap:'Golden Hour',sub:'Roopkund Summit',cls:''},
-  {emoji:'🧗',bg:'gb4',cat:'trekkers',cap:'Rocky Ascent',sub:'Spiti Valley',cls:''},
-];
-
-const faqs = [
-  {q:'What is the minimum fitness required for Himalayan treks?',a:'For easy treks like Manali to Kasol, basic fitness is sufficient — ability to walk 8–10 km daily. For moderate treks (Kedarnath, Hampta Pass), we recommend regular walking/jogging for 4–6 weeks beforehand. For challenging treks like Roopkund or Markha Valley, 3 months of consistent cardio and strength training is advised.'},
-  {q:'What is included in the trek package price?',a:'Our packages include: trekking permits, experienced certified guide, all meals during the trek (breakfast, lunch, dinner), camping equipment (tents, sleeping bags, mats), medical kit with first aid, safety gear, and a dedicated trek coordinator. Excluded: personal travel to base camp, personal insurance, and optional gear rental.'},
-  {q:'Is it safe to trek during monsoon season (July–August)?',a:'Most of our Himalayan treks are designed to be monsoon-friendly. However, we closely monitor weather and trail conditions. Treks in Ladakh and Spiti are actually best during monsoon as the rain shadow areas stay dry. Kashmir and Uttarakhand treks are scheduled around weather windows with real-time updates from our ground teams.'},
-  {q:'What should I pack for a Himalayan trek?',a:'Essentials: Layered clothing (thermal base, fleece mid-layer, waterproof outer), trekking boots (broken-in), trekking poles, sunscreen SPF 50+, sunglasses, personal medications, water bottle/hydration bladder (2–3 litres), headlamp with extra batteries, and a daypack. We share a complete packing list after booking confirmation.'},
-  {q:'How do I make a payment and confirm my booking?',a:'After submitting your booking form, our team will contact you via WhatsApp within 24 hours. We accept 25% advance payment via UPI, bank transfer, or online payment link to confirm your slot. The remaining 75% is collected 15 days before the trek start date.'},
-  {q:'What is the cancellation and refund policy?',a:'We offer full refund minus processing fee if cancelled 30+ days before the trek. 50% refund for cancellations 15–30 days prior. No refund for cancellations within 15 days, but we allow one free rescheduling to the next available batch. In case of cancellation due to weather or safety concerns, a full refund or free reschedule is provided.'},
-  {q:'Do you offer treks for solo travellers and women?',a:'Absolutely! We have a strong culture of inclusive, safe trekking. Solo travellers are grouped with like-minded trekkers. We have dedicated all-women trek batches on select dates with female trek leaders. Safety, comfort, and community are our top priorities for every trekker.'},
-  {q:'What altitude sickness precautions do you take?',a:'Our guides are trained to monitor Acute Mountain Sickness (AMS) symptoms in all trekkers. We plan gradual acclimatization schedules with rest days built in at key altitudes. We carry Diamox (altitude medication), pulse oximeters, and supplemental oxygen on high-altitude treks. Any trekker showing serious AMS symptoms is immediately assisted with descent.'},
-];
-
-// ===== RENDER TREKS =====
-function renderTreks(highlightId){
-  document.getElementById('treksGrid').innerHTML = treks.map(t=>`
-    <div class="trek-card" id="tcard_${t.id}" onclick="openBooking('${t.id}')">
-      <div class="trek-thumb" style="background:${t.bg}">
-        <svg width="130" height="130" viewBox="0 0 130 130"><polygon points="65,15 10,110 120,110" fill="${t.color}" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/><polygon points="90,40 55,110 125,110" fill="${t.color.replace('0.','0.07')}" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/><ellipse cx="65" cy="16" rx="14" ry="6" fill="rgba(255,255,255,0.55)"/></svg>
-        <span class="diff-badge ${t.diffClass}">${t.diff}</span>
-        <span class="days-badge">${t.days} Days</span>
-      </div>
-      <div class="trek-body">
-        <div class="trek-meta-row"><span>📍 ${t.region}</span><span>⬆ ${t.alt}</span></div>
-        <div class="trek-name">${t.name}</div>
-        <div class="trek-desc">${t.desc}</div>
-        <div class="trek-footer">
-          <div class="trek-price">₹${t.price.toLocaleString('en-IN')} <small>/person</small></div>
-          <button class="book-trek-btn">Book Now</button>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="logo.svg" alt="Xplor The Himalayas" style="height:48px;width:auto;">
+          <p>Your trusted partner for Himalayan adventures. We've been guiding trekkers through the most breathtaking landscapes since 2008. Safety, sustainability, and spectacular experiences.</p>
+          <div class="footer-social">
+            <button class="social-btn">📘</button>
+            <button class="social-btn">📸</button>
+            <button class="social-btn">🐦</button>
+            <button class="social-btn">▶️</button>
+            <button class="social-btn">💼</button>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Treks</h4>
+          <div class="footer-links">
+            <a href="#">Valley of Flowers</a>
+            <a href="#">Hampta Pass</a>
+            <a href="#">Kedarkantha</a>
+            <a href="#">Brahmatal Trek</a>
+            <a href="#">Roopkund Trek</a>
+            <a href="#">Markha Valley</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Our Team</a>
+            <a href="#">Safety Policy</a>
+            <a href="#">Sustainability</a>
+            <a href="#">Trek Leader Program</a>
+            <a href="#">Careers</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <div class="footer-links">
+            <a href="#">📞 +91 98765 43210</a>
+            <a href="#">✉️ info@xplorhimalayas.com</a>
+            <a href="#">📍 Chandigarh, India</a>
+            <a href="#">⏰ Mon–Sat: 9 AM – 7 PM</a>
+          </div>
         </div>
       </div>
-    </div>`).join('');
-}
-
-// ===== RENDER GALLERY =====
-let currentGalleryFilter = 'all';
-let currentLbIdx = 0;
-let filteredItems = [...galleryItems];
-
-function renderGallery(filter='all'){
-  currentGalleryFilter = filter;
-  filteredItems = filter==='all' ? galleryItems : galleryItems.filter(g=>g.cat===filter);
-  document.getElementById('galleryGrid').innerHTML = filteredItems.map((g,i)=>`
-    <div class="gallery-item ${g.cls}" onclick="openLightbox(${i})">
-      <div class="gallery-img ${g.bg}">${g.emoji}</div>
-      <div class="gallery-overlay"><div class="gallery-caption">${g.cap}<br><span style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.7)">${g.sub}</span></div></div>
-    </div>`).join('');
-}
-function filterGallery(cat,btn){
-  document.querySelectorAll('.gf-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderGallery(cat);
-}
-function openLightbox(idx){
-  currentLbIdx=idx;
-  updateLightbox();
-  document.getElementById('lightbox').classList.add('show');
-  document.body.style.overflow='hidden';
-}
-function closeLightbox(){
-  document.getElementById('lightbox').classList.remove('show');
-  document.body.style.overflow='';
-}
-function updateLightbox(){
-  const g=filteredItems[currentLbIdx];
-  const lb=document.getElementById('lbImg');
-  lb.className=`lightbox-img ${g.bg}`;
-  lb.innerHTML=`<span style="font-size:100px">${g.emoji}</span>`;
-  document.getElementById('lbCaption').textContent=g.cap;
-  document.getElementById('lbSub').textContent=g.sub;
-}
-function lbNav(dir){
-  currentLbIdx=(currentLbIdx+dir+filteredItems.length)%filteredItems.length;
-  updateLightbox();
-}
-
-// ===== RENDER FAQ =====
-function renderFAQ(){
-  document.getElementById('faqList').innerHTML=faqs.map((f,i)=>`
-    <div class="faq-item" id="faq${i}" onclick="toggleFAQ(${i})">
-      <div class="faq-q"><span class="faq-q-text">${f.q}</span><span class="faq-icon">+</span></div>
-      <div class="faq-a"><div class="faq-a-inner"><p>${f.a}</p></div></div>
-    </div>`).join('');
-}
-function toggleFAQ(i){
-  const el=document.getElementById('faq'+i);
-  const wasOpen=el.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(e=>e.classList.remove('open'));
-  if(!wasOpen) el.classList.add('open');
-}
-
-// ===== SEARCH — PROPERLY WORKING =====
-function handleSearch(val){
-  const drop=document.getElementById('searchDrop');
-  const q=(val||'').trim().toLowerCase();
-  const pool=q?treks.filter(t=>t.name.toLowerCase().includes(q)||t.region.toLowerCase().includes(q)||t.diff.toLowerCase().includes(q)||t.days.toString().includes(q)||t.alt.toLowerCase().includes(q)):treks;
-  if(!pool.length){drop.innerHTML='<div class="search-empty">No results for "'+val+'"</div>';drop.classList.add('show');return;}
-  drop.innerHTML=pool.map(t=>`<div class="search-item" onclick="searchSelectTrek('${t.id}')"><div style="width:38px;height:38px;border-radius:8px;background:${t.bg};display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px">⛰</div><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13px;color:var(--text)">${t.name}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">📍 ${t.region} &nbsp;·&nbsp; ${t.days} Days &nbsp;·&nbsp; ⬆ ${t.alt}</div></div><div style="font-size:13px;font-weight:700;color:var(--amber);flex-shrink:0">₹${t.price.toLocaleString('en-IN')}</div></div>`).join('');
-  drop.classList.add('show');
-}
-function searchSelectTrek(id){
-  document.getElementById('navSearch').value='';
-  closeSearch();
-  document.getElementById('treks').scrollIntoView({behavior:'smooth',block:'start'});
-  setTimeout(()=>{
-    renderTreks(id);
-    setTimeout(()=>{
-      const card=document.getElementById('tcard_'+id);
-      if(card){card.scrollIntoView({behavior:'smooth',block:'center'});card.style.transition='box-shadow .3s';card.style.boxShadow='0 0 0 3px var(--orange)';setTimeout(()=>{card.style.boxShadow='';},2200);}
-    },100);
-  },400);
-}
-function closeSearch(){document.getElementById('searchDrop').classList.remove('show');}
-function mobileSearch(val){
-  const res=document.getElementById('mobileSearchResults');
-  const q=(val||'').trim().toLowerCase();
-  if(!q){res.innerHTML='';return;}
-  const results=treks.filter(t=>t.name.toLowerCase().includes(q)||t.region.toLowerCase().includes(q)||t.diff.toLowerCase().includes(q));
-  if(!results.length){res.innerHTML='<div style="padding:10px 14px;color:var(--muted);font-size:13px">No results found</div>';return;}
-  res.innerHTML=results.map(t=>`<div onclick="closeMenu();searchSelectTrek('${t.id}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;margin-bottom:4px;background:rgba(232,96,44,0.08);border:1px solid rgba(232,96,44,0.15);cursor:pointer"><span style="font-size:18px">⛰</span><div><div style="color:var(--text);font-size:14px;font-weight:600">${t.name}</div><div style="color:var(--muted);font-size:11px">📍 ${t.region} · ${t.days} Days · ₹${t.price.toLocaleString('en-IN')}</div></div></div>`).join('');
-}
-
-// ===== BOOKING SYSTEM =====
-let currentTrek=null, selectedBatch=null, currentStep=1;
-function openBooking(id){
-  currentTrek=treks.find(t=>t.id===id);
-  currentStep=1; selectedBatch=null;
-  document.getElementById('modalTrekName').textContent=currentTrek.name;
-  document.getElementById('mDays').textContent=`📅 ${currentTrek.days} Days`;
-  document.getElementById('mRegion').textContent=`📍 ${currentTrek.region}`;
-  document.getElementById('mAlt').textContent=`⬆ ${currentTrek.alt}`;
-  document.getElementById('mDiff').textContent=`🏔 ${currentTrek.diff}`;
-  renderBatches(); updatePrice(); updateStepUI();
-  document.getElementById('bookingModal').classList.add('show');
-  document.body.style.overflow='hidden';
-}
-function closeModal(){ document.getElementById('bookingModal').classList.remove('show'); document.body.style.overflow=''; }
-function renderBatches(){
-  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const today=new Date();
-  document.getElementById('batchGrid').innerHTML=currentTrek.batches.map((b,i)=>{
-    const [mon,day]=b.split(' ');
-    const yr=months.indexOf(mon)<today.getMonth()?today.getFullYear()+1:today.getFullYear();
-    const slots=[12,10,8,6,14,9,7][i]||10;
-    return `<div class="batch-card" id="batch_${i}" onclick="selectBatch(${i},'${b} ${yr}')"><div class="batch-date">${b} ${yr}</div><div class="batch-slots">${slots} slots left</div></div>`;
-  }).join('');
-  selectedBatch=currentTrek.batches[0]+' '+today.getFullYear();
-  document.getElementById('batch_0')?.classList.add('sel');
-}
-function selectBatch(idx,val){
-  selectedBatch=val;
-  document.querySelectorAll('.batch-card').forEach(c=>c.classList.remove('sel'));
-  document.getElementById('batch_'+idx)?.classList.add('sel');
-}
-function updatePrice(){
-  if(!currentTrek) return;
-  const n=parseInt(document.getElementById('numTrekkers')?.value||1);
-  const pickup=parseInt(document.getElementById('pickupSel')?.value||0);
-  const base=currentTrek.price*n, pickupT=pickup*n;
-  const gst=Math.round((base+pickupT)*0.05), total=base+pickupT+gst;
-  document.getElementById('pBase').textContent='₹'+base.toLocaleString('en-IN');
-  document.getElementById('pPickup').textContent='₹'+pickupT.toLocaleString('en-IN');
-  document.getElementById('pGst').textContent='₹'+gst.toLocaleString('en-IN');
-  document.getElementById('pTotal').textContent='₹'+total.toLocaleString('en-IN');
-}
-function nextStep(){
-  if(currentStep===1){if(!selectedBatch){alert('Please select a batch date.');return;}buildTrekkerForms();}
-  else if(currentStep===2){if(!validateTrekkerForms())return;buildReview();}
-  else if(currentStep===3){submitBooking();return;}
-  currentStep++; updateStepUI();
-}
-function prevStep(){ if(currentStep>1){currentStep--;updateStepUI();} }
-function updateStepUI(){
-  for(let i=1;i<=4;i++){
-    document.getElementById('step'+i)?.classList.remove('active');
-    const sn=document.getElementById('sn'+i);
-    sn.classList.remove('active','done');
-    if(i<currentStep){sn.classList.add('done');sn.textContent='✓';}
-    else if(i===currentStep){sn.classList.add('active');sn.textContent=i;}
-    else sn.textContent=i;
-    if(i<4){const sl=document.getElementById('sl'+i);if(sl){sl.classList.remove('done');if(i<currentStep)sl.classList.add('done');}}
-  }
-  document.getElementById('step'+currentStep)?.classList.add('active');
-  const footer=document.getElementById('modalFooter');
-  const backBtn=document.getElementById('backBtn');
-  const nextBtn=document.getElementById('nextBtn');
-  backBtn.style.visibility=currentStep===1?'hidden':'visible';
-  if(currentStep===4){footer.style.display='none';}
-  else{footer.style.display='flex';nextBtn.innerHTML=currentStep===3?'Confirm & Send WhatsApp ✓':'Next <span>→</span>';}
-}
-function buildTrekkerForms(){
-  const n=parseInt(document.getElementById('numTrekkers')?.value||1);
-  let html='';
-  for(let i=1;i<=n;i++){
-    html+=`<div style="margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)">
-      <div style="font-weight:600;font-size:14px;color:var(--orange);margin-bottom:12px">Trekker ${i} ${i===1?'(Primary)':''}</div>
-      <div class="form-grid-2">
-        <div class="mfg"><label>Full Name</label><input type="text" id="t${i}_name" placeholder="Full name" required></div>
-        <div class="mfg"><label>Age</label><input type="number" id="t${i}_age" placeholder="Age" min="16" max="65" required></div>
-        <div class="mfg"><label>Gender</label><select id="t${i}_gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
-        <div class="mfg"><label>ID Proof</label><select id="t${i}_id"><option>Aadhaar Card</option><option>Passport</option><option>Voter ID</option><option>Driving License</option></select></div>
-        <div class="mfg"><label>ID Number</label><input type="text" id="t${i}_idnum" placeholder="ID number" required></div>
-        ${i===1?`<div class="mfg"><label>Phone (WhatsApp)</label><input type="tel" id="t1_phone" placeholder="+91 XXXXX XXXXX" required></div>`:''}
-        ${i===1?`<div class="mfg" style="grid-column:1/-1"><label>Email</label><input type="email" id="t1_email" placeholder="email@gmail.com" required></div>`:''}
+      <div class="footer-bottom">
+        <p>© 2024 Xplor The Himalayas. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Refund Policy</a>
+        </div>
       </div>
-      <div class="mfg no-mb"><label>Medical Conditions</label><input type="text" id="t${i}_med" placeholder="e.g. Asthma, BP, None"></div>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FAB -->
+  <button class="whatsapp-fab" onclick="sendWhatsApp()" title="Chat on WhatsApp">💬</button>
+
+  <!-- TREK DETAILS MODAL -->
+  <div class="trek-modal" id="trekModal">
+    <button class="trek-modal-close" onclick="closeTrekModal()">✕</button>
+    <div class="trek-modal-inner" id="trekModalContent"></div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div class="success-modal" id="successModal">
+    <div class="success-inner">
+      <div class="success-icon">🎉</div>
+      <h3>Booking Submitted!</h3>
+      <p>Thank you for choosing Xplor The Himalayas! Our trek experts will contact you within 2 hours. A confirmation has been sent to your email.</p>
+      <div class="success-actions">
+        <button class="btn-primary" onclick="downloadPDF()">📄 Download PDF</button>
+        <button class="btn-outline" onclick="document.getElementById('successModal').classList.remove('open')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+  // ============================================
+  // DATA
+  // ============================================
+  const treks = [
+    { id:1, name:'Valley of Flowers Trek', location:'Uttarakhand', region:'india', season:'summer monsoon', difficulty:'easy', days:6, km:37, altitude:'14,100 ft', price:'₹12,450', tag:'New', img:'https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?w=600&q=80', desc:'A UNESCO World Heritage Site bursting with alpine wildflowers and majestic Himalayan scenery.', best:'July – September', highlights:['UNESCO World Heritage','Alpine meadows','Hemkund Sahib nearby','Diverse flora & fauna'] },
+    { id:2, name:'Hampta Pass Trek', location:'Himachal Pradesh', region:'india', season:'summer', difficulty:'moderate', days:5, km:26, altitude:'14,100 ft', price:'₹9,800', tag:'Popular', img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80', desc:'A dramatic crossover from the lush Kullu Valley to the stark Lahaul landscape through a thrilling high mountain pass.', best:'June – October', highlights:['Dramatic landscape contrast','Chandratal Lake nearby','Snow-filled pass','Spiti Valley views'] },
+    { id:3, name:'Pin Bhaba Pass Trek', location:'Himachal Pradesh', region:'india', season:'summer autumn', difficulty:'difficult', days:8, km:50, altitude:'17,500 ft', price:'₹14,200', tag:'Challenging', img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80', desc:'A spectacular crossover between the green Kinnaur Valley and the arid Spiti Valley via a high-altitude pass.', best:'July – September', highlights:['High altitude pass','Two distinct valleys','Remote wilderness','Cultural immersion'] },
+    { id:4, name:'Markha Valley Trek', location:'Ladakh', region:'india', season:'summer autumn', difficulty:'moderate', days:7, km:65, altitude:'17,060 ft', price:'₹16,500', tag:'Premium', img:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80', desc:'The most popular multi-day trek in Ladakh, offering stunning desert landscapes, ancient monasteries, and nomadic culture.', best:'June – October', highlights:['Lofty Ganda La pass','Ancient monasteries','Remote villages','Kang Yatse view'] },
+    { id:5, name:'Kedarkantha Trek', location:'Uttarakhand', region:'india', season:'winter spring', difficulty:'easy', days:6, km:20, altitude:'12,500 ft', price:'₹7,500', tag:'Bestseller', img:'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=600&q=80', desc:'One of India\'s best winter treks with stunning summit views of renowned peaks like Swargarohini, Bandarpoonch, and Kala Nag.', best:'December – April', highlights:['360° summit views','Snow camping','Dense pine forests','Sunrise panorama'] },
+    { id:6, name:'Chopta Chandrashila', location:'Uttarakhand', region:'india', season:'winter spring', difficulty:'easy', days:4, km:14, altitude:'13,100 ft', price:'₹6,800', tag:'Short Trek', img:'https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=600&q=80', desc:'A short yet stunning trek offering sweeping views of Himalayan peaks including Nanda Devi, Trishul, and Chaukhamba.', best:'March – June, Oct – Dec', highlights:['Tungnath temple','Chandrashila summit','Winter wonderland','Easy trail'] },
+    { id:7, name:'Har Ki Dun Trek', location:'Uttarakhand', region:'india', season:'spring summer autumn', difficulty:'easy', days:7, km:46, altitude:'11,675 ft', price:'₹8,900', tag:'Scenic', img:'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80', desc:'A cradle-shaped hanging valley in the Garhwal Himalayas with ancient villages, Govind Wildlife Sanctuary, and stunning flora.', best:'April – June, Sept – Nov', highlights:['Ancient villages','Wildlife sanctuary','Swargarohini views','Lush meadows'] },
+    { id:8, name:'Brahmatal Trek', location:'Uttarakhand', region:'india', season:'winter', difficulty:'moderate', days:6, km:22, altitude:'12,250 ft', price:'₹8,400', tag:'Winter Gem', img:'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80', desc:'A winter trekking haven with snow-covered meadows, frozen lakes, and spectacular views of Mt. Trishul and Nanda Ghunti.', best:'December – March', highlights:['Frozen Brahmatal lake','Trishul views','Snow-filled meadows','Clear winter skies'] },
+    { id:9, name:'Goecha La Trek', location:'Sikkim', region:'india', season:'spring autumn', difficulty:'difficult', days:11, km:90, altitude:'15,100 ft', price:'₹21,000', tag:'Epic', img:'https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=600&q=80', desc:'The crown jewel of Sikkim trekking, offering a close encounter with Kangchenjunga, the world\'s third highest peak.', best:'April – May, Oct – Nov', highlights:['Kangchenjunga views','Pristine wilderness','Rhododendron forests','Samiti Lake'] },
+    { id:10, name:'Pangarchulla Peak', location:'Uttarakhand', region:'india', season:'spring winter', difficulty:'difficult', days:6, km:24, altitude:'15,069 ft', price:'₹11,200', tag:'Summit', img:'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=600&q=80', desc:'A technical summit climb offering jaw-dropping views of Nanda Devi, Dronagiri, Kamet, and other iconic Himalayan peaks.', best:'April – June, Jan – Feb', highlights:['Summit experience','Technical climb','Nanda Devi views','Snow adventure'] },
+    { id:11, name:'Everest Base Camp', location:'Nepal', region:'nepal', season:'spring autumn', difficulty:'difficult', days:14, km:130, altitude:'17,598 ft', price:'₹55,000', tag:'Bucket List', img:'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=600&q=80', desc:'The iconic trek to the base camp of the world\'s highest mountain through the legendary Khumbu region of Nepal.', best:'March – May, Sept – Nov', highlights:['Kala Patthar viewpoint','Sherpa culture','Tengboche monastery','Iconic landscapes'] },
+    { id:12, name:'Annapurna Circuit', location:'Nepal', region:'nepal', season:'spring autumn', difficulty:'moderate', days:15, km:160, altitude:'17,769 ft', price:'₹48,000', tag:'Classic', img:'https://images.unsplash.com/photo-1495476479092-6ece1898a101?w=600&q=80', desc:'One of the world\'s greatest treks, circumnavigating the Annapurna massif through diverse landscapes and cultures.', best:'October – November, March – April', highlights:['Thorong La Pass','Muktinath temple','Diverse landscapes','Pokhara views'] },
+  ];
+
+  const reviews = [
+    { name:'Priya Sharma', trek:'Kedarkantha Trek', rating:5, text:'Absolutely breathtaking experience! The team at Xplor was incredibly professional and caring. The views from Kedarkantha summit were out of this world. Will definitely trek again!', initial:'P', date:'January 2024' },
+    { name:'Rahul Verma', trek:'Hampta Pass Trek', rating:5, text:'Best decision of my life! Xplor\'s guides were knowledgeable, the food was delicious, and the entire organization was flawless. Hampta Pass in the monsoon is pure magic.', initial:'R', date:'August 2024' },
+    { name:'Ananya Patel', trek:'Valley of Flowers', rating:5, text:'The Valley of Flowers is every bit as beautiful as they say, and Xplor made it even more special. Expert guides, great camping, and genuine care for every trekker.', initial:'A', date:'July 2024' },
+    { name:'Vikram Singh', trek:'Brahmatal Trek', rating:5, text:'Trekked with my wife during winter. The snow, the stars, the silence – it was otherworldly. Xplor\'s team made sure we were safe and comfortable throughout.', initial:'V', date:'December 2023' },
+    { name:'Meera Krishnan', trek:'Everest Base Camp', rating:5, text:'Xplor organized our EBC trek seamlessly. The guide Dorji was exceptional – knowledgeable about altitude sickness and incredibly supportive. A dream come true!', initial:'M', date:'October 2024' },
+    { name:'Arjun Mehta', trek:'Markha Valley', rating:5, text:'Three weeks in Ladakh with Xplor was transformative. The landscapes are alien and gorgeous, and the team\'s logistics were impeccable. Already planning my next one!', initial:'A', date:'September 2024' },
+    { name:'Sunita Rawat', trek:'Chopta Trek', rating:5, text:'My first high-altitude trek and I couldn\'t have asked for better guidance. The Xplor team was patient, encouraging, and the Chandrashila sunrise was unforgettable!', initial:'S', date:'April 2024' },
+    { name:'Deepak Joshi', trek:'Har Ki Dun', rating:4, text:'A beautifully organized trek with warm hospitality and expert guides. The Har Ki Dun valley is stunning. Minor logistics hiccup but quickly resolved. Would recommend!', initial:'D', date:'May 2024' },
+    { name:'Ritu Agarwal', trek:'Pin Bhaba Pass', rating:5, text:'Pin Bhaba Pass Trek was intense and rewarding. The crossover from green to desert landscape is surreal. Xplor\'s team pushed us safely to our limits. Phenomenal!', initial:'R', date:'August 2024' },
+    { name:'Karan Malhotra', trek:'Pangarchulla Peak', rating:5, text:'My first summit climb with Xplor! The training tips beforehand were invaluable. Standing on Pangarchulla with those views – I cried happy tears. Thank you, Xplor!', initial:'K', date:'February 2024' },
+  ];
+
+  const blogs = [
+    { cat:'Trek Update', date:'16 Jun 2026', title:'Mixed Weather Across Trekking Regions, While Hampta Pass Continues to Attract Trekkers', excerpt:'Despite mixed conditions, Hampta Pass is seeing fantastic footfall with clear summit days and vibrant trail activity.', img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80' },
+    { cat:'Trek Update', date:'15 Jun 2026', title:'Cloudy Weather Has Arrived in All Trekking Regions, New Batches of Hampta Pass Begun', excerpt:'Monsoon clouds bring a magical mood to the Himalayas. New batches for Sar Pass and Buran Ghati have also kicked off this week.', img:'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=600&q=80' },
+    { cat:'Trek Update', date:'14 Jun 2026', title:'Sunny Conditions Welcome New Batches of Trekkers to the Majestic Himalayas', excerpt:'Clear skies and warm trails greeted fresh batches across Uttarakhand and Himachal. A perfect start to the summer season.', img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80' },
+    { cat:'Article', date:'10 Jun 2026', title:'Top 10 Things to Pack for Your First Himalayan Trek', excerpt:'From the right layering system to essential medications, here\'s a comprehensive guide to packing smart for high altitude adventures.', img:'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80' },
+    { cat:'Article', date:'5 Jun 2026', title:'Altitude Sickness: Everything You Need to Know Before Your Trek', excerpt:'Understanding acclimatization is critical for any high-altitude expedition. Here\'s everything first-time Himalayan trekkers should know.', img:'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80' },
+    { cat:'Article', date:'1 Jun 2026', title:'Best Treks for Beginners: Start Your Himalayan Journey Right', excerpt:'Never trekked before? Don\'t worry. We\'ve curated the perfect list of beginner-friendly Himalayan treks with all the details you need.', img:'https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=600&q=80' },
+  ];
+
+  // ============================================
+  // WISHLIST
+  // ============================================
+  let wishlist = new Set(JSON.parse(localStorage.getItem('xplor_wishlist') || '[]'));
+  function toggleWishlist(id, btn) {
+    event.stopPropagation();
+    if (wishlist.has(id)) { wishlist.delete(id); btn.classList.remove('active'); btn.textContent = '♡'; }
+    else { wishlist.add(id); btn.classList.add('active'); btn.textContent = '♥'; }
+    localStorage.setItem('xplor_wishlist', JSON.stringify([...wishlist]));
+  }
+
+  // ============================================
+  // RENDER FUNCTIONS
+  // ============================================
+  function renderTrekCard(t, showWishlist=true) {
+    const inWish = wishlist.has(t.id);
+    return `<div class="trek-card" onclick="openTrekModal(${t.id})">
+      <div class="trek-card-img">
+        <img src="${t.img}" alt="${t.name}" loading="lazy">
+        <span class="trek-badge">${t.tag}</span>
+        ${showWishlist ? `<button class="trek-wishlist${inWish?' active':''}" onclick="toggleWishlist(${t.id},this)">${inWish?'♥':'♡'}</button>` : ''}
+      </div>
+      <div class="trek-card-body">
+        <div class="trek-location">📍 ${t.location}</div>
+        <div class="trek-name">${t.name}</div>
+        <div class="trek-desc">${t.desc}</div>
+        <div class="trek-meta">
+          <div class="trek-meta-item"><span class="icon">⏱</span>${t.days} Days</div>
+          <div class="trek-meta-item"><span class="icon">🏔</span>${t.altitude}</div>
+          <div class="trek-meta-item"><span class="icon">🚶</span>${t.km} km</div>
+        </div>
+        <div class="trek-footer">
+          <div class="trek-price">
+            <span class="trek-price-from">Starting from</span>
+            <div class="trek-price-val">${t.price} <span>/person</span></div>
+          </div>
+          <button class="btn-view" onclick="event.stopPropagation();openTrekModal(${t.id})">View Details</button>
+        </div>
+      </div>
     </div>`;
   }
-  document.getElementById('trekkerForms').innerHTML=html;
-}
-function validateTrekkerForms(){
-  const n=parseInt(document.getElementById('numTrekkers')?.value||1);
-  for(let i=1;i<=n;i++){
-    if(!document.getElementById('t'+i+'_name')?.value.trim()){alert('Enter name for Trekker '+i);return false;}
-    const age=document.getElementById('t'+i+'_age')?.value;
-    if(!age||age<16||age>65){alert('Enter valid age (16–65) for Trekker '+i);return false;}
-    if(!document.getElementById('t'+i+'_idnum')?.value.trim()){alert('Enter ID number for Trekker '+i);return false;}
-    if(i===1){
-      if(!document.getElementById('t1_phone')?.value.trim()){alert('Enter phone number');return false;}
-      const em=document.getElementById('t1_email')?.value.trim();
-      if(!em||!em.includes('@')){alert('Enter valid email');return false;}
+
+  function initLatest() {
+    const el = document.getElementById('latestCarousel');
+    el.innerHTML = treks.slice(0,6).map(t => renderTrekCard(t)).join('');
+  }
+
+  function initPopular() {
+    const el = document.getElementById('popularGrid');
+    el.innerHTML = treks.slice(0,8).map(t => renderTrekCard(t)).join('');
+  }
+
+  function filterTreks(btn, filter) {
+    document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filtered = filter === 'all' ? treks : treks.filter(t => t.region.includes(filter) || t.season.includes(filter) || t.difficulty.includes(filter));
+    const el = document.getElementById('popularGrid');
+    el.innerHTML = filtered.map(t => renderTrekCard(t)).join('');
+  }
+
+  function renderReviews() {
+    const el = document.getElementById('reviewsCarousel');
+    el.innerHTML = reviews.map(r => `
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar-fallback">${r.initial}</div>
+          <div class="review-meta">
+            <h4>${r.name}</h4>
+            <p>${r.trek} • ${r.date}</p>
+          </div>
+        </div>
+        <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>
+        <div class="review-text">${r.text}</div>
+        <div class="google-badge">
+          <div class="g-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div>
+          Verified Review
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderBlogs() {
+    const el = document.getElementById('blogCarousel');
+    el.innerHTML = blogs.map(b => `
+      <div class="blog-card">
+        <div class="blog-img">
+          <img src="${b.img}" alt="${b.title}" loading="lazy">
+          <div class="blog-date">${b.date}</div>
+        </div>
+        <div class="blog-body">
+          <div class="blog-cat">${b.cat}</div>
+          <div class="blog-title">${b.title}</div>
+          <div class="blog-excerpt">${b.excerpt}</div>
+          <button class="btn-read">Read More →</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ============================================
+  // CAROUSELS
+  // ============================================
+  const carouselState = { latest:0, reviews:0, blog:0 };
+  const carouselEl = { latest:'latestCarousel', reviews:'reviewsCarousel', blog:'blogCarousel' };
+
+  function getVisibleCount(id) {
+    const w = window.innerWidth;
+    if (id === 'popularGrid') return 4;
+    return w <= 768 ? 1 : w <= 1024 ? 2 : 3;
+  }
+
+  function moveCarousel(name, dir) {
+    const el = document.getElementById(carouselEl[name]);
+    const cards = el.children;
+    if (!cards.length) return;
+    const vis = getVisibleCount(name);
+    const max = Math.max(0, cards.length - vis);
+    carouselState[name] = Math.max(0, Math.min(max, carouselState[name] + dir));
+    const cardW = cards[0].offsetWidth + 24;
+    el.style.transform = `translateX(-${carouselState[name] * cardW}px)`;
+    el.style.transition = 'transform 0.5s ease';
+  }
+
+  // ============================================
+  // HERO SLIDER
+  // ============================================
+  let heroIndex = 0;
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  const dotsContainer = document.getElementById('heroDots');
+
+  heroSlides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'hero-dot' + (i===0?' active':'');
+    d.onclick = () => goHeroSlide(i);
+    dotsContainer.appendChild(d);
+  });
+
+  function goHeroSlide(n) {
+    heroSlides[heroIndex].classList.remove('active');
+    document.querySelectorAll('.hero-dot')[heroIndex].classList.remove('active');
+    heroIndex = (n + heroSlides.length) % heroSlides.length;
+    heroSlides[heroIndex].classList.add('active');
+    document.querySelectorAll('.hero-dot')[heroIndex].classList.add('active');
+  }
+  function slideHero(dir) { goHeroSlide(heroIndex + dir); }
+  setInterval(() => slideHero(1), 5000);
+
+  // ============================================
+  // TREK MODAL
+  // ============================================
+  function openTrekModal(id) {
+    const t = treks.find(x => x.id === id);
+    if (!t) return;
+    const modal = document.getElementById('trekModal');
+    document.getElementById('trekModalContent').innerHTML = buildTrekDetail(t);
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeTrekModal() {
+    document.getElementById('trekModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function buildTrekDetail(t) {
+    return `
+    <div class="trek-detail-hero">
+      <img src="${t.img}" alt="${t.name}">
+      <div class="trek-detail-hero-overlay"></div>
+      <div class="trek-detail-hero-content">
+        <div class="trek-detail-title">${t.name}</div>
+        <div class="trek-detail-pills">
+          <div class="trek-detail-pill">📍 ${t.location}</div>
+          <div class="trek-detail-pill">⏱ ${t.days} Days</div>
+          <div class="trek-detail-pill">🏔 ${t.altitude}</div>
+          <div class="trek-detail-pill">🚶 ${t.km} km</div>
+          <div class="trek-detail-pill">🎯 ${t.difficulty.charAt(0).toUpperCase()+t.difficulty.slice(1)}</div>
+          <div class="trek-detail-pill">📅 Best: ${t.best}</div>
+        </div>
+      </div>
+    </div>
+    <div class="trek-detail-body">
+      <div class="trek-info-cards">
+        <div class="trek-info-card"><div class="ticon">📍</div><div class="tval">${t.location}</div><div class="tlabel">Location</div></div>
+        <div class="trek-info-card"><div class="ticon">⏱</div><div class="tval">${t.days} Days</div><div class="tlabel">Duration</div></div>
+        <div class="trek-info-card"><div class="ticon">🏔</div><div class="tval">${t.altitude}</div><div class="tlabel">Max Altitude</div></div>
+        <div class="trek-info-card"><div class="ticon">🎯</div><div class="tval">${t.difficulty.charAt(0).toUpperCase()+t.difficulty.slice(1)}</div><div class="tlabel">Difficulty</div></div>
+      </div>
+      <div class="trek-detail-grid">
+        <div>
+          <div class="detail-section">
+            <h3>Trek Overview</h3>
+            <p style="color:var(--text-light);line-height:1.8;">${t.desc} This remarkable trek takes you through diverse terrain, offering unparalleled views of snow-capped peaks, lush valleys, and pristine wilderness. Each day brings new landscapes and unforgettable experiences that will stay with you long after you've returned home.</p>
+          </div>
+          <div class="detail-section">
+            <h3>Highlights</h3>
+            <div class="highlights-list">${t.highlights.map(h=>`<div class="highlight-item">${h}</div>`).join('')}</div>
+          </div>
+          <div class="detail-section">
+            <h3>Detailed Itinerary</h3>
+            ${Array.from({length:t.days},(_, i)=>`
+            <div class="itinerary-day" onclick="this.classList.toggle('open')">
+              <div class="itinerary-day-head">
+                <div class="day-num">${i+1}</div>
+                Day ${i+1}: ${getDayTitle(t.name, i)}
+              </div>
+              <div class="itinerary-day-body">${getDayDesc(t.name, i)}</div>
+            </div>`).join('')}
+          </div>
+          <div class="detail-section">
+            <h3>Inclusions & Exclusions</h3>
+            <p style="font-weight:600;margin-bottom:10px;color:var(--dark);">✅ Included</p>
+            <div class="inclusion-list" style="margin-bottom:20px;">
+              ${['Experienced trek leader & guides','All camping equipment (tents, sleeping bags)','Vegetarian meals during trek','Forest permit & entry fees','Safety equipment & first aid kit','Porter charges for camp equipment','Trek briefing & preparation guidance'].map(i=>`<div class="inclusion-item"><span class="inc-icon">✓</span>${i}</div>`).join('')}
+            </div>
+            <p style="font-weight:600;margin-bottom:10px;color:var(--dark);">❌ Excluded</p>
+            <div class="inclusion-list">
+              ${['Travel to/from base camp','Personal trekking gear','Travel insurance','Personal expenses & tips','Any meals not mentioned','Medical expenses'].map(i=>`<div class="inclusion-item"><span class="exc-icon">✕</span>${i}</div>`).join('')}
+            </div>
+          </div>
+          <div class="detail-section">
+            <h3>Things to Carry</h3>
+            <div class="things-grid">
+              ${['Trekking shoes','Rain jacket','Warm layers','Sunscreen SPF50','Water bottles (2L)','Personal medicines','Headlamp & batteries','Trekking poles','Quick-dry clothes','Snacks & energy bars','Camera','ID proof'].map(i=>`<div class="thing-item">🎒 ${i}</div>`).join('')}
+            </div>
+          </div>
+          <div class="detail-section">
+            <h3>Frequently Asked Questions</h3>
+            ${[
+              ['Is prior trekking experience required?','This trek is rated '+t.difficulty+'. We recommend basic fitness and some walking experience. No technical climbing experience needed.'],
+              ['What is the cancellation policy?','Full refund for cancellations 30+ days before departure. 50% refund for 15-29 days. No refund within 14 days. Weather cancellations are rescheduled.'],
+              ['What is the minimum age for this trek?','Minimum age is 10 years with parental consent. We recommend consulting with our team for participants above 60 years.'],
+              ['Is altitude sickness a concern?','At '+t.altitude+', altitude sickness is possible. Our guides are trained in altitude management. Proper acclimatization is built into the itinerary.'],
+              ['What type of accommodation is provided?','High-quality mountain tents are provided at campsites. The trek begins and ends at a comfortable guesthouse/hotel.'],
+            ].map(([q,a])=>`
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+              <div class="faq-q">${q}<span>+</span></div>
+              <div class="faq-a">${a}</div>
+            </div>`).join('')}
+          </div>
+          <div class="detail-section">
+            <h3>Photo Gallery</h3>
+            <div class="gallery-thumbs">
+              ${[t.img, 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&q=70', 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=300&q=70', 'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=300&q=70'].map(src=>`<div class="gallery-thumb"><img src="${src}" alt="Trek photo"></div>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="booking-sidebar">
+            <div class="booking-sidebar-head">
+              <div style="font-size:13px;opacity:0.8;">Starting from</div>
+              <div class="booking-price">${t.price}</div>
+              <div class="booking-price-sub">per person + 5% GST</div>
+            </div>
+            <div class="booking-sidebar-body">
+              <div class="booking-feature"><span class="bf-icon">✅</span> Expert Trek Leaders</div>
+              <div class="booking-feature"><span class="bf-icon">✅</span> Safety Equipment</div>
+              <div class="booking-feature"><span class="bf-icon">✅</span> All Meals Included</div>
+              <div class="booking-feature"><span class="bf-icon">✅</span> Camping Equipment</div>
+              <div class="booking-feature"><span class="bf-icon">✅</span> Forest Permits</div>
+              <div class="booking-feature"><span class="bf-icon">✅</span> Medical Support</div>
+              <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;">
+                <button class="btn-primary" style="width:100%;justify-content:center;" onclick="closeTrekModal();scrollToBooking()">🎒 Book This Trek</button>
+                <button class="btn-outline" style="width:100%;justify-content:center;" onclick="sendWhatsAppTrek('${t.name}')">💬 WhatsApp Us</button>
+              </div>
+              <div style="margin-top:20px;padding-top:20px;border-top:1px solid #F0EDE8;">
+                <div style="font-weight:600;margin-bottom:10px;font-size:14px;">📅 Best Time</div>
+                <div style="font-size:13px;color:var(--text-light);">${t.best}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="related-treks">
+      <h3>Related Treks You Might Like</h3>
+      <div class="related-grid">
+        ${treks.filter(x=>x.id!==t.id).slice(0,3).map(r=>`
+        <div class="related-card" onclick="openTrekModal(${r.id})">
+          <img src="${r.img}" alt="${r.name}">
+          <div class="related-card-body">
+            <h4>${r.name}</h4>
+            <p>📍 ${r.location} • ${r.days} Days • ${r.price}</p>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  function getDayTitle(name, i) {
+    const titles = ['Arrival & Briefing','Trek Begins – First Camp','Ascending Higher','Pass Crossing / Highlight Day','Descent Begins','Return to Base'];
+    return titles[i] || `Day ${i+1} – Trek Continues`;
+  }
+
+  function getDayDesc(name, i) {
+    const descs = [
+      'Arrive at the base camp, complete trek registration, attend the briefing session. Rest and acclimatize. Evening interaction with fellow trekkers and trek leader.',
+      'Begin your trek through lush forests and meadows. Gradual ascent with regular breaks. Set up camp at a scenic location with evening campfire.',
+      'A longer day with more altitude gain. The landscape changes dramatically. Arrive at high-altitude meadow camp with stunning views.',
+      'The most exciting day – cross the main pass or reach a key highlight. Panoramic views of surrounding peaks. Memorable camping spot.',
+      'Begin your descent through different terrain. The return journey often reveals new perspectives on the landscape you\'ve traveled through.',
+      'Final day descent to base camp. Depart with memories of a lifetime. Certificate distribution and group photos.'
+    ];
+    return descs[i] || 'Continue through scenic Himalayan terrain, gaining altitude gradually. Rest at a beautiful campsite with views of surrounding peaks and valleys.';
+  }
+
+  // ============================================
+  // BLOG TABS
+  // ============================================
+  function switchTab(btn, tab) {
+    document.querySelectorAll('.info-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // For demo, same content with different badge
+    renderBlogs();
+  }
+
+  // ============================================
+  // NAVBAR SCROLL
+  // ============================================
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+
+  // ============================================
+  // SCROLL ANIMATIONS
+  // ============================================
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+  // ============================================
+  // BOOKING
+  // ============================================
+  function scrollToBooking() {
+    document.getElementById('booking').scrollIntoView({ behavior:'smooth' });
+  }
+
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  function sendWhatsApp() {
+    const name = document.getElementById('f_name').value || 'Guest';
+    const trek = document.getElementById('f_trek').value || 'Not selected';
+    const date = document.getElementById('f_date').value || 'Not specified';
+    const travelers = document.getElementById('f_travelers').value || '1';
+    const phone = document.getElementById('f_phone').value || '';
+    const msg = `🏔 *Xplor The Himalayas – Booking Request*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n🗺 *Trek:* ${trek}\n📅 *Date:* ${date}\n👥 *Travelers:* ${travelers}\n\n_Sent from xplorhimalayas.com_`;
+    window.open(`https://wa.me/919876543210?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  function sendWhatsAppTrek(trekName) {
+    const msg = `🏔 *Xplor The Himalayas – Trek Inquiry*\n\nHi! I'm interested in booking the *${trekName}*. Could you please share available dates and pricing?\n\n_Sent from xplorhimalayas.com_`;
+    window.open(`https://wa.me/919876543210?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  function submitBooking() {
+    const name = document.getElementById('f_name').value;
+    const email = document.getElementById('f_email').value;
+    const phone = document.getElementById('f_phone').value;
+    const trek = document.getElementById('f_trek').value;
+    if (!name || !email || !phone || !trek) {
+      alert('Please fill in all required fields (Name, Email, Phone, Trek Name).');
+      return;
     }
+    document.getElementById('successModal').classList.add('open');
   }
-  return true;
-}
-function buildReview(){
-  const n=parseInt(document.getElementById('numTrekkers')?.value||1);
-  const pickup=document.getElementById('pickupSel');
-  const pickupText=pickup.options[pickup.selectedIndex].text;
-  const base=currentTrek.price*n, pickupCost=parseInt(pickup.value||0)*n;
-  const gst=Math.round((base+pickupCost)*0.05), total=base+pickupCost+gst;
-  let rows='';
-  for(let i=1;i<=n;i++){
-    rows+=`<div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Trekker ${i}</span><span>${document.getElementById('t'+i+'_name')?.value||''}, ${document.getElementById('t'+i+'_age')?.value||''} yrs, ${document.getElementById('t'+i+'_gender')?.value||''}</span></div>`;
+
+  function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const name = document.getElementById('f_name').value;
+    const email = document.getElementById('f_email').value;
+    const phone = document.getElementById('f_phone').value;
+    const whatsapp = document.getElementById('f_whatsapp').value;
+    const trek = document.getElementById('f_trek').value;
+    const date = document.getElementById('f_date').value;
+    const travelers = document.getElementById('f_travelers').value;
+    const age = document.getElementById('f_age').value;
+    const gender = document.getElementById('f_gender').value;
+    const emergency = document.getElementById('f_emergency').value;
+    const pickup = document.getElementById('f_pickup').value;
+    const special = document.getElementById('f_special').value;
+    const notes = document.getElementById('f_notes').value;
+
+    // Header
+    doc.setFillColor(246, 93, 66);
+    doc.rect(0, 0, 210, 40, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.text('XPLOR THE HIMALAYAS', 20, 20);
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Trek Booking Confirmation', 20, 30);
+    doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, 140, 30);
+
+    // Body
+    doc.setTextColor(44, 62, 80);
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Booking Details', 20, 55);
+
+    doc.setDrawColor(246, 93, 66);
+    doc.setLineWidth(0.5);
+    doc.line(20, 58, 190, 58);
+
+    const fields = [
+      ['Full Name', name],
+      ['Email Address', email],
+      ['Phone Number', phone],
+      ['WhatsApp Number', whatsapp],
+      ['Trek Name', trek],
+      ['Preferred Trek Date', date],
+      ['Number of Travelers', travelers],
+      ['Age', age],
+      ['Gender', gender],
+      ['Emergency Contact', emergency],
+      ['Pickup Location', pickup],
+      ['Special Requirements', special],
+      ['Additional Notes', notes],
+    ];
+
+    let y = 68;
+    doc.setFontSize(11);
+    fields.forEach(([label, value]) => {
+      if (value) {
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(246, 93, 66);
+        doc.text(label + ':', 20, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(44, 62, 80);
+        const lines = doc.splitTextToSize(value || '-', 130);
+        doc.text(lines, 75, y);
+        y += lines.length * 7 + 3;
+      }
+    });
+
+    // Footer
+    doc.setFillColor(13, 27, 42);
+    doc.rect(0, 270, 210, 27, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(9);
+    doc.text('Xplor The Himalayas | info@xplorhimalayas.com | +91 98765 43210', 20, 281);
+    doc.text('© 2024 Xplor The Himalayas. All rights reserved.', 20, 289);
+
+    doc.save(`Xplor-Trek-Booking-${name.replace(/\s+/g,'_')}.pdf`);
   }
-  document.getElementById('reviewContent').innerHTML=`
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px">
-      <div style="font-size:12px;color:var(--orange);font-weight:600;letter-spacing:1px;margin-bottom:12px">TREK DETAILS</div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Trek</span><span style="font-weight:600">${currentTrek.name}</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Batch Date</span><span>${selectedBatch}</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Duration</span><span>${currentTrek.days} Days</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Trekkers</span><span>${n} Person${n>1?'s':''}</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Pickup</span><span>${pickupText}</span></div>
-    </div>
-    <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px">
-      <div style="font-size:12px;color:var(--orange);font-weight:600;letter-spacing:1px;margin-bottom:12px">TREKKERS</div>
-      ${rows}
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0 0"><span style="color:var(--muted)">Primary Contact</span><span>${document.getElementById('t1_phone')?.value||''}</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0"><span style="color:var(--muted)">Email</span><span>${document.getElementById('t1_email')?.value||''}</span></div>
-    </div>
-    <div class="price-summary">
-      <div class="price-row"><span>Base (${n} × ₹${currentTrek.price.toLocaleString('en-IN')})</span><span>₹${base.toLocaleString('en-IN')}</span></div>
-      <div class="price-row"><span>Pickup</span><span>₹${pickupCost.toLocaleString('en-IN')}</span></div>
-      <div class="price-row"><span>GST (5%)</span><span>₹${gst.toLocaleString('en-IN')}</span></div>
-      <div class="price-row total"><span>Total Payable</span><span class="val">₹${total.toLocaleString('en-IN')}</span></div>
-    </div>
-    <p style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center;line-height:1.6">By confirming, you agree to our Terms & Conditions. Our team will contact you within 24 hours.</p>`;
-}
-function submitBooking(){
-  const ref='XTH-'+Math.random().toString(36).substr(2,6).toUpperCase();
-  document.getElementById('bookingRef').textContent=ref;
-  const n=parseInt(document.getElementById('numTrekkers')?.value||1);
-  const pickup=document.getElementById('pickupSel');
-  const pickupText=pickup.options[pickup.selectedIndex].text;
-  const base=currentTrek.price*n, pickupCost=parseInt(pickup.value||0)*n;
-  const gst=Math.round((base+pickupCost)*0.05), total=base+pickupCost+gst;
-  const name1=document.getElementById('t1_name')?.value||'';
-  const phone1=document.getElementById('t1_phone')?.value||'';
-  const email1=document.getElementById('t1_email')?.value||'';
-  const msg=`🏔️ *NEW TREK BOOKING — Xplor The Himalayas*\n\n📋 *Booking Ref:* ${ref}\n🗺️ *Trek:* ${currentTrek.name}\n📅 *Batch Date:* ${selectedBatch}\n⏱️ *Duration:* ${currentTrek.days} Days\n📍 *Region:* ${currentTrek.region}\n\n👤 *Primary Trekker:* ${name1}\n👥 *Total Trekkers:* ${n}\n📞 *Phone:* ${phone1}\n📧 *Email:* ${email1}\n🚐 *Pickup:* ${pickupText}\n\n💰 *Price Breakdown:*\n  Base: ₹${base.toLocaleString('en-IN')}\n  Pickup: ₹${pickupCost.toLocaleString('en-IN')}\n  GST (5%): ₹${gst.toLocaleString('en-IN')}\n  *Total: ₹${total.toLocaleString('en-IN')}*\n\n⏳ Please contact the customer within 24 hours.`;
-  window.open('https://wa.me/917018403386?text='+encodeURIComponent(msg),'_blank');
-  currentStep=4; updateStepUI();
-}
-function submitEnquiry(e){
-  e.preventDefault();
-  const f=e.target;
-  const name=f.querySelector('input[type=text]').value;
-  const phone=f.querySelector('input[type=tel]').value;
-  const email=f.querySelector('input[type=email]').value;
-  const sels=f.querySelectorAll('select');
-  const trek=sels[0].value||'Not selected';
-  const group=sels[1].value, month=sels[2].value;
-  const message=f.querySelector('textarea').value||'None';
-  const msg=`🏔️ *NEW TREK ENQUIRY — Xplor The Himalayas*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📧 *Email:* ${email}\n\n🗺️ *Trek Interested:* ${trek}\n👥 *Group Size:* ${group}\n📅 *Preferred Month:* ${month}\n\n💬 *Message:*\n${message}`;
-  window.open('https://wa.me/917018403386?text='+encodeURIComponent(msg),'_blank');
-  const btn=f.querySelector('.submit-btn');
-  btn.textContent='✓ Opening WhatsApp...';
-  btn.style.background='linear-gradient(135deg,#25d366,#128c7e)';
-  setTimeout(()=>{btn.innerHTML='💬 Send via WhatsApp';btn.style.background='';f.reset();},3000);
-}
 
-// ===== NAV HELPERS =====
-function toggleMenu(){
-  document.getElementById('hamburger').classList.toggle('active');
-  document.getElementById('mobileMenu').classList.toggle('open');
-  document.body.style.overflow=document.getElementById('mobileMenu').classList.contains('open')?'hidden':'';
-}
-function closeMenu(){
-  document.getElementById('hamburger').classList.remove('active');
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.body.style.overflow='';
-}
-document.getElementById('bookingModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
-window.addEventListener('scroll',()=>{document.getElementById('scrollTop').classList.toggle('visible',window.scrollY>400);});
+  // ============================================
+  // INIT
+  // ============================================
+  document.addEventListener('DOMContentLoaded', () => {
+    initLatest();
+    initPopular();
+    renderReviews();
+    renderBlogs();
+    // re-observe new elements
+    setTimeout(() => {
+      document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    }, 100);
+  });
 
-// ===== INIT =====
-renderTreks();
-renderGallery();
-renderFAQ();
-</script>
-</body>
-</html>
+  // Close modal on overlay click
+  document.getElementById('trekModal').addEventListener('click', function(e) {
+    if (e.target === this) closeTrekModal();
+  });
+  </script>
+  </body>
+  </html>
