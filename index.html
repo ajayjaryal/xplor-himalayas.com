@@ -10,6 +10,525 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
+/* =====================================================================
+   XPLOR THE HIMALAYAS — CHATBOT STYLESHEET
+   Design tokens:
+     Accent gradient : linear-gradient(90deg, orange, amber, orange)
+                        — used on header, launcher button, send button
+     Surface         : warm cream (light) / deep slate-brown (dark)
+     Type            : 'Inter' (UI) — system fallback stack, no external font
+   ===================================================================== */
+
+/* ---------- Design tokens (CSS variables) ---------- */
+:root {
+  /* Brand gradient colors (as requested) */
+  --orange: #f97316;
+  --amber: #fbbf24;
+
+  /* Light theme (default) */
+  --xph-gradient: linear-gradient(90deg, var(--orange), var(--amber), var(--orange));
+  --xph-accent: #f97316;
+  --xph-accent-bright: #fb923c;
+  --xph-accent-contrast: #ffffff;
+  --xph-bg-page: #fdf6ec;
+  --xph-bg-window: #ffffff;
+  --xph-bg-body: #fffaf2;
+  --xph-bubble-user: #f97316;
+  --xph-bubble-user-text: #ffffff;
+  --xph-bubble-bot: #ffffff;
+  --xph-bubble-bot-text: #2a2118;
+  --xph-bubble-border: #f0e2cc;
+  --xph-text-primary: #2a2118;
+  --xph-text-secondary: #6b5d4e;
+  --xph-text-muted: #9c8f7e;
+  --xph-option-bg: #fff8ec;
+  --xph-option-border: #f3d9a8;
+  --xph-option-text: #c2540a;
+  --xph-input-bg: #ffffff;
+  --xph-input-border: #f0e2cc;
+  --xph-shadow: 0 18px 45px rgba(154, 84, 10, 0.22);
+  --xph-shadow-soft: 0 8px 24px rgba(154, 84, 10, 0.16);
+  --xph-online: #2ecc71;
+  --xph-radius-lg: 20px;
+  --xph-radius-md: 14px;
+  --xph-radius-sm: 10px;
+  --xph-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Dark theme overrides — applied when <body> has .dark-mode */
+body.dark-mode {
+  --xph-accent: #fb923c;
+  --xph-accent-bright: #fdba74;
+  --xph-accent-contrast: #2a1605;
+  --xph-bg-page: #16120c;
+  --xph-bg-window: #1e1810;
+  --xph-bg-body: #19140e;
+  --xph-bubble-user: #fb923c;
+  --xph-bubble-user-text: #241405;
+  --xph-bubble-bot: #261f15;
+  --xph-bubble-bot-text: #f3ecde;
+  --xph-bubble-border: #3a2f1f;
+  --xph-text-primary: #f3ecde;
+  --xph-text-secondary: #c1b29c;
+  --xph-text-muted: #8d8170;
+  --xph-option-bg: #241c12;
+  --xph-option-border: #4a3a22;
+  --xph-option-text: #fdba74;
+  --xph-input-bg: #221b12;
+  --xph-input-border: #3a2f1f;
+  --xph-shadow: 0 18px 45px rgba(0, 0, 0, 0.5);
+  --xph-shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --xph-online: #2ecc71;
+}
+
+/* ---------- Reset & base ---------- */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--xph-font);
+  background: var(--xph-bg-page);
+  color: var(--xph-text-primary);
+  transition: background-color .35s ease, color .35s ease;
+}
+
+button { font-family: inherit; }
+
+/* ---------- Demo host page (placeholder, not part of the widget) ---------- */
+.demo-page { min-height: 100vh; }
+
+.demo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+}
+
+.demo-logo {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--xph-text-primary);
+}
+.demo-logo span { color: var(--xph-accent); }
+
+.demo-call-btn {
+  background: var(--xph-gradient);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  box-shadow: var(--xph-shadow-soft);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.demo-call-btn:hover { transform: translateY(-2px); box-shadow: var(--xph-shadow); }
+
+.demo-hero {
+  max-width: 640px;
+  margin: 12vh auto 0;
+  text-align: center;
+  padding: 0 24px;
+}
+.demo-hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.demo-hero p { color: var(--xph-text-secondary); font-size: 16px; line-height: 1.6; }
+
+/* =====================================================================
+   CHATBOT WIDGET
+   ===================================================================== */
+#xph-chatbot {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  font-family: var(--xph-font);
+}
+
+/* ---------- Floating launcher button ---------- */
+.chat-launcher {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--xph-gradient);
+  background-size: 200% 100%;
+  color: var(--xph-accent-contrast);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--xph-shadow);
+  position: relative;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s ease;
+  animation: xph-pulse 2.6s ease-in-out infinite, xph-gradient-shift 6s ease infinite;
+}
+.chat-launcher:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 22px 50px rgba(154, 84, 10, 0.32);
+}
+.chat-launcher:active { transform: scale(0.96); }
+
+@keyframes xph-pulse {
+  0%, 100% { box-shadow: var(--xph-shadow), 0 0 0 0 rgba(249, 115, 22, 0.35); }
+  50% { box-shadow: var(--xph-shadow), 0 0 0 10px rgba(249, 115, 22, 0); }
+}
+
+@keyframes xph-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.launcher-icon-close { display: none; }
+#xph-chatbot.open .launcher-icon-chat { display: none; }
+#xph-chatbot.open .launcher-icon-close { display: block; }
+
+.launcher-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #e74c3c;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid var(--xph-bg-page);
+}
+
+/* ---------- Chat window ---------- */
+.chat-window {
+  position: absolute;
+  bottom: 76px;
+  right: 0;
+  width: 390px;
+  max-width: calc(100vw - 32px);
+  height: 620px;
+  max-height: calc(100vh - 120px);
+  background: var(--xph-bg-window);
+  border-radius: var(--xph-radius-lg);
+  box-shadow: var(--xph-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.9) translateY(16px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .28s cubic-bezier(.34,1.56,.64,1), opacity .22s ease;
+  transform-origin: bottom right;
+}
+
+#xph-chatbot.open .chat-window {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Minimized state: collapse to header height only */
+#xph-chatbot.minimized .chat-window {
+  height: 64px;
+}
+#xph-chatbot.minimized .chat-body,
+#xph-chatbot.minimized .option-buttons,
+#xph-chatbot.minimized .chat-input-area {
+  display: none;
+}
+
+/* ---------- Header ---------- */
+.chat-header {
+  background: var(--xph-gradient);
+  background-size: 200% 100%;
+  animation: xph-gradient-shift 8s ease infinite;
+  color: #fff;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.chat-header-info { display: flex; align-items: center; gap: 10px; }
+
+.bot-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+.bot-avatar.small { width: 26px; height: 26px; background: rgba(249,115,22,0.12); color: var(--xph-accent); }
+
+.bot-name { font-size: 15px; font-weight: 700; margin: 0; line-height: 1.2; }
+
+.bot-status {
+  font-size: 12px;
+  margin: 2px 0 0;
+  opacity: 0.95;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--xph-online);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+  display: inline-block;
+}
+
+.chat-header-actions { display: flex; align-items: center; gap: 2px; }
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: background .2s ease, opacity .2s ease, transform .2s ease;
+}
+.icon-btn:hover { background: rgba(255,255,255,0.2); opacity: 1; transform: translateY(-1px); }
+.icon-btn:active { transform: scale(0.92); }
+
+/* ---------- Body / messages ---------- */
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--xph-bg-body);
+  padding: 16px 14px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Scrollbar styling */
+.chat-body::-webkit-scrollbar { width: 6px; }
+.chat-body::-webkit-scrollbar-thumb { background: var(--xph-bubble-border); border-radius: 3px; }
+.chat-body::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- Message rows & bubbles ---------- */
+.msg-row {
+  display: flex;
+  flex-direction: column;
+  max-width: 84%;
+  animation: xph-msg-in .28s ease;
+}
+@keyframes xph-msg-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.msg-row.user { align-self: flex-end; align-items: flex-end; }
+.msg-row.bot { align-self: flex-start; align-items: flex-start; }
+
+.msg-bubble {
+  padding: 10px 14px;
+  border-radius: var(--xph-radius-md);
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+.msg-row.user .msg-bubble {
+  background: var(--xph-bubble-user);
+  color: var(--xph-bubble-user-text);
+  border-bottom-right-radius: 4px;
+}
+
+.msg-row.bot .msg-bubble {
+  background: var(--xph-bubble-bot);
+  color: var(--xph-bubble-bot-text);
+  border: 1px solid var(--xph-bubble-border);
+  border-bottom-left-radius: 4px;
+}
+
+.msg-time {
+  font-size: 10.5px;
+  color: var(--xph-text-muted);
+  margin-top: 4px;
+  padding: 0 2px;
+}
+
+/* ---------- Typing indicator ---------- */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0 10px;
+}
+
+.typing-dots {
+  background: var(--xph-bubble-bot);
+  border: 1px solid var(--xph-bubble-border);
+  border-radius: var(--xph-radius-md);
+  border-bottom-left-radius: 4px;
+  padding: 10px 14px;
+  display: flex;
+  gap: 4px;
+}
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--xph-text-muted);
+  animation: xph-typing-bounce 1.2s infinite ease-in-out;
+}
+.typing-dots span:nth-child(2) { animation-delay: .15s; }
+.typing-dots span:nth-child(3) { animation-delay: .3s; }
+
+@keyframes xph-typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: .5; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* ---------- Option buttons (dynamic menus / quick replies) ---------- */
+.option-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--xph-bg-window);
+  border-top: 1px solid var(--xph-bubble-border);
+  flex-shrink: 0;
+  max-height: 160px;
+  overflow-y: auto;
+}
+.option-buttons:empty { display: none; border-top: none; padding: 0; }
+
+.option-btn {
+  border: 1px solid var(--xph-option-border);
+  background: var(--xph-option-bg);
+  color: var(--xph-option-text);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+  white-space: nowrap;
+}
+.option-btn:hover {
+  background: var(--xph-gradient);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: var(--xph-shadow-soft);
+}
+.option-btn:active { transform: translateY(0) scale(0.97); }
+
+/* Full-width "primary" style for single CTA-style buttons (e.g. budget choices) */
+.option-btn.full-width { flex: 1 1 100%; text-align: center; }
+
+/* ---------- Input area ---------- */
+.chat-input-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--xph-bg-window);
+  border-top: 1px solid var(--xph-bubble-border);
+  flex-shrink: 0;
+}
+
+.chat-input {
+  flex: 1;
+  border: 1px solid var(--xph-input-border);
+  background: var(--xph-input-bg);
+  color: var(--xph-text-primary);
+  border-radius: 999px;
+  padding: 11px 16px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.chat-input::placeholder { color: var(--xph-text-muted); }
+.chat-input:focus {
+  border-color: var(--xph-accent);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.18);
+}
+
+.send-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--xph-gradient);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.send-btn:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: var(--xph-shadow-soft); }
+.send-btn:active { transform: scale(0.92); }
+.send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* =====================================================================
+   RESPONSIVE — MOBILE
+   ===================================================================== */
+@media (max-width: 480px) {
+  #xph-chatbot {
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .chat-window {
+    width: calc(100vw - 24px);
+    height: calc(100vh - 110px);
+    max-height: none;
+    bottom: 72px;
+    right: -8px;
+  }
+
+  .chat-launcher { width: 56px; height: 56px; }
+
+  .option-buttons { padding: 8px 10px; max-height: 130px; }
+  .option-btn { font-size: 12.5px; padding: 7px 12px; }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .chat-launcher, .msg-row, .typing-dots span, .chat-window, .chat-header {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+
+
+
+
+
 :root{
   --or:#F65D42;--am:#FFA317;--dp:#D53611;--dk:#0D1B2A;--dk2:#1A2E42;
   --tx:#2C3E50;--mu:#6B7A8D;--cr:#FFF8F0;
@@ -269,37 +788,102 @@ input,select,textarea{font-family:inherit}
 .rel-b h4{font-weight:700;font-size:13px;color:var(--dk);margin-bottom:3px}
 .rel-b p{font-size:11px;color:var(--mu)}
 
-/* BOOKING POPUP */
+/* VIDEOS */
+.vid-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.vc{background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh2);transition:all .4s}
+.vc:hover{transform:translateY(-6px);box-shadow:var(--sh)}
+.vc-frame{position:relative;height:200px;background:#000}
+.vc-frame iframe{width:100%;height:100%;border:0;display:block}
+.vc-bd{padding:18px}
+.vc-cat{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--or);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.vc-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--dk);line-height:1.4;margin-bottom:7px}
+.vc-desc{font-size:12px;color:var(--mu);line-height:1.6}
+
+/* BOOKING POPUP - MULTI STEP */
 .bk-modal{display:none;position:fixed;inset:0;z-index:3000;align-items:center;justify-content:center;padding:16px}
 .bk-modal.open{display:flex}
 .bk-bg{position:absolute;inset:0;background:rgba(13,27,42,.88);backdrop-filter:blur(8px)}
-.bk-inner{position:relative;background:#fff;border-radius:20px;width:100%;max-width:720px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.3)}
-.bk-hd{background:var(--gr2);padding:26px 30px;position:sticky;top:0;z-index:5}
-.bk-hd h3{font-family:'Playfair Display',serif;font-size:21px;color:#fff;margin-bottom:3px;display:flex;align-items:center;gap:8px}
-.bk-hd p{font-size:13px;color:rgba(255,255,255,.72)}
-.bk-pre{background:rgba(255,255,255,.12);border-radius:7px;padding:7px 13px;margin-top:9px;display:none;align-items:center;gap:7px;color:#fff;font-size:13px;font-weight:600}
-.bk-pre.show{display:flex}
-.bk-pre i{color:var(--am)}
-.bk-cl{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.14);border:none;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;cursor:pointer;transition:background .3s}
-.bk-cl:hover{background:rgba(255,255,255,.3)}
-.bk-body{padding:26px 30px}
-.fg2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.fg{display:flex;flex-direction:column;gap:6px}
-.fg.full{grid-column:1/-1}
-.fl{font-size:12px;font-weight:700;color:var(--tx);letter-spacing:.4px;display:flex;align-items:center;gap:5px}
-.fl i{color:var(--or);font-size:11px}
-.fl .req{color:var(--or)}
-.fi,.fs,.ft{background:#F8FAFC;border:1.5px solid #E8ECF0;border-radius:8px;padding:10px 13px;color:var(--tx);font-size:13px;font-family:inherit;transition:all .3s;width:100%}
-.fi:focus,.fs:focus,.ft:focus{outline:none;border-color:var(--or);background:#fff;box-shadow:0 0 0 3px rgba(246,93,66,.1)}
-.fi::placeholder,.ft::placeholder{color:#C0C8D0}
-.fs{cursor:pointer}
-.ft{resize:vertical;min-height:76px}
-.bk-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:1px solid #F0F4F8}
-.bk-acts button{flex:1;min-width:130px;justify-content:center}
-.btn-wa{background:linear-gradient(135deg,#25D366,#20B358);color:#fff;padding:12px 20px;border-radius:50px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:7px;transition:all .3s;box-shadow:0 4px 16px rgba(37,211,102,.35);border:none}
+.bk-inner{position:relative;background:#15212F;border-radius:18px;width:100%;max-width:760px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5);border-top:4px solid transparent;background-image:linear-gradient(#15212F,#15212F),var(--gr);background-origin:border-box;background-clip:padding-box,border-box;color:#fff}
+.bk-hd{padding:22px 28px 18px;position:sticky;top:0;z-index:5;background:#15212F}
+.bk-hd-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.bk-hd h3{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;color:#fff;margin-bottom:6px}
+.bk-meta{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:rgba(255,255,255,.6)}
+.bk-meta span{display:flex;align-items:center;gap:5px}
+.bk-meta i{color:var(--am)}
+.bk-cl{background:rgba(255,255,255,.08);border:none;color:#fff;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:background .3s;flex-shrink:0}
+.bk-cl:hover{background:rgba(255,255,255,.18)}
+/* Stepper */
+.bk-steps{display:flex;align-items:center;margin-top:22px}
+.bk-step{display:flex;flex-direction:column;align-items:center;gap:7px;flex-shrink:0}
+.bk-step-circ{width:32px;height:32px;border-radius:50%;background:#1F2E40;border:2px solid #2D3F54;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:rgba(255,255,255,.45);transition:all .3s}
+.bk-step.active .bk-step-circ{background:var(--gr2);border-color:transparent;color:#fff;box-shadow:0 0 0 4px rgba(246,93,66,.18)}
+.bk-step.done .bk-step-circ{background:#1F3A2D;border-color:#22C55E;color:#22C55E}
+.bk-step-lbl{font-size:11px;color:rgba(255,255,255,.4);font-weight:600;letter-spacing:.3px}
+.bk-step.active .bk-step-lbl{color:#fff}
+.bk-step.done .bk-step-lbl{color:#22C55E}
+.bk-step-line{flex:1;height:2px;background:#2D3F54;margin:0 6px;position:relative;top:-14px}
+.bk-step-line.done{background:#22C55E}
+/* Body */
+.bk-body{padding:24px 28px 28px}
+.bk-panel{display:none}
+.bk-panel.active{display:block;animation:fadeUp .4s ease both}
+.bk-lbl{font-size:12px;color:rgba(255,255,255,.55);font-weight:600;margin-bottom:12px;display:block}
+/* Date grid */
+.dt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.dt-card{background:#1B2A3A;border:1.5px solid #2D3F54;border-radius:10px;padding:13px 10px;text-align:center;cursor:pointer;transition:all .25s}
+.dt-card:hover{border-color:rgba(246,93,66,.6)}
+.dt-card.sel{border-color:var(--or);background:rgba(246,93,66,.12);box-shadow:0 0 0 3px rgba(246,93,66,.15)}
+.dt-card .dtd{font-weight:700;font-size:14px;color:#fff;margin-bottom:4px}
+.dt-card .dts{font-size:11px;color:rgba(255,255,255,.4)}
+.dt-card.sel .dts{color:var(--am)}
+/* field group dark */
+.bk-fg{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.bk-fl{font-size:12px;color:rgba(255,255,255,.6);font-weight:600}
+.bk-fi,.bk-fs,.bk-fta{background:#1B2A3A;border:1.5px solid #2D3F54;border-radius:9px;padding:11px 14px;color:#fff;font-size:13px;font-family:inherit;width:100%;transition:all .3s}
+.bk-fi::placeholder,.bk-fta::placeholder{color:rgba(255,255,255,.28)}
+.bk-fi:focus,.bk-fs:focus,.bk-fta:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 3px rgba(246,93,66,.14)}
+.bk-fs{cursor:pointer}
+.bk-fs option{background:#1B2A3A;color:#fff}
+.bk-fta{resize:vertical;min-height:70px}
+/* Price summary box */
+.bk-sum{background:rgba(246,93,66,.07);border:1px solid rgba(246,93,66,.22);border-radius:12px;padding:16px 18px;margin-top:4px}
+.bk-sum-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:rgba(255,255,255,.62);padding:5px 0}
+.bk-sum-row.tot{border-top:1px solid rgba(255,255,255,.12);margin-top:6px;padding-top:12px;font-size:15px;font-weight:700;color:#fff}
+.bk-sum-row.tot span:last-child{color:var(--am);font-size:19px}
+/* Trekker block */
+.tk-block{border:1px solid #2D3F54;border-radius:12px;padding:18px;margin-bottom:16px;background:rgba(255,255,255,.015)}
+.tk-block-hd{font-family:'Bebas Neue',sans-serif;letter-spacing:.5px;color:var(--am);font-size:15px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.tk-block-hd .tk-rm{background:none;border:none;color:rgba(255,255,255,.4);font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px}
+.tk-block-hd .tk-rm:hover{color:var(--or)}
+.bk-fg2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.add-tk-btn{width:100%;background:transparent;border:1.5px dashed #2D3F54;color:rgba(255,255,255,.5);border-radius:10px;padding:12px;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .3s}
+.add-tk-btn:hover{border-color:var(--or);color:var(--or)}
+/* Review */
+.rv-block{background:rgba(255,255,255,.03);border:1px solid #2D3F54;border-radius:12px;padding:18px 20px;margin-bottom:16px}
+.rv-block-hd{font-family:'Bebas Neue',sans-serif;color:var(--am);letter-spacing:.5px;font-size:13px;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.rv-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.rv-row:last-child{border-bottom:none}
+.rv-row .rk{color:rgba(255,255,255,.45)}
+.rv-row .rv{color:#fff;font-weight:600;text-align:right}
+.bk-terms{font-size:11px;color:rgba(255,255,255,.35);text-align:center;margin:14px 0 6px;line-height:1.6}
+/* Confirm panel */
+.bk-confirm{text-align:center;padding:20px 10px 6px}
+.bk-confirm .cico{width:74px;height:74px;border-radius:50%;background:rgba(34,197,94,.12);border:2px solid #22C55E;display:flex;align-items:center;justify-content:center;font-size:30px;color:#22C55E;margin:0 auto 18px}
+.bk-confirm h4{font-family:'Playfair Display',serif;font-size:21px;color:#fff;margin-bottom:9px}
+.bk-confirm p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;max-width:380px;margin:0 auto 22px}
+/* Footer actions */
+.bk-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08)}
+.bk-acts.between{justify-content:space-between}
+.btn-back{background:rgba(255,255,255,.06);color:rgba(255,255,255,.7);padding:13px 24px;border-radius:50px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:7px;transition:all .3s;border:none}
+.btn-back:hover{background:rgba(255,255,255,.12);color:#fff}
+.btn-next{background:var(--gr);color:#fff;padding:13px 26px;border-radius:50px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:8px;transition:all .3s;box-shadow:0 4px 18px rgba(246,93,66,.4);border:none}
+.btn-next:hover{transform:translateY(-2px)}
+.btn-wa{background:linear-gradient(135deg,#25D366,#20B358);color:#fff;padding:13px 24px;border-radius:50px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:7px;transition:all .3s;box-shadow:0 4px 16px rgba(37,211,102,.35);border:none}
 .btn-wa:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(37,211,102,.45)}
-.btn-pdf{background:linear-gradient(135deg,#3B82F6,#1D4ED8);color:#fff;padding:12px 20px;border-radius:50px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:7px;transition:all .3s;border:none;box-shadow:0 4px 16px rgba(59,130,246,.3)}
+.btn-pdf{background:linear-gradient(135deg,#3B82F6,#1D4ED8);color:#fff;padding:13px 24px;border-radius:50px;font-weight:700;font-size:13px;display:inline-flex;align-items:center;gap:7px;transition:all .3s;border:none;box-shadow:0 4px 16px rgba(59,130,246,.3)}
 .btn-pdf:hover{transform:translateY(-2px)}
+.bk-err{background:rgba(246,93,66,.12);border:1px solid rgba(246,93,66,.4);color:#FFB4A3;font-size:12px;padding:9px 14px;border-radius:8px;margin-bottom:14px;display:none;align-items:center;gap:8px}
+.bk-err.show{display:flex}
 
 /* REVIEWS */
 .rev-s{padding:72px 0;background:var(--cr)}
@@ -346,20 +930,10 @@ input,select,textarea{font-family:inherit}
 .ct-item{display:flex;align-items:center;gap:11px;color:rgba(255,255,255,.72);margin-bottom:13px;font-size:14px}
 .ct-ic{width:38px;height:38px;background:rgba(246,93,66,.14);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--am);flex-shrink:0}
 .ct-item strong{color:#fff;display:block;font-size:13px;margin-bottom:1px}
-.bfw{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:32px;backdrop-filter:blur(10px)}
-.bfw h3{font-family:'Playfair Display',serif;font-size:19px;color:#fff;margin-bottom:22px;display:flex;align-items:center;gap:8px}
-.bfw h3 i{color:var(--am)}
-.bfgd{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.bfg{display:flex;flex-direction:column;gap:6px}
-.bfg.full{grid-column:1/-1}
-.bfl{font-size:12px;font-weight:700;color:rgba(255,255,255,.72);display:flex;align-items:center;gap:5px}
-.bfl i{color:var(--am);font-size:11px}
-.bfi,.bfsel,.bfta{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 13px;color:#fff;font-size:13px;font-family:inherit;transition:all .3s;width:100%}
-.bfi::placeholder,.bfta::placeholder{color:rgba(255,255,255,.26)}
-.bfi:focus,.bfsel:focus,.bfta:focus{outline:none;border-color:var(--or);background:rgba(255,255,255,.09)}
-.bfsel option{background:var(--dk2);color:#fff}
-.bfta{resize:vertical;min-height:80px}
-.bfw-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.ct-promo{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:32px;backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:flex-start;gap:16px;justify-content:center;height:100%}
+.ct-promo i{font-size:34px;color:var(--am)}
+.ct-promo h3{font-family:'Playfair Display',serif;font-size:21px;color:#fff;line-height:1.4}
+.ct-promo p{color:rgba(255,255,255,.5);font-size:13px;line-height:1.7}
 
 /* SUCCESS MODAL */
 .succ{display:none;position:fixed;inset:0;z-index:4000;align-items:center;justify-content:center;padding:16px;background:rgba(13,27,42,.9);backdrop-filter:blur(8px)}
@@ -390,8 +964,8 @@ input,select,textarea{font-family:inherit}
 .fbot-links a:hover{color:var(--am)}
 
 /* WA FAB */
-.wa-fab{position:fixed;bottom:22px;right:22px;width:54px;height:54px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;box-shadow:0 4px 18px rgba(37,211,102,.44);cursor:pointer;z-index:990;transition:all .3s;border:none}
-.wa-fab:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(37,211,102,.55)}
+/* .wa-fab{position:fixed;bottom:22px;right:22px;width:54px;height:54px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;box-shadow:0 4px 18px rgba(37,211,102,.44);cursor:pointer;z-index:990;transition:all .3s;border:none}
+.wa-fab:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(37,211,102,.55)} */
 
 /* RESPONSIVE */
 @media(max-width:1024px){
@@ -405,6 +979,8 @@ input,select,textarea{font-family:inherit}
   .rel-grid{grid-template-columns:1fr 1fr}
   .inc-grid{grid-template-columns:1fr}
   .carry{grid-template-columns:repeat(2,1fr)}
+  .vid-grid{grid-template-columns:repeat(2,1fr)}
+  .dt-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
   .nav-links,.nav-ph,.nav-r .btn-pri{display:none}
@@ -416,10 +992,7 @@ input,select,textarea{font-family:inherit}
   .pop-grid{grid-template-columns:repeat(2,1fr)}
   .sgrid{grid-template-columns:repeat(2,1fr)}
   .ftr-grid{grid-template-columns:1fr}
-  .fg2{grid-template-columns:1fr}
-  .fg.full{grid-column:1/-1}
-  .bfgd{grid-template-columns:1fr}
-  .bfg.full{grid-column:1/-1}
+  .bk-fg2{grid-template-columns:1fr}
   .td-body{padding:18px}
   .tdh-cnt{padding:18px 20px}
   .td-close{top:8px;right:8px}
@@ -432,10 +1005,12 @@ input,select,textarea{font-family:inherit}
   .itabs{gap:6px}
   .bk-body,.bk-hd{padding:18px 20px}
   .bk-acts{flex-direction:column}
-  .bk-acts button{min-width:auto}
+  .bk-acts button{width:100%;justify-content:center}
   .succ-in{padding:30px 22px}
-  .bfw{padding:22px}
-  .bfw-acts{flex-direction:column}
+  .vid-grid{grid-template-columns:1fr}
+  .dt-grid{grid-template-columns:1fr 1fr}
+  .bk-steps{overflow-x:auto}
+  .bk-step-lbl{font-size:10px}
   .ct-grid{gap:28px}
 }
 @media(max-width:480px){
@@ -445,6 +1020,7 @@ input,select,textarea{font-family:inherit}
   .carry{grid-template-columns:1fr 1fr}
   .h-btns{flex-direction:column;align-items:flex-start}
   .ic-grid{grid-template-columns:1fr 1fr}
+  .dt-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -498,6 +1074,105 @@ input,select,textarea{font-family:inherit}
   <div class="wl-body" id="wlBody"></div>
   <div class="wl-foot" id="wlFoot"></div>
 </div>
+
+
+<div id="xph-chatbot">
+
+    <!-- Floating launcher button -->
+    <button id="chatToggleBtn" class="chat-launcher" type="button" aria-label="Open chat with Xplor The Himalayas assistant" aria-expanded="false">
+      <svg class="launcher-icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      </svg>
+      <svg class="launcher-icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+      <span class="launcher-badge" id="launcherBadge" hidden>1</span>
+    </button>
+
+    <!-- Chat window -->
+    <section class="chat-window" id="chatWindow" aria-label="Xplor The Himalayas chat assistant" role="dialog">
+
+      <!-- Header -->
+      <header class="chat-header">
+        <div class="chat-header-info">
+          <div class="bot-avatar">
+            <!-- Mountain peak avatar icon -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 18l4-10 2.5 5L17 8l4 10H3z"/>
+              <path d="M3 18h18"/>
+            </svg>
+          </div>
+          <div class="chat-header-text">
+            <h2 class="bot-name">Xplor The Himalayas</h2>
+            <p class="bot-status"><span class="status-dot"></span> <span id="statusLabel">Online &middot; Travel Assistant</span></p>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <!-- Clear chat -->
+          <button id="clearChatBtn" class="icon-btn" type="button" aria-label="Clear chat history" title="Clear chat">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+            </svg>
+          </button>
+          <!-- Minimize -->
+          <button id="minimizeBtn" class="icon-btn" type="button" aria-label="Minimize chat" title="Minimize">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+          <!-- Close -->
+          <button id="closeBtn" class="icon-btn" type="button" aria-label="Close chat" title="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Messages area -->
+      <div class="chat-body" id="chatBody">
+        <div class="chat-messages" id="chatMessages">
+          <!-- Messages injected dynamically by script.js -->
+        </div>
+        <!-- Typing indicator (hidden by default) -->
+        <div class="typing-indicator" id="typingIndicator" hidden>
+          <div class="bot-avatar small">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 18l4-10 2.5 5L17 8l4 10H3z"/>
+            </svg>
+          </div>
+          <div class="typing-dots"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+
+      <!-- Dynamic option buttons (menus, sub-menus, quote form choices) -->
+      <div class="option-buttons" id="optionButtons"></div>
+
+      <!-- Input area -->
+      <form class="chat-input-area" id="chatForm" autocomplete="off">
+        <input
+          type="text"
+          id="chatInput"
+          class="chat-input"
+          placeholder="Type your message..."
+          aria-label="Type your message"
+          maxlength="300"
+        />
+        <button type="submit" class="send-btn" id="sendBtn" aria-label="Send message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </form>
+
+    </section>
+  </div>
+
+  <!-- Notification sound is generated in-browser via Web Audio API in script.js — no external audio file needed -->
+
+  <script src="script.js"></script>
+
+
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -643,12 +1318,13 @@ input,select,textarea{font-family:inherit}
       </div>
     </div>
     <div class="itabs anim">
-      <button class="itab active" onclick="swTab(this)"><i class="fa-solid fa-bell"></i> Latest Updates</button>
-      <button class="itab" onclick="swTab(this)"><i class="fa-solid fa-book-open"></i> Trekking Articles</button>
-      <button class="itab" onclick="swTab(this)"><i class="fa-solid fa-video"></i> Informative Videos</button>
+      <button class="itab active" onclick="swTab(this,'updates')"><i class="fa-solid fa-bell"></i> Latest Updates</button>
+      <button class="itab" onclick="swTab(this,'articles')"><i class="fa-solid fa-book-open"></i> Trekking Articles</button>
+      <button class="itab" onclick="swTab(this,'videos')"><i class="fa-solid fa-video"></i> Informative Videos</button>
     </div>
-    <div class="blog-wrap"><div class="blog-track" id="blogTrack"></div></div>
-    <div class="c-nav" style="margin-top:26px">
+    <div class="blog-wrap" id="blogCarouselWrap"><div class="blog-track" id="blogTrack"></div></div>
+    <div class="vid-grid" id="vidGrid" style="display:none"></div>
+    <div class="c-nav" id="blogNav" style="margin-top:26px">
       <button class="c-btn" onclick="mvTrack('bl',-1)"><i class="fa-solid fa-chevron-left"></i></button>
       <button class="c-btn" onclick="mvTrack('bl',1)"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
@@ -661,34 +1337,18 @@ input,select,textarea{font-family:inherit}
     <div class="ct-grid">
       <div class="ct-left anim">
         <h2>Plan Your Perfect<br><span style="background:var(--gr);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Himalayan Trek</span></h2>
-        <p>Fill in the form and our trek experts will get back to you within 2 hours with a customized itinerary and pricing.</p>
+        <p>Click below and our quick, guided booking form will walk you through dates, trekker details, and a final review — our experts will reach out within 2 hours.</p>
         <div class="ct-item"><div class="ct-ic"><i class="fa-solid fa-phone"></i></div><div><strong>Call Us</strong>+91 98765 43210</div></div>
         <div class="ct-item"><div class="ct-ic"><i class="fa-brands fa-whatsapp"></i></div><div><strong>WhatsApp</strong>+91 98765 43210</div></div>
         <div class="ct-item"><div class="ct-ic"><i class="fa-solid fa-envelope"></i></div><div><strong>Email</strong>info@xplorhimalayas.com</div></div>
         <div class="ct-item"><div class="ct-ic"><i class="fa-solid fa-clock"></i></div><div><strong>Office Hours</strong>Mon–Sat: 9 AM to 7 PM IST</div></div>
       </div>
       <div class="anim">
-        <div class="bfw">
-          <h3><i class="fa-solid fa-calendar-check"></i> Trek Booking Form</h3>
-          <div class="bfgd">
-            <div class="bfg"><label class="bfl"><i class="fa-solid fa-user"></i> Full Name <span style="color:var(--or)">*</span></label><input class="bfi" id="bf_name" placeholder="Your full name"></div>
-            <div class="bfg"><label class="bfl"><i class="fa-solid fa-envelope"></i> Email Address <span style="color:var(--or)">*</span></label><input class="bfi" id="bf_email" type="email" placeholder="your@email.com"></div>
-            <div class="bfg"><label class="bfl"><i class="fa-solid fa-phone"></i> Phone Number <span style="color:var(--or)">*</span></label><input class="bfi" id="bf_phone" type="tel" placeholder="+91 XXXXX XXXXX"></div>
-            <div class="bfg"><label class="bfl"><i class="fa-brands fa-whatsapp"></i> WhatsApp Number</label><input class="bfi" id="bf_wa" type="tel" placeholder="+91 XXXXX XXXXX"></div>
-            <div class="bfg full"><label class="bfl"><i class="fa-solid fa-route"></i> Trek Name <span style="color:var(--or)">*</span></label><select class="bfsel" id="bf_trek"><option value="">Select a trek...</option><option>Valley of Flowers Trek</option><option>Hampta Pass Trek</option><option>Pin Bhaba Pass Trek</option><option>Markha Valley Trek</option><option>Kedarkantha Trek</option><option>Chopta Chandrashila Trek</option><option>Har Ki Dun Trek</option><option>Brahmatal Trek</option><option>Goecha La Trek</option><option>Pangarchulla Peak</option><option>Everest Base Camp</option><option>Annapurna Circuit</option></select></div>
-            <div class="bfg"><label class="bfl"><i class="fa-solid fa-calendar"></i> Preferred Date <span style="color:var(--or)">*</span></label><input class="bfi" id="bf_date" type="date"></div>
-            <div class="bfg"><label class="bfl"><i class="fa-solid fa-users"></i> No. of Travelers</label><input class="bfi" id="bf_travelers" type="number" min="1" placeholder="e.g. 4"></div>
-            <div class="bfg"><label class="bfl"><i class="fa-solid fa-cake-candles"></i> Age</label><input class="bfi" id="bf_age" type="number" placeholder="Your age"></div>
-            <div class="bfg"><label class="bfl"><i class="fa-solid fa-venus-mars"></i> Gender</label><select class="bfsel" id="bf_gender"><option value="">Select...</option><option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
-            <div class="bfg"><label class="bfl"><i class="fa-solid fa-shield-heart"></i> Emergency Contact</label><input class="bfi" id="bf_emg" type="tel" placeholder="+91 XXXXX XXXXX"></div>
-            <div class="bfg full"><label class="bfl"><i class="fa-solid fa-location-dot"></i> Pickup Location</label><input class="bfi" id="bf_pickup" placeholder="e.g. Delhi, Rishikesh, Manali"></div>
-            <div class="bfg full"><label class="bfl"><i class="fa-solid fa-notes-medical"></i> Special Requirements</label><textarea class="bfta" id="bf_special" placeholder="Medical conditions, dietary needs, etc." rows="3"></textarea></div>
-            <div class="bfg full"><label class="bfl"><i class="fa-solid fa-comment"></i> Additional Notes</label><textarea class="bfta" id="bf_notes" placeholder="Any other information..." rows="2"></textarea></div>
-          </div>
-          <div class="bfw-acts">
-            <button class="btn-pri" onclick="submitBF()"><i class="fa-solid fa-paper-plane"></i> Submit Booking</button>
-            <button class="btn-wa" onclick="sendWA('bf')"><i class="fa-brands fa-whatsapp"></i> Send via WhatsApp</button>
-          </div>
+        <div class="ct-promo">
+          <i class="fa-solid fa-route"></i>
+          <h3>Ready for your next Himalayan adventure?</h3>
+          <p>Use our simple 4-step guided booking form — pick your dates, add trekker details, review the price breakdown, and confirm. The whole process takes less than 3 minutes.</p>
+          <button class="btn-pri" onclick="openBK()"><i class="fa-solid fa-calendar-check"></i> Start Booking</button>
         </div>
       </div>
     </div>
@@ -739,51 +1399,125 @@ input,select,textarea{font-family:inherit}
   <div class="td-inner" id="tdInner"></div>
 </div>
 
-<!-- BOOKING POPUP -->
+<!-- BOOKING POPUP : MULTI-STEP -->
 <div class="bk-modal" id="bkModal">
   <div class="bk-bg" onclick="closeBK()"></div>
   <div class="bk-inner">
     <div class="bk-hd">
-      <button class="bk-cl" onclick="closeBK()"><i class="fa-solid fa-xmark"></i></button>
-      <h3><i class="fa-solid fa-mountain-sun" style="color:rgba(255,255,255,.8)"></i> Trek Booking Request</h3>
-      <p>Our trek experts will contact you within 2 hours</p>
-      <div class="bk-pre" id="bkPre"><i class="fa-solid fa-route"></i><span id="bkTrekName"></span></div>
+      <div class="bk-hd-top">
+        <div>
+          <h3 id="bkTrekTitle">TREK BOOKING</h3>
+          <div class="bk-meta" id="bkTrekMeta">
+            <span><i class="fa-solid fa-calendar"></i> <span id="bkMetaDays">--</span></span>
+            <span><i class="fa-solid fa-location-dot"></i> <span id="bkMetaLoc">--</span></span>
+            <span><i class="fa-solid fa-mountain"></i> <span id="bkMetaAlt">--</span></span>
+            <span><i class="fa-solid fa-gauge"></i> <span id="bkMetaDiff">--</span></span>
+          </div>
+        </div>
+        <button class="bk-cl" onclick="closeBK()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="bk-steps" id="bkSteps">
+        <div class="bk-step active" data-s="1"><div class="bk-step-circ">1</div><div class="bk-step-lbl">Dates</div></div>
+        <div class="bk-step-line" id="bkLine1"></div>
+        <div class="bk-step" data-s="2"><div class="bk-step-circ">2</div><div class="bk-step-lbl">Details</div></div>
+        <div class="bk-step-line" id="bkLine2"></div>
+        <div class="bk-step" data-s="3"><div class="bk-step-circ">3</div><div class="bk-step-lbl">Review</div></div>
+        <div class="bk-step-line" id="bkLine3"></div>
+        <div class="bk-step" data-s="4"><div class="bk-step-circ">4</div><div class="bk-step-lbl">Confirm</div></div>
+      </div>
     </div>
     <div class="bk-body">
-      <div class="fg2">
-        <div class="fg"><label class="fl"><i class="fa-solid fa-user"></i> Full Name <span class="req">*</span></label><input class="fi" id="pm_name" placeholder="Your full name"></div>
-        <div class="fg"><label class="fl"><i class="fa-solid fa-envelope"></i> Email <span class="req">*</span></label><input class="fi" id="pm_email" type="email" placeholder="your@email.com"></div>
-        <div class="fg"><label class="fl"><i class="fa-solid fa-phone"></i> Phone <span class="req">*</span></label><input class="fi" id="pm_phone" type="tel" placeholder="+91 XXXXX XXXXX"></div>
-        <div class="fg"><label class="fl"><i class="fa-brands fa-whatsapp"></i> WhatsApp</label><input class="fi" id="pm_wa" type="tel" placeholder="+91 XXXXX XXXXX"></div>
-        <div class="fg full"><label class="fl"><i class="fa-solid fa-route"></i> Trek Name <span class="req">*</span></label><select class="fs" id="pm_trek"><option value="">Select a trek...</option><option>Valley of Flowers Trek</option><option>Hampta Pass Trek</option><option>Pin Bhaba Pass Trek</option><option>Markha Valley Trek</option><option>Kedarkantha Trek</option><option>Chopta Chandrashila Trek</option><option>Har Ki Dun Trek</option><option>Brahmatal Trek</option><option>Goecha La Trek</option><option>Pangarchulla Peak</option><option>Everest Base Camp</option><option>Annapurna Circuit</option></select></div>
-        <div class="fg"><label class="fl"><i class="fa-solid fa-calendar"></i> Preferred Date <span class="req">*</span></label><input class="fi" id="pm_date" type="date"></div>
-        <div class="fg"><label class="fl"><i class="fa-solid fa-users"></i> Travelers</label><input class="fi" id="pm_travelers" type="number" min="1" placeholder="e.g. 4"></div>
-        <div class="fg"><label class="fl"><i class="fa-solid fa-cake-candles"></i> Age</label><input class="fi" id="pm_age" type="number" placeholder="Your age"></div>
-        <div class="fg"><label class="fl"><i class="fa-solid fa-venus-mars"></i> Gender</label><select class="fs" id="pm_gender"><option value="">Select...</option><option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
-        <div class="fg"><label class="fl"><i class="fa-solid fa-shield-heart"></i> Emergency Contact</label><input class="fi" id="pm_emg" type="tel" placeholder="+91 XXXXX XXXXX"></div>
-        <div class="fg full"><label class="fl"><i class="fa-solid fa-location-dot"></i> Pickup Location</label><input class="fi" id="pm_pickup" placeholder="e.g. Delhi, Rishikesh, Manali"></div>
-        <div class="fg full"><label class="fl"><i class="fa-solid fa-notes-medical"></i> Special Requirements</label><textarea class="ft" id="pm_special" placeholder="Medical conditions, dietary needs, etc." rows="2"></textarea></div>
-        <div class="fg full"><label class="fl"><i class="fa-solid fa-comment"></i> Additional Notes</label><textarea class="ft" id="pm_notes" placeholder="Any other information..." rows="2"></textarea></div>
-      </div>
-      <div class="bk-acts">
-        <button class="btn-pri" onclick="submitPM()"><i class="fa-solid fa-paper-plane"></i> Submit Booking</button>
-        <button class="btn-wa" onclick="sendWA('pm')"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
-        <button class="btn-pdf" onclick="genPDF('pm')"><i class="fa-solid fa-file-pdf"></i> Download PDF</button>
-      </div>
-    </div>
-  </div>
-</div>
+      <div class="bk-err" id="bkErr"><i class="fa-solid fa-circle-exclamation"></i><span id="bkErrTxt">Please fill all required fields.</span></div>
 
-<!-- SUCCESS MODAL -->
-<div class="succ" id="succModal">
-  <div class="succ-in">
-    <span class="sico">🎉</span>
-    <h3>Booking Submitted!</h3>
-    <p>Thank you for choosing Xplor The Himalayas! Our trek experts will contact you within 2 hours.<br>Check your WhatsApp for a confirmation message.</p>
-    <div class="succ-acts">
-      <button class="btn-pri" onclick="genPDF('last')"><i class="fa-solid fa-file-pdf"></i> Download PDF</button>
-      <button class="btn-wa" onclick="sendWA('last')"><i class="fa-brands fa-whatsapp"></i> Share on WA</button>
-      <button class="btn-out" onclick="document.getElementById('succModal').classList.remove('open')"><i class="fa-solid fa-xmark"></i> Close</button>
+      <!-- STEP 1: DATES -->
+      <div class="bk-panel active" id="bkPanel1">
+        <label class="bk-lbl"><i class="fa-solid fa-calendar-days"></i> Select Batch Date</label>
+        <div class="dt-grid" id="bkDateGrid"></div>
+        <div class="bk-fg">
+          <label class="bk-fl"><i class="fa-solid fa-users"></i> Number of Trekkers</label>
+          <select class="bk-fs" id="bk_count" onchange="onCountChange()">
+            <option value="1">1 Person</option><option value="2">2 People</option><option value="3">3 People</option><option value="4">4 People</option><option value="5">5 People</option><option value="6">6 People</option>
+          </select>
+        </div>
+        <div class="bk-fg">
+          <label class="bk-fl"><i class="fa-solid fa-van-shuttle"></i> Pickup Location</label>
+          <select class="bk-fs" id="bk_pickup" onchange="updateSummary()">
+            <option value="Self Arrangement (No Pickup)" data-fee="0">Self Arrangement (No Pickup)</option>
+            <option value="Delhi Pickup" data-fee="1500">Delhi Pickup (+₹1,500)</option>
+            <option value="Rishikesh Pickup" data-fee="800">Rishikesh Pickup (+₹800)</option>
+            <option value="Manali Pickup" data-fee="800">Manali Pickup (+₹800)</option>
+          </select>
+        </div>
+        <div class="bk-sum" id="bkSum1">
+          <div class="bk-sum-row"><span>Base Price</span><span id="sumBase">₹0</span></div>
+          <div class="bk-sum-row"><span>Pickup</span><span id="sumPickup">₹0</span></div>
+          <div class="bk-sum-row"><span>GST (5%)</span><span id="sumGst">₹0</span></div>
+          <div class="bk-sum-row tot"><span>Total Payable</span><span id="sumTotal">₹0</span></div>
+        </div>
+        <div class="bk-acts" style="justify-content:flex-end">
+          <button class="btn-next" onclick="goStep(2)">Next <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STEP 2: DETAILS -->
+      <div class="bk-panel" id="bkPanel2">
+        <div id="tkBlocks"></div>
+        <div class="bk-fg" style="margin-top:6px">
+          <label class="bk-fl"><i class="fa-solid fa-phone"></i> Primary Contact – Phone (WhatsApp)</label>
+          <input class="bk-fi" id="bk_phone" placeholder="+91 XXXXX XXXXX">
+        </div>
+        <div class="bk-fg">
+          <label class="bk-fl"><i class="fa-solid fa-envelope"></i> Email</label>
+          <input class="bk-fi" id="bk_email" type="email" placeholder="email@gmail.com">
+        </div>
+        <div class="bk-acts between">
+          <button class="btn-back" onclick="goStep(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="btn-next" onclick="goStep(3)">Next <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- STEP 3: REVIEW -->
+      <div class="bk-panel" id="bkPanel3">
+        <div class="rv-block">
+          <div class="rv-block-hd"><i class="fa-solid fa-route"></i> TREK DETAILS</div>
+          <div class="rv-row"><span class="rk">Trek</span><span class="rv" id="rvTrek">--</span></div>
+          <div class="rv-row"><span class="rk">Batch Date</span><span class="rv" id="rvDate">--</span></div>
+          <div class="rv-row"><span class="rk">Duration</span><span class="rv" id="rvDuration">--</span></div>
+          <div class="rv-row"><span class="rk">Trekkers</span><span class="rv" id="rvCount">--</span></div>
+          <div class="rv-row"><span class="rk">Pickup</span><span class="rv" id="rvPickup">--</span></div>
+        </div>
+        <div class="rv-block">
+          <div class="rv-block-hd"><i class="fa-solid fa-user-group"></i> TREKKERS</div>
+          <div id="rvTrekkers"></div>
+          <div class="rv-row"><span class="rk">Primary Contact</span><span class="rv" id="rvPhone">--</span></div>
+          <div class="rv-row"><span class="rk">Email</span><span class="rv" id="rvEmail">--</span></div>
+        </div>
+        <div class="bk-sum">
+          <div class="bk-sum-row"><span id="rvBaseLbl">Base</span><span id="rvBaseVal">₹0</span></div>
+          <div class="bk-sum-row"><span>Pickup</span><span id="rvPickupVal">₹0</span></div>
+          <div class="bk-sum-row"><span>GST (5%)</span><span id="rvGstVal">₹0</span></div>
+          <div class="bk-sum-row tot"><span>Total Payable</span><span id="rvTotalVal">₹0</span></div>
+        </div>
+        <p class="bk-terms">By confirming, you agree to our Terms &amp; Conditions. Our team will contact you within 24 hours.</p>
+        <div class="bk-acts between">
+          <button class="btn-back" onclick="goStep(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+          <button class="btn-next" onclick="confirmBooking()">Confirm &amp; Send WhatsApp <i class="fa-solid fa-check"></i></button>
+        </div>
+      </div>
+
+      <!-- STEP 4: CONFIRM -->
+      <div class="bk-panel" id="bkPanel4">
+        <div class="bk-confirm">
+          <div class="cico"><i class="fa-solid fa-check"></i></div>
+          <h4>Booking Request Sent!</h4>
+          <p>Thank you for choosing Xplor The Himalayas! Our trek experts will contact you within 24 hours. A WhatsApp message has been prepared with all your booking details.</p>
+        </div>
+        <div class="bk-acts" style="justify-content:center">
+          <button class="btn-pdf" onclick="genPDF('bk')"><i class="fa-solid fa-file-pdf"></i> Download PDF</button>
+          <button class="btn-wa" onclick="sendWA('bk')"><i class="fa-brands fa-whatsapp"></i> Open WhatsApp</button>
+          <button class="btn-back" onclick="closeBK()"><i class="fa-solid fa-xmark"></i> Close</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -792,18 +1526,18 @@ input,select,textarea{font-family:inherit}
 <script>
 /* ===== DATA ===== */
 const TR=[
-  {id:1,name:'Valley of Flowers Trek',loc:'Uttarakhand',region:'india',season:'summer monsoon',diff:'easy',days:6,km:37,alt:'14,100 ft',price:'₹12,450',tag:'New',img:'https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?w=700&q=80',imgs:['https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80'],desc:'A UNESCO World Heritage Site bursting with alpine wildflowers and majestic Himalayan scenery.',best:'July – September',hl:['UNESCO World Heritage Site','500+ species of wildflowers','Hemkund Sahib Gurudwara nearby','Rich biodiversity – snow leopards','Pristine Pushpawati river valley']},
-  {id:2,name:'Hampta Pass Trek',loc:'Himachal Pradesh',region:'india',season:'summer',diff:'moderate',days:5,km:26,alt:'14,100 ft',price:'₹9,800',tag:'Popular',img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80',imgs:['https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80','https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80','https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80','https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=1000&q=80'],desc:'A dramatic crossover from the lush Kullu Valley to the stark Lahaul landscape.',best:'June – October',hl:['Dramatic contrast between two valleys','Chandratal Lake day excursion','Snow-filled pass crossing','Stunning Spiti Valley views','Whiteout camping experience']},
-  {id:3,name:'Pin Bhaba Pass Trek',loc:'Himachal Pradesh',region:'india',season:'summer autumn',diff:'difficult',days:8,km:50,alt:'17,500 ft',price:'₹14,200',tag:'Challenging',img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=700&q=80',imgs:['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=1000&q=80','https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1000&q=80','https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1000&q=80'],desc:'A spectacular crossover between the green Kinnaur Valley and the arid Spiti Valley.',best:'July – September',hl:['Crosses two culturally distinct valleys','Highest point 17,500 ft','Remote wilderness experience','Ancient Kinnauri villages','Stunning Spiti monastery visits']},
-  {id:4,name:'Markha Valley Trek',loc:'Ladakh',region:'india',season:'summer autumn',diff:'moderate',days:7,km:65,alt:'17,060 ft',price:'₹16,500',tag:'Premium',img:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=700&q=80',imgs:['https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80'],desc:'The most popular multi-day trek in Ladakh with ancient monasteries and nomadic culture.',best:'June – October',hl:['Ganda La pass 17,060 ft','Ancient Thiksey monastery','Nomadic Ladakhi homestays','Kang Yatse peak views','Hemis National Park']},
-  {id:5,name:'Kedarkantha Trek',loc:'Uttarakhand',region:'india',season:'winter spring',diff:'easy',days:6,km:20,alt:'12,500 ft',price:'₹7,500',tag:'Bestseller',img:'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=700&q=80',imgs:['https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80','https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?w=1000&q=80','https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80'],desc:"India's best winter trek with stunning 360° summit views of renowned Himalayan peaks.",best:'December – April',hl:['360° summit panorama','Snow camping experience','Dense pine & oak forests','Swargarohini & Bandarpoonch views','Perfect beginner winter trek']},
-  {id:6,name:'Chopta Chandrashila',loc:'Uttarakhand',region:'india',season:'winter spring',diff:'easy',days:4,km:14,alt:'13,100 ft',price:'₹6,800',tag:'Short Trek',img:'https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=700&q=80',imgs:['https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80'],desc:'A short yet stunning trek with sweeping views of Nanda Devi, Trishul, and Chaukhamba.',best:'March – June, Oct – Dec',hl:['Tungnath – highest Shiva temple','Chandrashila summit 13,100 ft','Winter wonderland camping','Nanda Devi & Trishul views','Easy 4-day itinerary']},
-  {id:7,name:'Har Ki Dun Trek',loc:'Uttarakhand',region:'india',season:'spring summer autumn',diff:'easy',days:7,km:46,alt:'11,675 ft',price:'₹8,900',tag:'Scenic',img:'https://images.unsplash.com/photo-1551632811-561732d1e306?w=700&q=80',imgs:['https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80','https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80','https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1000&q=80','https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=1000&q=80'],desc:'A cradle-shaped hanging valley in the Garhwal Himalayas with ancient villages.',best:'April – June, Sept – Nov',hl:['Govind Wildlife Sanctuary','Ancient Osla & Gangad villages','Swargarohini peak views','Lush alpine meadows','Rich bird & wildlife sightings']},
-  {id:8,name:'Brahmatal Trek',loc:'Uttarakhand',region:'india',season:'winter',diff:'moderate',days:6,km:22,alt:'12,250 ft',price:'₹8,400',tag:'Winter Gem',img:'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=700&q=80',imgs:['https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80','https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=1000&q=80'],desc:'A winter haven with snow-covered meadows, frozen lakes, and spectacular mountain views.',best:'December – March',hl:['Frozen Brahmatal Lake','Mt. Trishul & Nanda Ghunti views','Snow-filled pristine meadows','Crystal clear winter skies','Off-the-beaten-path trail']},
-  {id:9,name:'Goecha La Trek',loc:'Sikkim',region:'india',season:'spring autumn',diff:'difficult',days:11,km:90,alt:'15,100 ft',price:'₹21,000',tag:'Epic',img:'https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=700&q=80',imgs:['https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=1000&q=80','https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80'],desc:"The crown jewel of Sikkim trekking with close views of Kangchenjunga.",best:'April – May, Oct – Nov',hl:['Kangchenjunga base camp views','Pristine Sikkim wilderness','Rhododendron forests in bloom','Sacred Samiti Lake','Zero Point panorama']},
-  {id:10,name:'Pangarchulla Peak',loc:'Uttarakhand',region:'india',season:'spring winter',diff:'difficult',days:6,km:24,alt:'15,069 ft',price:'₹11,200',tag:'Summit',img:'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=700&q=80',imgs:['https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1000&q=80','https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=1000&q=80','https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1000&q=80','https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80'],desc:"A technical summit climb with jaw-dropping views of Nanda Devi, Dronagiri, and Kamet.",best:'April – June, Jan – Feb',hl:['Summit at 15,069 ft','Nanda Devi & Dronagiri views','Technical snow climbing','Khullara meadow base camp','360° panoramic views']},
-  {id:11,name:'Everest Base Camp',loc:'Nepal',region:'nepal',season:'spring autumn',diff:'difficult',days:14,km:130,alt:'17,598 ft',price:'₹55,000',tag:'Bucket List',img:'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=700&q=80',imgs:['https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1000&q=80','https://images.unsplash.com/photo-1495476479092-6ece1898a101?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80'],desc:"The iconic trek to the base camp of the world's highest mountain.",best:'March – May, Sept – Nov',hl:['Kala Patthar viewpoint 5,545m','Legendary Sherpa culture','Tengboche monastery visit','Khumbu Icefall views','Namche Bazaar exploration']},
-  {id:12,name:'Annapurna Circuit',loc:'Nepal',region:'nepal',season:'spring autumn',diff:'moderate',days:15,km:160,alt:'17,769 ft',price:'₹48,000',tag:'Classic',img:'https://images.unsplash.com/photo-1495476479092-6ece1898a101?w=700&q=80',imgs:['https://images.unsplash.com/photo-1495476479092-6ece1898a101?w=1000&q=80','https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80','https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80'],desc:"One of the world's greatest treks, circumnavigating the Annapurna massif.",best:'October – November, March – April',hl:['Thorong La Pass 5,416m','Sacred Muktinath temple','Diverse landscapes & cultures','Pokhara lakeside finale','Annapurna Conservation Area']},
+  {id:1,name:'Valley of Flowers Trek',loc:'Uttarakhand',region:'india',season:'summer monsoon',diff:'easy',days:6,km:37,alt:'14,100 ft',price:'₹12,450',priceNum:12450,tag:'New',img:'https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?w=700&q=80',imgs:['https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80'],desc:'A UNESCO World Heritage Site bursting with alpine wildflowers and majestic Himalayan scenery.',best:'July – September',hl:['UNESCO World Heritage Site','500+ species of wildflowers','Hemkund Sahib Gurudwara nearby','Rich biodiversity – snow leopards','Pristine Pushpawati river valley']},
+  {id:2,name:'Hampta Pass Trek',loc:'Himachal Pradesh',region:'india',season:'summer',diff:'moderate',days:5,km:26,alt:'14,100 ft',price:'₹9,800',priceNum:9800,tag:'Popular',img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80',imgs:['https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80','https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80','https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80','https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=1000&q=80'],desc:'A dramatic crossover from the lush Kullu Valley to the stark Lahaul landscape.',best:'June – October',hl:['Dramatic contrast between two valleys','Chandratal Lake day excursion','Snow-filled pass crossing','Stunning Spiti Valley views','Whiteout camping experience']},
+  {id:3,name:'Pin Bhaba Pass Trek',loc:'Himachal Pradesh',region:'india',season:'summer autumn',diff:'difficult',days:8,km:50,alt:'17,500 ft',price:'₹14,200',priceNum:14200,tag:'Challenging',img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=700&q=80',imgs:['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=1000&q=80','https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1000&q=80','https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1000&q=80'],desc:'A spectacular crossover between the green Kinnaur Valley and the arid Spiti Valley.',best:'July – September',hl:['Crosses two culturally distinct valleys','Highest point 17,500 ft','Remote wilderness experience','Ancient Kinnauri villages','Stunning Spiti monastery visits']},
+  {id:4,name:'Markha Valley Trek',loc:'Ladakh',region:'india',season:'summer autumn',diff:'moderate',days:7,km:65,alt:'17,060 ft',price:'₹16,500',priceNum:16500,tag:'Premium',img:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=700&q=80',imgs:['https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80'],desc:'The most popular multi-day trek in Ladakh with ancient monasteries and nomadic culture.',best:'June – October',hl:['Ganda La pass 17,060 ft','Ancient Thiksey monastery','Nomadic Ladakhi homestays','Kang Yatse peak views','Hemis National Park']},
+  {id:5,name:'Kedarkantha Trek',loc:'Uttarakhand',region:'india',season:'winter spring',diff:'easy',days:6,km:20,alt:'12,500 ft',price:'₹7,500',priceNum:7500,tag:'Bestseller',img:'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=700&q=80',imgs:['https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80','https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?w=1000&q=80','https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80'],desc:"India's best winter trek with stunning 360° summit views of renowned Himalayan peaks.",best:'December – April',hl:['360° summit panorama','Snow camping experience','Dense pine & oak forests','Swargarohini & Bandarpoonch views','Perfect beginner winter trek']},
+  {id:6,name:'Chopta Chandrashila',loc:'Uttarakhand',region:'india',season:'winter spring',diff:'easy',days:4,km:14,alt:'13,100 ft',price:'₹6,800',priceNum:6800,tag:'Short Trek',img:'https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=700&q=80',imgs:['https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80'],desc:'A short yet stunning trek with sweeping views of Nanda Devi, Trishul, and Chaukhamba.',best:'March – June, Oct – Dec',hl:['Tungnath – highest Shiva temple','Chandrashila summit 13,100 ft','Winter wonderland camping','Nanda Devi & Trishul views','Easy 4-day itinerary']},
+  {id:7,name:'Har Ki Dun Trek',loc:'Uttarakhand',region:'india',season:'spring summer autumn',diff:'easy',days:7,km:46,alt:'11,675 ft',price:'₹8,900',priceNum:8900,tag:'Scenic',img:'https://images.unsplash.com/photo-1551632811-561732d1e306?w=700&q=80',imgs:['https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80','https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80','https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1000&q=80','https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=1000&q=80'],desc:'A cradle-shaped hanging valley in the Garhwal Himalayas with ancient villages.',best:'April – June, Sept – Nov',hl:['Govind Wildlife Sanctuary','Ancient Osla & Gangad villages','Swargarohini peak views','Lush alpine meadows','Rich bird & wildlife sightings']},
+  {id:8,name:'Brahmatal Trek',loc:'Uttarakhand',region:'india',season:'winter',diff:'moderate',days:6,km:22,alt:'12,250 ft',price:'₹8,400',priceNum:8400,tag:'Winter Gem',img:'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=700&q=80',imgs:['https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80','https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=1000&q=80'],desc:'A winter haven with snow-covered meadows, frozen lakes, and spectacular mountain views.',best:'December – March',hl:['Frozen Brahmatal Lake','Mt. Trishul & Nanda Ghunti views','Snow-filled pristine meadows','Crystal clear winter skies','Off-the-beaten-path trail']},
+  {id:9,name:'Goecha La Trek',loc:'Sikkim',region:'india',season:'spring autumn',diff:'difficult',days:11,km:90,alt:'15,100 ft',price:'₹21,000',priceNum:21000,tag:'Epic',img:'https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=700&q=80',imgs:['https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=1000&q=80','https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80'],desc:"The crown jewel of Sikkim trekking with close views of Kangchenjunga.",best:'April – May, Oct – Nov',hl:['Kangchenjunga base camp views','Pristine Sikkim wilderness','Rhododendron forests in bloom','Sacred Samiti Lake','Zero Point panorama']},
+  {id:10,name:'Pangarchulla Peak',loc:'Uttarakhand',region:'india',season:'spring winter',diff:'difficult',days:6,km:24,alt:'15,069 ft',price:'₹11,200',priceNum:11200,tag:'Summit',img:'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=700&q=80',imgs:['https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?w=1000&q=80','https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=1000&q=80','https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1000&q=80','https://images.unsplash.com/photo-1551632811-561732d1e306?w=1000&q=80'],desc:"A technical summit climb with jaw-dropping views of Nanda Devi, Dronagiri, and Kamet.",best:'April – June, Jan – Feb',hl:['Summit at 15,069 ft','Nanda Devi & Dronagiri views','Technical snow climbing','Khullara meadow base camp','360° panoramic views']},
+  {id:11,name:'Everest Base Camp',loc:'Nepal',region:'nepal',season:'spring autumn',diff:'difficult',days:14,km:130,alt:'17,598 ft',price:'₹55,000',priceNum:55000,tag:'Bucket List',img:'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=700&q=80',imgs:['https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1000&q=80','https://images.unsplash.com/photo-1495476479092-6ece1898a101?w=1000&q=80','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1000&q=80','https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1000&q=80'],desc:"The iconic trek to the base camp of the world's highest mountain.",best:'March – May, Sept – Nov',hl:['Kala Patthar viewpoint 5,545m','Legendary Sherpa culture','Tengboche monastery visit','Khumbu Icefall views','Namche Bazaar exploration']},
+  {id:12,name:'Annapurna Circuit',loc:'Nepal',region:'nepal',season:'spring autumn',diff:'moderate',days:15,km:160,alt:'17,769 ft',price:'₹48,000',priceNum:48000,tag:'Classic',img:'https://images.unsplash.com/photo-1495476479092-6ece1898a101?w=700&q=80',imgs:['https://images.unsplash.com/photo-1495476479092-6ece1898a101?w=1000&q=80','https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1000&q=80','https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=1000&q=80','https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1000&q=80'],desc:"One of the world's greatest treks, circumnavigating the Annapurna massif.",best:'October – November, March – April',hl:['Thorong La Pass 5,416m','Sacred Muktinath temple','Diverse landscapes & cultures','Pokhara lakeside finale','Annapurna Conservation Area']},
 ];
 
 const RV=[
@@ -819,13 +1553,24 @@ const RV=[
   {nm:'Karan Malhotra',tr:'Pangarchulla Peak',st:5,tx:"My first summit climb with Xplor! Training tips beforehand were invaluable. Standing on Pangarchulla with those views – I cried happy tears!",i:'K',dt:'February 2024'},
 ];
 
+/* Blog posts now link to standalone pages via `page` */
 const BL=[
-  {cat:'Trek Update',dt:'16 Jun 2026',title:'Mixed Weather Across Trekking Regions, While Hampta Pass Continues to Attract Trekkers',exc:'Despite mixed conditions, Hampta Pass sees fantastic footfall with clear summit days.',img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80'},
-  {cat:'Trek Update',dt:'15 Jun 2026',title:'Cloudy Weather Arrives in Trekking Regions, New Batches of Hampta Pass Begun',exc:'Monsoon clouds bring a magical mood. Sar Pass and Buran Ghati batches also started this week.',img:'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=600&q=80'},
-  {cat:'Trek Update',dt:'14 Jun 2026',title:'Sunny Conditions Welcome New Batches of Trekkers to the Majestic Himalayas',exc:'Clear skies and warm trails greeted fresh batches across Uttarakhand and Himachal Pradesh.',img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80'},
-  {cat:'Article',dt:'10 Jun 2026',title:'Top 10 Things to Pack for Your First Himalayan Trek',exc:"From the right layering system to essential medicines, here's a comprehensive packing guide.",img:'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80'},
-  {cat:'Article',dt:'5 Jun 2026',title:'Altitude Sickness: Everything You Need to Know Before Your Trek',exc:"Understanding acclimatization is critical for any high-altitude expedition. A must-read.",img:'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80'},
-  {cat:'Article',dt:'1 Jun 2026',title:'Best Treks for Beginners: Start Your Himalayan Journey Right',exc:"Never trekked before? We've curated the perfect list of beginner-friendly Himalayan treks.",img:'https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=600&q=80'},
+  {id:1,cat:'Trek Update',dt:'16 Jun 2026',title:'Mixed Weather Across Trekking Regions, While Hampta Pass Continues to Attract Trekkers',exc:'Despite mixed conditions, Hampta Pass sees fantastic footfall with clear summit days.',img:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80',page:'blog-1.html',tab:'updates'},
+  {id:2,cat:'Trek Update',dt:'15 Jun 2026',title:'Cloudy Weather Arrives in Trekking Regions, New Batches of Hampta Pass Begun',exc:'Monsoon clouds bring a magical mood. Sar Pass and Buran Ghati batches also started this week.',img:'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=600&q=80',page:'blog-2.html',tab:'updates'},
+  {id:3,cat:'Trek Update',dt:'14 Jun 2026',title:'Sunny Conditions Welcome New Batches of Trekkers to the Majestic Himalayas',exc:'Clear skies and warm trails greeted fresh batches across Uttarakhand and Himachal Pradesh.',img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80',page:'blog-3.html',tab:'updates'},
+  {id:4,cat:'Article',dt:'10 Jun 2026',title:'Top 10 Things to Pack for Your First Himalayan Trek',exc:"From the right layering system to essential medicines, here's a comprehensive packing guide.",img:'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80',page:'blog-4.html',tab:'articles'},
+  {id:5,cat:'Article',dt:'5 Jun 2026',title:'Altitude Sickness: Everything You Need to Know Before Your Trek',exc:"Understanding acclimatization is critical for any high-altitude expedition. A must-read.",img:'https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80',page:'blog-5.html',tab:'articles'},
+  {id:6,cat:'Article',dt:'1 Jun 2026',title:'Best Treks for Beginners: Start Your Himalayan Journey Right',exc:"Never trekked before? We've curated the perfect list of beginner-friendly Himalayan treks.",img:'https://images.unsplash.com/photo-1494358856891-c9ec6e7d00e5?w=600&q=80',page:'blog-6.html',tab:'articles'},
+];
+
+/* Informative Videos */
+const VID=[
+  {cat:'Beginner Guide',title:'How to Prepare for Your First Himalayan Trek',desc:'A complete walkthrough of fitness prep, gear checklist, and mental readiness for first-time trekkers.',yt:'1q1cMxRkPQk'},
+  {cat:'Safety',title:'Understanding & Preventing Altitude Sickness',desc:'Trek doctors explain AMS symptoms, acclimatization schedules, and when to turn back.',yt:'4dC1DTfQ8Ro'},
+  {cat:'Gear Guide',title:'Essential Trekking Gear Explained',desc:'A layer-by-layer breakdown of clothing, footwear, and equipment you actually need.',yt:'3K2J8nVqj1A'},
+  {cat:'Trek Walkthrough',title:'Kedarkantha Trek – Full Route Walkthrough',desc:'Day-by-day video diary of the Kedarkantha winter trek, from base camp to summit.',yt:'cP5zNRO6V_g'},
+  {cat:'Fitness',title:'8-Week Trek Fitness Training Plan',desc:'Build stamina and leg strength with this progressive at-home training program.',yt:'2pSU_4D8KAQ'},
+  {cat:'Trek Walkthrough',title:'Everest Base Camp – What to Really Expect',desc:'An honest look at tea-houses, terrain, costs, and daily life on the EBC trail.',yt:'95VOJM_pZ8U'},
 ];
 
 /* ===== WISHLIST ===== */
@@ -923,19 +1668,48 @@ function renderRV(){
       <div class="g-badge"><div class="g-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></div> Verified Review</div>
     </div>`).join('');
 }
+
+/* Blog: filtered by active tab; Read More links to standalone page */
+let blogTab='updates';
 function renderBL(){
-  document.getElementById('blogTrack').innerHTML=BL.map(b=>`
+  const items=BL.filter(b=>b.tab===blogTab);
+  document.getElementById('blogTrack').innerHTML=items.map(b=>`
     <div class="bc">
       <div class="bc-img"><img src="${b.img}" alt="${b.title}" loading="lazy"><div class="bc-date">${b.dt}</div></div>
       <div class="bc-bd">
         <div class="bc-cat"><i class="fa-solid fa-tag"></i> ${b.cat}</div>
         <div class="bc-title">${b.title}</div>
         <div class="bc-exc">${b.exc}</div>
-        <button class="btn-rd"><i class="fa-solid fa-arrow-right"></i> Read More</button>
+        <a class="btn-rd" href="${b.page}"><i class="fa-solid fa-arrow-right"></i> Read More</a>
+      </div>
+    </div>`).join('');
+  CS.bl=0;
+  document.getElementById('blogTrack').style.transform='translateX(0px)';
+}
+function renderVID(){
+  document.getElementById('vidGrid').innerHTML=VID.map(v=>`
+    <div class="vc">
+      <div class="vc-frame"><iframe src="https://www.youtube.com/embed/${v.yt}" title="${v.title}" loading="lazy" allowfullscreen></iframe></div>
+      <div class="vc-bd">
+        <div class="vc-cat"><i class="fa-solid fa-circle-play"></i> ${v.cat}</div>
+        <div class="vc-title">${v.title}</div>
+        <div class="vc-desc">${v.desc}</div>
       </div>
     </div>`).join('');
 }
-function swTab(btn){document.querySelectorAll('.itab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+function swTab(btn,which){
+  document.querySelectorAll('.itab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const wrap=document.getElementById('blogCarouselWrap'),vid=document.getElementById('vidGrid'),nav=document.getElementById('blogNav');
+  if(which==='videos'){
+    wrap.style.display='none';nav.style.display='none';vid.style.display='grid';
+    renderVID();
+  }else{
+    blogTab=which;
+    vid.style.display='none';wrap.style.display='block';nav.style.display='flex';
+    renderBL();
+  }
+}
 
 /* ===== HERO SLIDER ===== */
 let hI=0;
@@ -1050,7 +1824,7 @@ function buildTD(t){
             <div class="bsf"><i class="fa-solid fa-shield-halved"></i> Medical Support</div>
             <div class="bsf"><i class="fa-solid fa-certificate"></i> Trek Certificate</div>
             <div class="bs-acts">
-              <button class="btn-pri" onclick="openBK('${t.name}')"><i class="fa-solid fa-calendar-check"></i> Book This Trek</button>
+              <button class="btn-pri" onclick="openBK(${t.id})"><i class="fa-solid fa-calendar-check"></i> Book This Trek</button>
               <button class="btn-wa" onclick="waForTrek('${t.name}')"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</button>
               <button class="btn-out" style="width:100%;justify-content:center" onclick="togWLSide(${t.id},this)">
                 <i class="fa-${inW?'solid':'regular'} fa-heart"></i> ${inW?'Saved to Wishlist':'Save to Wishlist'}
@@ -1100,41 +1874,225 @@ function togWLSide(id,btn){
   btn.innerHTML='<i class="fa-'+(inW?'solid':'regular')+' fa-heart"></i> '+(inW?'Saved to Wishlist':'Save to Wishlist');
 }
 
-/* ===== BOOKING ===== */
-let lastD={};
-function openBK(trekName=''){
+/* ===== MULTI-STEP BOOKING ===== */
+let BK={trek:null,date:null,count:1,pickup:{label:'Self Arrangement (No Pickup)',fee:0},trekkers:[],phone:'',email:''};
+const PICKUPS=[{label:'Self Arrangement (No Pickup)',fee:0},{label:'Delhi Pickup',fee:1500},{label:'Rishikesh Pickup',fee:800},{label:'Manali Pickup',fee:800}];
+function genDates(){
+  // generate 7 sample batch dates spread over the coming months
+  const base=new Date(2026,5,18); // anchor near "today"
+  const out=[];
+  const offsets=[14,30,60,90,120,150,180];
+  offsets.forEach(o=>{
+    const d=new Date(base.getTime()+o*86400000);
+    out.push({iso:d.toISOString().slice(0,10),label:d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),slots:6+Math.floor(Math.random()*10)});
+  });
+  return out;
+}
+let BKDATES=[];
+
+function openBK(trekId=null){
+  const t=trekId?TR.find(x=>x.id===trekId):TR[4]; // default to a popular trek (Kedarkantha) if none chosen
+  BK.trek=t;
+  BK.date=null;BK.count=1;BK.pickup=PICKUPS[0];BK.phone='';BK.email='';
+  BK.trekkers=[mkTrekker(true)];
+  BKDATES=genDates();
+
+  document.getElementById('bkTrekTitle').textContent=(t.name||'TREK BOOKING').toUpperCase();
+  document.getElementById('bkMetaDays').textContent=t.days+' Days';
+  document.getElementById('bkMetaLoc').textContent=t.loc;
+  document.getElementById('bkMetaAlt').textContent=t.alt;
+  document.getElementById('bkMetaDiff').textContent=t.diff.charAt(0).toUpperCase()+t.diff.slice(1);
+
+  renderDateGrid();
+  document.getElementById('bk_count').value='1';
+  document.getElementById('bk_pickup').value=PICKUPS[0].label==='Self Arrangement (No Pickup)'?'Self Arrangement (No Pickup)':PICKUPS[0].label;
+  renderTkBlocks();
+  updateSummary();
+  goStep(1,true);
+
   document.getElementById('bkModal').classList.add('open');
   document.body.style.overflow='hidden';
-  const pre=document.getElementById('bkPre'),tn=document.getElementById('bkTrekName');
-  if(trekName){pre.classList.add('show');tn.textContent=trekName;document.getElementById('pm_trek').value=trekName;}
-  else{pre.classList.remove('show');}
 }
 function closeBK(){document.getElementById('bkModal').classList.remove('open');document.body.style.overflow='';}
 
-function getPMData(){return{name:v('pm_name'),email:v('pm_email'),phone:v('pm_phone'),wa:v('pm_wa'),trek:v('pm_trek'),date:v('pm_date'),travelers:v('pm_travelers'),age:v('pm_age'),gender:v('pm_gender'),emg:v('pm_emg'),pickup:v('pm_pickup'),special:v('pm_special'),notes:v('pm_notes')};}
-function getBFData(){return{name:v('bf_name'),email:v('bf_email'),phone:v('bf_phone'),wa:v('bf_wa'),trek:v('bf_trek'),date:v('bf_date'),travelers:v('bf_travelers'),age:v('bf_age'),gender:v('bf_gender'),emg:v('bf_emg'),pickup:v('bf_pickup'),special:v('bf_special'),notes:v('bf_notes')};}
-function v(id){const el=document.getElementById(id);return el?el.value:'';}
-function valD(d){if(!d.name||!d.email||!d.phone||!d.trek){alert('Please fill in required fields: Full Name, Email, Phone, and Trek Name.');return false;}return true;}
+function mkTrekker(primary){return{name:'',age:'',gender:'Male',idProof:'Aadhaar Card',idNumber:'',primary:!!primary,medical:''};}
 
-function submitPM(){const d=getPMData();if(!valD(d))return;lastD=d;closeBK();document.getElementById('succModal').classList.add('open');}
-function submitBF(){const d=getBFData();if(!valD(d))return;lastD=d;document.getElementById('succModal').classList.add('open');}
+function renderDateGrid(){
+  const grid=document.getElementById('bkDateGrid');
+  grid.innerHTML=BKDATES.map((d,i)=>`
+    <div class="dt-card${BK.date&&BK.date.iso===d.iso?' sel':''}" onclick="selectDate(${i})">
+      <div class="dtd">${d.label}</div>
+      <div class="dts">${d.slots} slots left</div>
+    </div>`).join('');
+}
+function selectDate(i){BK.date=BKDATES[i];renderDateGrid();updateSummary();}
 
-function mkWAMsg(d){
-  return `🏔 *Xplor The Himalayas – Booking Request*\n\n`+
-  `👤 *Name:* ${d.name||'-'}\n📧 *Email:* ${d.email||'-'}\n📞 *Phone:* ${d.phone||'-'}\n💬 *WhatsApp:* ${d.wa||d.phone||'-'}\n`+
-  `🗺 *Trek:* ${d.trek||'-'}\n📅 *Date:* ${d.date||'-'}\n👥 *Travelers:* ${d.travelers||'-'}\n🎂 *Age:* ${d.age||'-'}\n⚥ *Gender:* ${d.gender||'-'}\n`+
-  `🆘 *Emergency:* ${d.emg||'-'}\n📍 *Pickup:* ${d.pickup||'-'}\n📝 *Special:* ${d.special||'-'}\n💬 *Notes:* ${d.notes||'-'}\n\n_Sent from xplorhimalayas.com_`;
+function onCountChange(){
+  const n=parseInt(document.getElementById('bk_count').value,10);
+  BK.count=n;
+  while(BK.trekkers.length<n)BK.trekkers.push(mkTrekker(false));
+  while(BK.trekkers.length>n)BK.trekkers.pop();
+  renderTkBlocks();
+  updateSummary();
+}
+
+function renderTkBlocks(){
+  const wrap=document.getElementById('tkBlocks');
+  wrap.innerHTML=BK.trekkers.map((tk,i)=>`
+    <div class="tk-block">
+      <div class="tk-block-hd">
+        <span>TREKKER ${i+1}${tk.primary?' (PRIMARY)':''}</span>
+        ${(!tk.primary&&BK.trekkers.length>1)?`<button class="tk-rm" onclick="rmTrekker(${i})"><i class="fa-solid fa-trash-can"></i> Remove</button>`:''}
+      </div>
+      <div class="bk-fg2" style="margin-bottom:14px">
+        <div class="bk-fg"><label class="bk-fl">Full Name</label><input class="bk-fi" placeholder="Full name" value="${tk.name}" oninput="updTk(${i},'name',this.value)"></div>
+        <div class="bk-fg"><label class="bk-fl">Age</label><input class="bk-fi" type="number" min="1" placeholder="Age" value="${tk.age}" oninput="updTk(${i},'age',this.value)"></div>
+      </div>
+      <div class="bk-fg2" style="margin-bottom:14px">
+        <div class="bk-fg"><label class="bk-fl">Gender</label>
+          <select class="bk-fs" onchange="updTk(${i},'gender',this.value)">
+            <option ${tk.gender==='Male'?'selected':''}>Male</option>
+            <option ${tk.gender==='Female'?'selected':''}>Female</option>
+            <option ${tk.gender==='Other'?'selected':''}>Other</option>
+          </select>
+        </div>
+        <div class="bk-fg"><label class="bk-fl">ID Proof</label>
+          <select class="bk-fs" onchange="updTk(${i},'idProof',this.value)">
+            <option ${tk.idProof==='Aadhaar Card'?'selected':''}>Aadhaar Card</option>
+            <option ${tk.idProof==='Passport'?'selected':''}>Passport</option>
+            <option ${tk.idProof==='Driving License'?'selected':''}>Driving License</option>
+            <option ${tk.idProof==='Voter ID'?'selected':''}>Voter ID</option>
+          </select>
+        </div>
+      </div>
+      <div class="bk-fg">
+        <label class="bk-fl">ID Number</label>
+        <input class="bk-fi" placeholder="ID number" value="${tk.idNumber}" oninput="updTk(${i},'idNumber',this.value)">
+      </div>
+      <div class="bk-fg">
+        <label class="bk-fl">Medical Conditions</label>
+        <input class="bk-fi" placeholder="e.g. Asthma, BP, None" value="${tk.medical}" oninput="updTk(${i},'medical',this.value)">
+      </div>
+    </div>`).join('')+`<button class="add-tk-btn" onclick="addTrekker()"><i class="fa-solid fa-plus"></i> Add Another Trekker</button>`;
+}
+function updTk(i,field,val){BK.trekkers[i][field]=val;}
+function addTrekker(){
+  if(BK.trekkers.length>=6)return;
+  BK.trekkers.push(mkTrekker(false));
+  BK.count=BK.trekkers.length;
+  document.getElementById('bk_count').value=String(BK.count);
+  renderTkBlocks();updateSummary();
+}
+function rmTrekker(i){
+  BK.trekkers.splice(i,1);
+  BK.count=BK.trekkers.length;
+  document.getElementById('bk_count').value=String(BK.count);
+  renderTkBlocks();updateSummary();
+}
+
+function fmtINR(n){return '₹'+Math.round(n).toLocaleString('en-IN');}
+function calcTotals(){
+  const t=BK.trek;
+  const base=t.priceNum*BK.count;
+  const pickupFee=BK.pickup.fee*BK.count;
+  const gst=Math.round((base+pickupFee)*0.05);
+  const total=base+pickupFee+gst;
+  return{base,pickupFee,gst,total};
+}
+function updateSummary(){
+  const psel=document.getElementById('bk_pickup');
+  if(psel){
+    const opt=psel.options[psel.selectedIndex];
+    BK.pickup={label:opt.value,fee:parseInt(opt.getAttribute('data-fee')||'0',10)};
+  }
+  const {base,pickupFee,gst,total}=calcTotals();
+  const set=(id,val)=>{const el=document.getElementById(id);if(el)el.textContent=val;};
+  set('sumBase',fmtINR(base));
+  set('sumPickup',fmtINR(pickupFee));
+  set('sumGst',fmtINR(gst));
+  set('sumTotal',fmtINR(total));
+}
+
+function goStep(n,silent){
+  if(!silent){
+    if(BK.stepCheckFail&&BK.stepCheckFail(n))return;
+    if(document.querySelector('.bk-panel.active').id==='bkPanel1' && n===2){
+      if(!BK.date){showBkErr('Please select a batch date.');return;}
+    }
+    if(document.querySelector('.bk-panel.active').id==='bkPanel2' && n===3){
+      const incomplete=BK.trekkers.some(tk=>!tk.name||!tk.age);
+      if(incomplete){showBkErr('Please fill in Name and Age for all trekkers.');return;}
+      BK.phone=document.getElementById('bk_phone').value;
+      BK.email=document.getElementById('bk_email').value;
+      if(!BK.phone||!BK.email){showBkErr('Please provide a primary contact phone and email.');return;}
+    }
+  }
+  hideBkErr();
+  document.querySelectorAll('.bk-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('bkPanel'+n).classList.add('active');
+  document.querySelectorAll('.bk-step').forEach(s=>{
+    const sn=parseInt(s.dataset.s,10);
+    s.classList.remove('active','done');
+    if(sn<n)s.classList.add('done');
+    if(sn===n)s.classList.add('active');
+  });
+  [1,2,3].forEach(i=>{
+    const line=document.getElementById('bkLine'+i);
+    if(line)line.classList.toggle('done',i<n);
+  });
+  if(n===3)renderReview();
+  document.querySelector('.bk-inner').scrollTop=0;
+}
+function showBkErr(msg){const e=document.getElementById('bkErr');document.getElementById('bkErrTxt').textContent=msg;e.classList.add('show');}
+function hideBkErr(){document.getElementById('bkErr').classList.remove('show');}
+
+function renderReview(){
+  const t=BK.trek;
+  document.getElementById('rvTrek').textContent=t.name;
+  document.getElementById('rvDate').textContent=BK.date?BK.date.label:'--';
+  document.getElementById('rvDuration').textContent=t.days+' Days';
+  document.getElementById('rvCount').textContent=BK.count+(BK.count===1?' Person':' Persons');
+  document.getElementById('rvPickup').textContent=BK.pickup.label;
+  document.getElementById('rvPhone').textContent=BK.phone||'--';
+  document.getElementById('rvEmail').textContent=BK.email||'--';
+  document.getElementById('rvTrekkers').innerHTML=BK.trekkers.map((tk,i)=>
+    `<div class="rv-row"><span class="rk">Trekker ${i+1}${tk.primary?' (Primary)':''}</span><span class="rv">${tk.name||'--'}, ${tk.age||'--'} yrs, ${tk.gender}</span></div>`).join('');
+  const {base,pickupFee,gst,total}=calcTotals();
+  document.getElementById('rvBaseLbl').textContent=`Base (${BK.count} × ${t.price})`;
+  document.getElementById('rvBaseVal').textContent=fmtINR(base);
+  document.getElementById('rvPickupVal').textContent=fmtINR(pickupFee);
+  document.getElementById('rvGstVal').textContent=fmtINR(gst);
+  document.getElementById('rvTotalVal').textContent=fmtINR(total);
+}
+
+function confirmBooking(){
+  goStep(4,true);
+}
+
+function mkBkWAMsg(){
+  const t=BK.trek;const {base,pickupFee,gst,total}=calcTotals();
+  const tkLines=BK.trekkers.map((tk,i)=>`${i+1}. ${tk.name||'-'} (${tk.age||'-'} yrs, ${tk.gender}) — ID: ${tk.idProof} ${tk.idNumber||''}${tk.medical?` — Medical: ${tk.medical}`:''}`).join('\n');
+  return `🏔 *Xplor The Himalayas – Booking Confirmation*\n\n`+
+  `🗺 *Trek:* ${t.name}\n📅 *Batch Date:* ${BK.date?BK.date.label:'-'}\n⏱ *Duration:* ${t.days} Days\n👥 *Trekkers:* ${BK.count}\n🚐 *Pickup:* ${BK.pickup.label}\n\n`+
+  `*Trekker Details:*\n${tkLines}\n\n📞 *Primary Contact:* ${BK.phone||'-'}\n📧 *Email:* ${BK.email||'-'}\n\n`+
+  `💰 *Base:* ${fmtINR(base)}\n🚐 *Pickup:* ${fmtINR(pickupFee)}\n🧾 *GST (5%):* ${fmtINR(gst)}\n*Total Payable: ${fmtINR(total)}*\n\n_Sent from xplorhimalayas.com_`;
 }
 function sendWA(src){
-  let d=src==='pm'?getPMData():src==='bf'?getBFData():lastD;
-  window.open(`https://wa.me/919876543210?text=${encodeURIComponent(mkWAMsg(d))}`,'_blank');
+  if(src==='bk'||src==='fab'){
+    if(src==='bk'&&BK.trek){
+      window.open(`https://wa.me/919876543210?text=${encodeURIComponent(mkBkWAMsg())}`,'_blank');
+    }else{
+      window.open(`https://wa.me/919876543210?text=${encodeURIComponent('🏔 Hi! I would like to know more about your Himalayan treks.')}`,'_blank');
+    }
+  }
 }
 function waForTrek(name){
   window.open(`https://wa.me/919876543210?text=${encodeURIComponent(`🏔 *Xplor The Himalayas – Trek Inquiry*\n\nHi! I'm interested in booking the *${name}*. Please share available dates and pricing.\n\n_Sent from xplorhimalayas.com_`)}`,'_blank');
 }
 
 function genPDF(src){
-  let d=src==='pm'?getPMData():src==='bf'?getBFData():lastD;
+  const t=BK.trek;if(!t)return;
+  const {base,pickupFee,gst,total}=calcTotals();
   const {jsPDF}=window.jspdf;const doc=new jsPDF();
   doc.setFillColor(246,93,66);doc.rect(0,0,210,42,'F');
   doc.setFillColor(255,163,23);doc.rect(0,36,210,6,'F');
@@ -1147,7 +2105,9 @@ function genPDF(src){
   doc.setTextColor(13,27,42);doc.setFontSize(15);doc.setFont('helvetica','bold');
   doc.text('TREK BOOKING CONFIRMATION',20,56);
   doc.setDrawColor(246,93,66);doc.setLineWidth(.8);doc.line(20,60,190,60);
-  const fields=[['Full Name',d.name],['Email Address',d.email],['Phone Number',d.phone],['WhatsApp Number',d.wa],['Trek Name',d.trek],['Preferred Date',d.date],['No. of Travelers',d.travelers],['Age',d.age],['Gender',d.gender],['Emergency Contact',d.emg],['Pickup Location',d.pickup],['Special Requirements',d.special],['Additional Notes',d.notes]];
+  const fields=[['Trek Name',t.name],['Batch Date',BK.date?BK.date.label:'-'],['Duration',t.days+' Days'],['No. of Trekkers',String(BK.count)],['Pickup Location',BK.pickup.label],['Primary Contact',BK.phone],['Email',BK.email]];
+  BK.trekkers.forEach((tk,i)=>fields.push([`Trekker ${i+1}`,`${tk.name||'-'}, ${tk.age||'-'} yrs, ${tk.gender}, ${tk.idProof} ${tk.idNumber||''}`]));
+  fields.push(['Base Price',fmtINR(base)],['Pickup Fee',fmtINR(pickupFee)],['GST (5%)',fmtINR(gst)],['Total Payable',fmtINR(total)]);
   let y=70;doc.setFontSize(11);
   fields.forEach(([l,vl])=>{
     if(!vl)return;
@@ -1156,12 +2116,12 @@ function genPDF(src){
     doc.setFont('helvetica','normal');doc.setTextColor(44,62,80);
     const ls=doc.splitTextToSize(String(vl),120);doc.text(ls,80,y);y+=ls.length*7+4;
   });
-  if(y<242){y+=10;doc.setFillColor(255,248,240);doc.roundedRect(20,y,170,24,3,3,'F');doc.setFontSize(9);doc.setTextColor(107,122,141);doc.text('This is an auto-generated booking confirmation. Our trek expert will contact you within 2 hours.',25,y+8);doc.text('Full payment details and itinerary will be shared via email and WhatsApp.',25,y+16);}
+  if(y<242){y+=10;doc.setFillColor(255,248,240);doc.roundedRect(20,y,170,24,3,3,'F');doc.setFontSize(9);doc.setTextColor(107,122,141);doc.text('This is an auto-generated booking confirmation. Our trek expert will contact you within 24 hours.',25,y+8);doc.text('Full payment details and itinerary will be shared via email and WhatsApp.',25,y+16);}
   doc.setFillColor(13,27,42);doc.rect(0,270,210,27,'F');
   doc.setTextColor(255,255,255);doc.setFontSize(9);
   doc.text('Xplor The Himalayas | info@xplorhimalayas.com | +91 98765 43210',20,281);
   doc.setTextColor(255,163,23);doc.text('Safe, Trusted & Professional Treks | www.xplorhimalayas.com',20,289);
-  doc.save(`Xplor-Booking-${(d.name||'Guest').replace(/\s+/g,'_')}.pdf`);
+  doc.save(`Xplor-Booking-${(BK.trekkers[0]&&BK.trekkers[0].name||'Guest').replace(/\s+/g,'_')}.pdf`);
 }
 
 /* ===== SCROLL ===== */
@@ -1181,6 +2141,802 @@ document.addEventListener('DOMContentLoaded',()=>{
   updBadge();renderWLPanel();
   setTimeout(()=>document.querySelectorAll('.anim').forEach(el=>obs.observe(el)),200);
 });
+
+
+
+
+
+
+
+
+/* =====================================================================
+   XPLOR THE HIMALAYAS — SCRIPT.JS
+   Pure vanilla JavaScript. No frameworks, no external libraries.
+
+   This bot is "flow-based": most of the conversation is driven by
+   tappable option buttons that move the user through a menu tree
+   (Tour Packages -> sub-options, Destinations -> list, FAQs -> list,
+   Free Quote -> 6-question lead form, etc). Free-text typing is also
+   supported as a fallback / shortcut into the same flow via keyword
+   matching, and a generic "didn't understand" fallback at the end.
+   ===================================================================== */
+
+(function () {
+  'use strict';
+
+  /* ---------------------------------------------------------------
+     BUSINESS INFO CONSTANTS
+  --------------------------------------------------------------- */
+  const BRAND = 'Xplor The Himalayas';
+  const PHONE = '+91 7018403386';
+  const PHONE_TEL = '+917018403386';
+  const WEBSITE = 'www.xplorthehimalayas.com';
+  const WEBSITE_URL = 'https://www.xplorthehimalayas.com';
+
+  /* ---------------------------------------------------------------
+     DOM REFERENCES
+  --------------------------------------------------------------- */
+  const STORAGE_KEY = 'xph_chat_history_v1';
+  const LEAD_KEY = 'xph_lead_progress_v1';
+  const THEME_KEY = 'xph_chat_theme';
+
+  const widget = document.getElementById('xph-chatbot');
+  const toggleBtn = document.getElementById('chatToggleBtn');
+  const closeBtn = document.getElementById('closeBtn');
+  const minimizeBtn = document.getElementById('minimizeBtn');
+  const clearChatBtn = document.getElementById('clearChatBtn');
+  const chatMessages = document.getElementById('chatMessages');
+  const chatBody = document.getElementById('chatBody');
+  const typingIndicator = document.getElementById('typingIndicator');
+  const chatForm = document.getElementById('chatForm');
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const optionButtons = document.getElementById('optionButtons');
+  const launcherBadge = document.getElementById('launcherBadge');
+
+  /* ---------------------------------------------------------------
+     CONVERSATION STATE
+     mode: tracks where we are in a multi-step flow (e.g. the lead
+     form questionnaire). null = free / main-menu context.
+     leadData: collects answers across the 6 quote questions.
+  --------------------------------------------------------------- */
+  let state = {
+    mode: null,      // 'lead_destination' | 'lead_dates' | 'lead_travelers' | 'lead_budget' | 'lead_whatsapp' | 'lead_city'
+    leadData: {}
+  };
+
+  /* ---------------------------------------------------------------
+     CONTENT — MAIN MENU
+  --------------------------------------------------------------- */
+  const MAIN_MENU_TEXT =
+    "🏔️ Namaste! Welcome to Xplor The Himalayas.\n\n" +
+    "We're excited to help you plan your perfect Himachal adventure! From romantic getaways and family vacations to thrilling trekking experiences, we've got everything covered.\n\n" +
+    "Please choose an option below to get started.";
+
+  const MAIN_MENU_OPTIONS = [
+    { label: '📦 Tour Packages', action: 'menu_packages' },
+    { label: '🏔️ Popular Destinations', action: 'menu_destinations' },
+    { label: '🥾 Adventure Activities', action: 'menu_activities' },
+    { label: '💰 Get a Free Quote', action: 'start_quote' },
+    { label: '❓ FAQs', action: 'menu_faqs' },
+    { label: '📞 Talk to an Expert', action: 'talk_to_expert' }
+  ];
+
+  /* ---------------------------------------------------------------
+     CONTENT — TOUR PACKAGES
+  --------------------------------------------------------------- */
+  const PACKAGES_TEXT = 'Which type of trip are you planning?';
+  const PACKAGES_OPTIONS = [
+    { label: '❤️ Couple Package', action: 'package_detail', value: 'Couple Package' },
+    { label: '👨‍👩‍👧 Family Package', action: 'package_detail', value: 'Family Package' },
+    { label: '👥 Group Tour', action: 'package_detail', value: 'Group Tour' },
+    { label: '🏍️ Bike Trip', action: 'package_detail', value: 'Bike Trip' },
+    { label: '🏕️ Camping Package', action: 'package_detail', value: 'Camping Package' },
+    { label: '🎒 Backpacking Tour', action: 'package_detail', value: 'Backpacking Tour' },
+    { label: '⬅️ Back to Main Menu', action: 'main_menu' }
+  ];
+
+  // Short, friendly blurb per package type, ending with a nudge to the quote form
+  const PACKAGE_DETAILS = {
+    'Couple Package': "❤️ Our Couple Packages are designed for romance — candle-light dinners, scenic stays, and quiet mountain views in Manali, Kasol, or Jibhi.",
+    'Family Package': "👨‍👩‍👧 Our Family Packages balance comfort and fun — easy sightseeing, kid-friendly stays, and well-paced itineraries for all ages.",
+    'Group Tour': "👥 Our Group Tours are great for friends or college groups — shared stays, bonfire nights, and adventure activities at group-friendly pricing.",
+    'Bike Trip': "🏍️ Our Bike Trips cover iconic Himachal routes including Manali–Spiti and Manali–Leh, with backup support vehicles and experienced ride captains.",
+    'Camping Package': "🏕️ Our Camping Packages set you up in scenic riverside or mountain-view camps in Tirthan Valley, Kasol, or Jibhi — bonfire and stargazing included.",
+    'Backpacking Tour': "🎒 Our Backpacking Tours are budget-friendly and flexible — hostel stays, local transport, and offbeat experiences for solo travellers and small groups."
+  };
+
+  /* ---------------------------------------------------------------
+     CONTENT — POPULAR DESTINATIONS
+  --------------------------------------------------------------- */
+  const DESTINATIONS_TEXT = 'Explore our most loved Himachal destinations.';
+  const DESTINATIONS_OPTIONS = [
+    { label: 'Manali', action: 'destination_detail', value: 'Manali' },
+    { label: 'Shimla', action: 'destination_detail', value: 'Shimla' },
+    { label: 'Kasol', action: 'destination_detail', value: 'Kasol' },
+    { label: 'Spiti Valley', action: 'destination_detail', value: 'Spiti Valley' },
+    { label: 'Jibhi', action: 'destination_detail', value: 'Jibhi' },
+    { label: 'Tirthan Valley', action: 'destination_detail', value: 'Tirthan Valley' },
+    { label: 'Dharamshala', action: 'destination_detail', value: 'Dharamshala' },
+    { label: 'Customized Tour', action: 'start_quote' },
+    { label: '⬅️ Back to Main Menu', action: 'main_menu' }
+  ];
+
+  const DESTINATION_DETAILS = {
+    'Manali': "🏔️ Manali — snow-capped peaks, Solang Valley, Old Manali cafes, and easy access to Rohtang Pass. A favourite for couples, families, and bike trips alike.",
+    'Shimla': "🏔️ Shimla — the colonial-era capital with Mall Road, Ridge views, and toy-train rides. Great for families and short getaways.",
+    'Kasol': "🏔️ Kasol — a laid-back riverside village along the Parvati, popular for cafes, short treks, and a relaxed backpacker vibe.",
+    'Spiti Valley': "🏔️ Spiti Valley — high-altitude desert mountains, monasteries, and dramatic landscapes. Best for adventure seekers and road trips.",
+    'Jibhi': "🏔️ Jibhi — a quiet offbeat hamlet with waterfalls, pine forests, and cozy wooden cottages. Ideal for couples and nature lovers.",
+    'Tirthan Valley': "🏔️ Tirthan Valley — riverside camping, trout fishing, and gateway to the Great Himalayan National Park. Perfect for camping trips.",
+    'Dharamshala': "🏔️ Dharamshala — home to McLeod Ganj, Tibetan culture, monasteries, and the Triund trek. A mix of culture and light trekking."
+  };
+
+  /* ---------------------------------------------------------------
+     CONTENT — ADVENTURE ACTIVITIES
+  --------------------------------------------------------------- */
+  const ACTIVITIES_TEXT = 'Choose your adventure experience.';
+  const ACTIVITIES_OPTIONS = [
+    { label: 'Trekking', action: 'activity_detail', value: 'Trekking' },
+    { label: 'Camping', action: 'activity_detail', value: 'Camping' },
+    { label: 'River Rafting', action: 'activity_detail', value: 'River Rafting' },
+    { label: 'Paragliding', action: 'activity_detail', value: 'Paragliding' },
+    { label: 'ATV Ride', action: 'activity_detail', value: 'ATV Ride' },
+    { label: 'Snow Activities', action: 'activity_detail', value: 'Snow Activities' },
+    { label: 'Sightseeing', action: 'activity_detail', value: 'Sightseeing' },
+    { label: '⬅️ Back to Main Menu', action: 'main_menu' }
+  ];
+
+  const ACTIVITY_DETAILS = {
+    'Trekking': "🥾 Trekking — guided trails like Triund, Hampta Pass, and Kheerganga, suited to both beginners and experienced trekkers.",
+    'Camping': "🏕️ Camping — riverside and forest camps in Tirthan Valley, Kasol, and Jibhi with bonfire evenings and starlit skies.",
+    'River Rafting': "🛶 River Rafting — thrilling rapids on the Beas River near Kullu, with certified instructors and safety gear provided.",
+    'Paragliding': "🪂 Paragliding — soar over the valley at Solang and Bir-Billing, two of India's top paragliding spots.",
+    'ATV Ride': "🏎️ ATV Ride — off-road quad biking through snow trails and rugged terrain near Manali.",
+    'Snow Activities': "❄️ Snow Activities — skiing, snowboarding, and snow tubing at Solang Valley and Narkanda during winter.",
+    'Sightseeing': "📸 Sightseeing — curated day trips covering waterfalls, temples, valleys, and scenic viewpoints with a private vehicle."
+  };
+
+  /* ---------------------------------------------------------------
+     CONTENT — FAQs
+  --------------------------------------------------------------- */
+  const FAQS_TEXT = 'Here are some questions travellers often ask us.';
+  const FAQ_OPTIONS = [
+    { label: 'Do you provide customized packages?', action: 'faq_detail', value: 'faq1' },
+    { label: 'Do you arrange hotels?', action: 'faq_detail', value: 'faq2' },
+    { label: 'Do you provide transportation?', action: 'faq_detail', value: 'faq3' },
+    { label: 'Is advance booking required?', action: 'faq_detail', value: 'faq4' },
+    { label: 'Best destinations for couples?', action: 'faq_detail', value: 'faq5' },
+    { label: 'Are adventure activities safe?', action: 'faq_detail', value: 'faq6' },
+    { label: '⬅️ Back to Main Menu', action: 'main_menu' }
+  ];
+
+  const FAQ_ANSWERS = {
+    faq1: "Yes. We create personalized Himachal tour packages based on your budget and preferences.",
+    faq2: "Absolutely. We provide handpicked accommodations ranging from budget stays to premium resorts.",
+    faq3: "Yes. We offer taxi services, sightseeing vehicles, and complete transportation arrangements.",
+    faq4: "Yes. We recommend booking at least 7–15 days in advance for better availability and pricing.",
+    faq5: "Manali, Kasol, Jibhi, Tirthan Valley, and Shimla are among our most popular choices.",
+    faq6: "Yes. All activities are conducted through trusted partners following safety guidelines."
+  };
+
+  /* ---------------------------------------------------------------
+     CONTENT — LEAD FORM (Free Quote)
+  --------------------------------------------------------------- */
+  const QUOTE_INTRO_TEXT = "Great! Please answer a few questions so we can prepare the perfect itinerary.";
+
+  const BUDGET_OPTIONS = [
+    { label: 'Under ₹10,000', action: 'lead_answer_budget', value: 'Under ₹10,000' },
+    { label: '₹10,000 – ₹20,000', action: 'lead_answer_budget', value: '₹10,000 – ₹20,000' },
+    { label: '₹20,000 – ₹50,000', action: 'lead_answer_budget', value: '₹20,000 – ₹50,000' },
+    { label: '₹50,000+', action: 'lead_answer_budget', value: '₹50,000+' }
+  ];
+
+  /* ---------------------------------------------------------------
+     CONTENT — TALK TO EXPERT / FINAL CTA
+  --------------------------------------------------------------- */
+  const EXPERT_TEXT =
+    "Need immediate assistance?\n\n" +
+    `📞 Call/WhatsApp: ${PHONE}\n\n` +
+    "Our travel specialists are happy to help you plan your dream Himachal trip.";
+
+  const EXPERT_OPTIONS = [
+    { label: '📞 Call Now', action: 'open_call' },
+    { label: '💬 WhatsApp Us', action: 'open_whatsapp' },
+    { label: '⬅️ Back to Main Menu', action: 'main_menu' }
+  ];
+
+  const FALLBACK_TEXT = "Sorry, I didn't understand that. Please choose one of the options below or contact our support team.";
+
+  /* ---------------------------------------------------------------
+     KEYWORD SHORTCUTS — lets free-typed text jump straight into the
+     flow without forcing the user to tap buttons every time.
+  --------------------------------------------------------------- */
+  const KEYWORD_ROUTES = [
+    { keywords: ['hi', 'hello', 'hey', 'namaste'], action: 'main_menu' },
+    { keywords: ['package', 'packages', 'tour package'], action: 'menu_packages' },
+    { keywords: ['destination', 'destinations', 'place', 'places'], action: 'menu_destinations' },
+    { keywords: ['activity', 'activities', 'adventure'], action: 'menu_activities' },
+    { keywords: ['quote', 'price', 'pricing', 'cost', 'budget plan'], action: 'start_quote' },
+    { keywords: ['faq', 'faqs', 'question'], action: 'menu_faqs' },
+    { keywords: ['expert', 'agent', 'talk to', 'human', 'call', 'whatsapp'], action: 'talk_to_expert' },
+    { keywords: ['trip'], action: 'start_quote' } // "DM TRIP" style trigger from the final CTA
+  ];
+
+  /* ---------------------------------------------------------------
+     STORAGE HELPERS
+  --------------------------------------------------------------- */
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      console.warn('XPH: could not read chat history', e);
+      return [];
+    }
+  }
+
+  function saveHistory(history) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    } catch (e) {
+      console.warn('XPH: could not save chat history', e);
+    }
+  }
+
+  function appendToHistory(entry) {
+    const history = loadHistory();
+    history.push(entry);
+    saveHistory(history);
+  }
+
+  function saveLeadProgress() {
+    try {
+      localStorage.setItem(LEAD_KEY, JSON.stringify(state));
+    } catch (e) { /* ignore */ }
+  }
+
+  function loadLeadProgress() {
+    try {
+      const raw = localStorage.getItem(LEAD_KEY);
+      if (raw) state = JSON.parse(raw);
+    } catch (e) { /* ignore */ }
+  }
+
+  /* ---------------------------------------------------------------
+     TIME FORMAT HELPER
+  --------------------------------------------------------------- */
+  function formatTime(date) {
+    const d = date ? new Date(date) : new Date();
+    let hours = d.getHours();
+    const minutes = d.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    return `${hours}:${minutes} ${ampm}`;
+  }
+
+  /* ---------------------------------------------------------------
+     RENDER A SINGLE MESSAGE BUBBLE
+  --------------------------------------------------------------- */
+  function renderMessage(sender, text, timestamp) {
+    const row = document.createElement('div');
+    row.className = `msg-row ${sender}`; // 'user' or 'bot'
+
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    bubble.textContent = text;
+
+    const time = document.createElement('span');
+    time.className = 'msg-time';
+    time.textContent = formatTime(timestamp);
+
+    row.appendChild(bubble);
+    row.appendChild(time);
+    chatMessages.appendChild(row);
+
+    scrollToBottom();
+  }
+
+  function addBotMessage(text, persist) {
+    const now = Date.now();
+    renderMessage('bot', text, now);
+    if (persist !== false) appendToHistory({ sender: 'bot', text, time: now });
+  }
+
+  function addUserMessage(text) {
+    const now = Date.now();
+    renderMessage('user', text, now);
+    appendToHistory({ sender: 'user', text, time: now });
+  }
+
+  function scrollToBottom() {
+    requestAnimationFrame(() => {
+      chatBody.scrollTop = chatBody.scrollHeight;
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     SOUND NOTIFICATION (generated via Web Audio API — no audio file)
+  --------------------------------------------------------------- */
+  let audioCtx = null;
+  function playNotificationSound() {
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(660, audioCtx.currentTime + 0.12);
+      gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.18, audioCtx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.25);
+    } catch (e) {
+      // Audio not supported / blocked — fail silently, not critical to function
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     TYPING INDICATOR
+  --------------------------------------------------------------- */
+  function showTyping(show) {
+    typingIndicator.hidden = !show;
+    if (show) scrollToBottom();
+  }
+
+  function showLauncherBadge() {
+    launcherBadge.hidden = false;
+    launcherBadge.textContent = '1';
+  }
+  function hideLauncherBadge() {
+    launcherBadge.hidden = true;
+  }
+
+  /* ---------------------------------------------------------------
+     RENDER OPTION BUTTONS BELOW THE CHAT
+     options: array of { label, action, value }
+  --------------------------------------------------------------- */
+  function renderOptions(options) {
+    optionButtons.innerHTML = '';
+    if (!options || options.length === 0) return;
+
+    options.forEach((opt) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option-btn';
+      btn.textContent = opt.label;
+      btn.addEventListener('click', () => handleOptionClick(opt));
+      optionButtons.appendChild(btn);
+    });
+  }
+
+  function clearOptions() {
+    optionButtons.innerHTML = '';
+  }
+
+  /* ---------------------------------------------------------------
+     BOT "SAYS" A MESSAGE + SHOWS OPTIONS, WITH A TYPING DELAY
+  --------------------------------------------------------------- */
+  function botRespond(text, options) {
+    clearOptions();
+    showTyping(true);
+    const delay = 550 + Math.random() * 500;
+    setTimeout(() => {
+      showTyping(false);
+      addBotMessage(text);
+      playNotificationSound();
+      renderOptions(options);
+
+      if (!widget.classList.contains('open') || widget.classList.contains('minimized')) {
+        showLauncherBadge();
+      }
+    }, delay);
+  }
+
+  /* ---------------------------------------------------------------
+     ACTION ROUTER — central place that decides what happens for
+     every button tap or keyword match. Keeping this as one big
+     switch makes the whole conversation tree easy to scan and edit.
+  --------------------------------------------------------------- */
+  function routeAction(action, value) {
+    switch (action) {
+
+      case 'main_menu':
+        state.mode = null;
+        saveLeadProgress();
+        botRespond(MAIN_MENU_TEXT, MAIN_MENU_OPTIONS);
+        break;
+
+      case 'menu_packages':
+        botRespond(PACKAGES_TEXT, PACKAGES_OPTIONS);
+        break;
+
+      case 'package_detail': {
+        const detail = PACKAGE_DETAILS[value] || '';
+        botRespond(
+          detail + "\n\nWant a personalised itinerary and price for this? Tap 'Get a Free Quote' below.",
+          [
+            { label: '💰 Get a Free Quote', action: 'start_quote' },
+            { label: '⬅️ Back to Packages', action: 'menu_packages' },
+            { label: '🏠 Main Menu', action: 'main_menu' }
+          ]
+        );
+        break;
+      }
+
+      case 'menu_destinations':
+        botRespond(DESTINATIONS_TEXT, DESTINATIONS_OPTIONS);
+        break;
+
+      case 'destination_detail': {
+        const detail = DESTINATION_DETAILS[value] || '';
+        botRespond(
+          detail + "\n\nWould you like a quote for a trip to " + value + "?",
+          [
+            { label: '💰 Get a Free Quote', action: 'start_quote' },
+            { label: '⬅️ Back to Destinations', action: 'menu_destinations' },
+            { label: '🏠 Main Menu', action: 'main_menu' }
+          ]
+        );
+        break;
+      }
+
+      case 'menu_activities':
+        botRespond(ACTIVITIES_TEXT, ACTIVITIES_OPTIONS);
+        break;
+
+      case 'activity_detail': {
+        const detail = ACTIVITY_DETAILS[value] || '';
+        botRespond(
+          detail + "\n\nWant this included in your itinerary? Get a free quote and let us know!",
+          [
+            { label: '💰 Get a Free Quote', action: 'start_quote' },
+            { label: '⬅️ Back to Activities', action: 'menu_activities' },
+            { label: '🏠 Main Menu', action: 'main_menu' }
+          ]
+        );
+        break;
+      }
+
+      case 'menu_faqs':
+        botRespond(FAQS_TEXT, FAQ_OPTIONS);
+        break;
+
+      case 'faq_detail': {
+        const answer = FAQ_ANSWERS[value] || '';
+        botRespond(answer, [
+          { label: '❓ Ask Another Question', action: 'menu_faqs' },
+          { label: '🏠 Main Menu', action: 'main_menu' }
+        ]);
+        break;
+      }
+
+      case 'talk_to_expert':
+        botRespond(EXPERT_TEXT, EXPERT_OPTIONS);
+        break;
+
+      case 'open_call':
+        window.location.href = 'tel:' + PHONE_TEL;
+        break;
+
+      case 'open_whatsapp':
+        window.open('https://wa.me/' + PHONE_TEL.replace('+', ''), '_blank');
+        break;
+
+      /* ---------------- FREE QUOTE LEAD FORM FLOW ---------------- */
+      case 'start_quote':
+        state.mode = 'lead_destination';
+        state.leadData = {};
+        saveLeadProgress();
+        botRespond(
+          QUOTE_INTRO_TEXT + "\n\nWhich destination would you like to visit?",
+          [{ label: '⬅️ Cancel', action: 'main_menu' }]
+        );
+        break;
+
+      default:
+        // Unknown action — fall back gracefully
+        botRespond(FALLBACK_TEXT, MAIN_MENU_OPTIONS);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     LEAD FORM STEP HANDLER (free-text answers typed by the user)
+     Walks state.mode through each question in order, validating
+     lightly, then submits the final summary + confirmation.
+  --------------------------------------------------------------- */
+  function handleLeadStep(userText) {
+    const trimmed = userText.trim();
+
+    switch (state.mode) {
+      case 'lead_destination':
+        state.leadData.destination = trimmed;
+        state.mode = 'lead_dates';
+        saveLeadProgress();
+        botRespond('What are your travel dates?', [{ label: '⬅️ Cancel', action: 'main_menu' }]);
+        break;
+
+      case 'lead_dates':
+        state.leadData.dates = trimmed;
+        state.mode = 'lead_travelers';
+        saveLeadProgress();
+        botRespond('How many travelers are joining?', [{ label: '⬅️ Cancel', action: 'main_menu' }]);
+        break;
+
+      case 'lead_travelers':
+        state.leadData.travelers = trimmed;
+        state.mode = 'lead_budget';
+        saveLeadProgress();
+        botRespond('What is your approximate budget?', BUDGET_OPTIONS);
+        break;
+
+      case 'lead_whatsapp':
+        // Light validation: require at least 7 digits somewhere in the input
+        const digitCount = (trimmed.match(/\d/g) || []).length;
+        if (digitCount < 7) {
+          botRespond(
+            "That doesn't look like a valid WhatsApp number. Please share a number with country code, e.g. +91 98765 43210.",
+            [{ label: '⬅️ Cancel', action: 'main_menu' }]
+          );
+          return;
+        }
+        state.leadData.whatsapp = trimmed;
+        state.mode = 'lead_city';
+        saveLeadProgress();
+        botRespond('From which city are you travelling?', [{ label: '⬅️ Cancel', action: 'main_menu' }]);
+        break;
+
+      case 'lead_city':
+        state.leadData.city = trimmed;
+        submitLead();
+        break;
+
+      default:
+        // Shouldn't reach here, but just in case
+        state.mode = null;
+        saveLeadProgress();
+        botRespond(FALLBACK_TEXT, MAIN_MENU_OPTIONS);
+    }
+  }
+
+  function handleLeadBudgetSelection(budgetValue) {
+    state.leadData.budget = budgetValue;
+    state.mode = 'lead_whatsapp';
+    saveLeadProgress();
+    addUserMessage(budgetValue);
+    botRespond('Please share your WhatsApp number.', [{ label: '⬅️ Cancel', action: 'main_menu' }]);
+  }
+
+  function submitLead() {
+    const d = state.leadData;
+    const summary =
+      "🎉 Thank you for sharing your details.\n\n" +
+      `Destination: ${d.destination || '-'}\n` +
+      `Travel Dates: ${d.dates || '-'}\n` +
+      `Travelers: ${d.travelers || '-'}\n` +
+      `Budget: ${d.budget || '-'}\n` +
+      `WhatsApp: ${d.whatsapp || '-'}\n` +
+      `City: ${d.city || '-'}\n\n` +
+      "Our travel expert will contact you shortly with the best itinerary and pricing.\n\n" +
+      `📞 Call/WhatsApp: ${PHONE}\n` +
+      `🌐 Website: ${WEBSITE}`;
+
+    state.mode = null;
+    saveLeadProgress();
+
+    botRespond(summary, [
+      { label: '📞 Call Now', action: 'open_call' },
+      { label: '🏠 Main Menu', action: 'main_menu' }
+    ]);
+  }
+
+  /* ---------------------------------------------------------------
+     OPTION BUTTON CLICK HANDLER
+  --------------------------------------------------------------- */
+  function handleOptionClick(opt) {
+    // Echo the user's choice as a chat bubble for natural conversation flow
+    addUserMessage(opt.label.replace(/^[^\w]*\s*/, '').trim() || opt.label);
+
+    if (opt.action === 'lead_answer_budget') {
+      handleLeadBudgetSelection(opt.value);
+      return;
+    }
+
+    routeAction(opt.action, opt.value);
+  }
+
+  /* ---------------------------------------------------------------
+     FREE-TEXT MESSAGE HANDLER
+  --------------------------------------------------------------- */
+  function findKeywordAction(text) {
+    const normalized = text.toLowerCase();
+    for (const route of KEYWORD_ROUTES) {
+      for (const kw of route.keywords) {
+        if (normalized.includes(kw)) return route.action;
+      }
+    }
+    return null;
+  }
+
+  function handleUserTextSubmit(text) {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    addUserMessage(trimmed);
+    chatInput.value = '';
+    sendBtn.disabled = true;
+
+    // If we're mid-way through the lead form, treat this input as the answer
+    // to the current question rather than trying keyword matching.
+    if (state.mode) {
+      clearOptions();
+      showTyping(true);
+      const delay = 550 + Math.random() * 500;
+      setTimeout(() => {
+        showTyping(false);
+        handleLeadStep(trimmed);
+        playNotificationSound();
+        sendBtn.disabled = chatInput.value.trim().length === 0;
+      }, delay);
+      return;
+    }
+
+    const action = findKeywordAction(trimmed);
+    if (action) {
+      routeAction(action);
+    } else {
+      botRespond(FALLBACK_TEXT, MAIN_MENU_OPTIONS);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     OPEN / CLOSE / MINIMIZE CONTROLS
+  --------------------------------------------------------------- */
+  function openChat() {
+    widget.classList.remove('minimized');
+    widget.classList.add('open');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    hideLauncherBadge();
+
+    const history = loadHistory();
+    if (history.length === 0) {
+      // First-ever open: show the welcome message + main menu
+      showTyping(true);
+      setTimeout(() => {
+        showTyping(false);
+        addBotMessage(MAIN_MENU_TEXT);
+        renderOptions(MAIN_MENU_OPTIONS);
+        playNotificationSound();
+      }, 600);
+    } else {
+      // Returning session: restore whatever options fit the current state
+      restoreOptionsForCurrentState();
+    }
+
+    setTimeout(() => chatInput.focus(), 300);
+  }
+
+  function closeChat() {
+    widget.classList.remove('open');
+    widget.classList.remove('minimized');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleChat() {
+    if (widget.classList.contains('open')) {
+      closeChat();
+    } else {
+      openChat();
+    }
+  }
+
+  function minimizeChat() {
+    widget.classList.toggle('minimized');
+  }
+
+  /* ---------------------------------------------------------------
+     ON REOPEN / REFRESH: show the right option buttons for wherever
+     the user left off (e.g. mid-quote-form, or back at the main menu)
+  --------------------------------------------------------------- */
+  function restoreOptionsForCurrentState() {
+    switch (state.mode) {
+      case 'lead_destination':
+      case 'lead_dates':
+      case 'lead_travelers':
+        renderOptions([{ label: '⬅️ Cancel', action: 'main_menu' }]);
+        break;
+      case 'lead_budget':
+        renderOptions(BUDGET_OPTIONS);
+        break;
+      case 'lead_whatsapp':
+      case 'lead_city':
+        renderOptions([{ label: '⬅️ Cancel', action: 'main_menu' }]);
+        break;
+      default:
+        renderOptions(MAIN_MENU_OPTIONS);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     CLEAR CHAT
+  --------------------------------------------------------------- */
+  function clearChat() {
+    const confirmed = window.confirm('Clear all chat history? This cannot be undone.');
+    if (!confirmed) return;
+
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(LEAD_KEY);
+    state = { mode: null, leadData: {} };
+    chatMessages.innerHTML = '';
+    clearOptions();
+
+    addBotMessage(MAIN_MENU_TEXT);
+    renderOptions(MAIN_MENU_OPTIONS);
+  }
+
+  /* ---------------------------------------------------------------
+     RESTORE CHAT HISTORY ON PAGE LOAD
+  --------------------------------------------------------------- */
+  function restoreHistory() {
+    const history = loadHistory();
+    history.forEach((entry) => {
+      renderMessage(entry.sender, entry.text, entry.time);
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     THEME (DARK / LIGHT) — kept available via prefers-color-scheme,
+     no dedicated toggle button per the latest brief, but full support
+     for both is built into the CSS variables for future use.
+  --------------------------------------------------------------- */
+  function initTheme() {
+    let saved = null;
+    try {
+      saved = localStorage.getItem(THEME_KEY);
+    } catch (e) { /* ignore */ }
+
+    if (!saved) {
+      saved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    if (saved === 'dark') {
+      document.body.classList.add('dark-mode');
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     EVENT LISTENERS
+  --------------------------------------------------------------- */
+  toggleBtn.addEventListener('click', toggleChat);
+  closeBtn.addEventListener('click', closeChat);
+  minimizeBtn.addEventListener('click', minimizeChat);
+  clearChatBtn.addEventListener('click', clearChat);
+
+  chatForm.addEventListener('submit', function (e) {
+    e.preventDefault(); // Enter key also triggers form submit naturally
+    handleUserTextSubmit(chatInput.value);
+  });
+
+  chatInput.addEventListener('input', function () {
+    sendBtn.disabled = chatInput.value.trim().length === 0;
+  });
+
+  /* ---------------------------------------------------------------
+     INITIALIZATION
+  --------------------------------------------------------------- */
+  function init() {
+    initTheme();
+    loadLeadProgress();
+    restoreHistory();
+    sendBtn.disabled = true; // until user types something
+  }
+
+  init();
+})();
 </script>
 </body>
 </html>
